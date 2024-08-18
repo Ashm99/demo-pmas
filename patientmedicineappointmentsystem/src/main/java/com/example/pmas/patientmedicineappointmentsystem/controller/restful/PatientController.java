@@ -25,7 +25,7 @@ public class PatientController {
     @GetMapping(value="/getAll")
     public ResponseEntity<?> getAllPatients(){
         List<PatientDto> patientList = patientService.getAllPatients();
-        return new ResponseEntity(patientList, HttpStatus.OK);
+        return new ResponseEntity<>(patientList, HttpStatus.OK);
     }
 
     /**
@@ -36,7 +36,7 @@ public class PatientController {
     @GetMapping(value="/get/{id}")
     public ResponseEntity<?> getPatientsById(@PathVariable(name="id") Long id){
         PatientDto patientDto = patientService.getPatientById(id);
-        return new ResponseEntity(patientDto, HttpStatus.OK);
+        return new ResponseEntity<>(patientDto, HttpStatus.OK);
     }
 
     /**
@@ -47,7 +47,7 @@ public class PatientController {
     @PostMapping(value="/add")
     public ResponseEntity<?> addPatient(@Valid @RequestBody CreatePatientDto patientDto){
         PatientDto savedPatientDto  = patientService.addPatient(patientDto);
-        return new ResponseEntity(savedPatientDto, HttpStatus.CREATED);
+        return new ResponseEntity<>(savedPatientDto, HttpStatus.CREATED);
     }
 
     /**
@@ -58,7 +58,7 @@ public class PatientController {
     @PutMapping(value="/update")
     public ResponseEntity<?> updatePatient(@Valid @RequestBody PatientDto patientDto){
         PatientDto savedPatientDto  = patientService.updatePatient(patientDto);
-        return new ResponseEntity(savedPatientDto, HttpStatus.OK);
+        return new ResponseEntity<>(savedPatientDto, HttpStatus.OK);
     }
 
     /**
@@ -69,6 +69,6 @@ public class PatientController {
     @DeleteMapping(value="/delete/{id}")
     public ResponseEntity<?> deletePatientsById(@PathVariable(name="id") Long id){
         patientService.deletePatientById(id);
-        return new ResponseEntity("Patient with ID - " + id + " removed from the database.", HttpStatus.OK);
+        return new ResponseEntity<>("Patient with ID - " + id + " removed from the database.", HttpStatus.OK);
     }
 }
