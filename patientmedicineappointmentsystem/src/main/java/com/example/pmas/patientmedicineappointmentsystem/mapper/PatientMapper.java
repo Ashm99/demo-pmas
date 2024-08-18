@@ -19,22 +19,22 @@ public class PatientMapper {
     public static Patient mapToPatient(PatientDto patientDto){
         return new Patient(
                 patientDto.getId(),
-                patientDto.getFirstName(),
-                patientDto.getLastName(),
-                patientDto.getEmail(),
+                patientDto.getFirstName().trim(),
+                patientDto.getLastName().trim(),
+                patientDto.getEmail().trim(),
                 patientDto.getMobile(),
-                patientDto.getAddress()
+                patientDto.getAddress().trim()
         );
     }
 
     public static Patient mapToPatientFromCreatePatientDto(CreatePatientDto patientDto){
         return new Patient(
                 null,
-                patientDto.getFirstName(),
-                patientDto.getLastName(),
-                patientDto.getEmail(),
+                patientDto.getFirstName().trim(),
+                patientDto.getLastName().trim(),
+                patientDto.getEmail().trim(),
                 patientDto.getMobile(),
-                patientDto.getAddress()
+                patientDto.getAddress().trim()
         );
     }
 }

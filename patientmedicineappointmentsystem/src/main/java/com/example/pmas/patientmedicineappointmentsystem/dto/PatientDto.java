@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class PatientDto {
-    @NotEmpty(message = "Patient id cannot be empty/null.")
+    @NotNull(message = "Patient id cannot be null.")
     private Long id;
 
     @NotBlank(message = "First name of a patient cannot be blank.")
