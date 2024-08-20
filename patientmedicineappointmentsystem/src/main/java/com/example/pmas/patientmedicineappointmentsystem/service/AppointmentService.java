@@ -11,4 +11,6 @@ public interface AppointmentService {
     AppointmentDto getAppointmentById(Long id);
 
     AppointmentDto createAppointment(CreateAppointmentDto createAppointmentDto);
+
+    String deleteAppointment(Long id);
 }

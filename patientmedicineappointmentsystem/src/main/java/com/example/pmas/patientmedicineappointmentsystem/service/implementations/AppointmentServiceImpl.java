@@ -63,4 +63,21 @@ public class AppointmentServiceImpl implements AppointmentService {
         Appointment savedAppointment = appointmentRepo.save(appointment);
         return AppointmentMapper.mapToAppointmentDto(savedAppointment);
     }
+
+    /**
+     * A Service method to delete an appointment.
+     * @param id The id of the appointment to be deleted.
+     * @return A message based on the outcome.
+     */
+    @Override
+    public String deleteAppointment(Long id) {
+        if(!appointmentRepo.existsById(id)){
+            throw new NoSuchElementException("No appointment exists under the given id");
+        }
+        appointmentRepo.deleteById(id);
+        if(appointmentRepo.existsById(id)){
+            throw new NoSuchElementException("Appointment still exists with the given id.");
+        }
+        return "Successfully cancelled the appointment.";
+    }
 }

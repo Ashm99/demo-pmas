@@ -31,6 +31,7 @@ public class AppointmentController{
 
     /**
      * A RESTful method to get an appointment by id from the database.
+     * @param id The id of the appointment to be searched.
      * @return A response entity with the appointment as its body.
      */
     @GetMapping(value="/get/{id}")
@@ -47,5 +48,16 @@ public class AppointmentController{
     public ResponseEntity<?> createAppointment(@Valid @RequestBody CreateAppointmentDto createAppointmentDto){
         AppointmentDto appointmentDto = appointmentService.createAppointment(createAppointmentDto);
         return new ResponseEntity<>(appointmentDto, HttpStatus.CREATED);
+    }
+
+    /**
+     * A RESTful method to delete an appointment with its id.
+     * @param id The id of the appointment to be deleted.
+     * @return A message string.
+     */
+    @DeleteMapping(value="/delete/{id}")
+    public ResponseEntity<?> deleteAppointment(@PathVariable(value = "id") Long id){
+        String message = appointmentService.deleteAppointment(id);
+        return new ResponseEntity<>(message, HttpStatus.OK);
     }
 }
