@@ -1,11 +1,13 @@
 package com.example.pmas.patientmedicineappointmentsystem.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -14,21 +16,21 @@ public class MedicationDto {
 
     private Long id;
 
-    // Ensure patient data is removed in the mvc application.
-//    private PatientDto patientDto;
-
-    // Ensure patient data is removed in the mvc application.
+    @Positive(message = "Patient id should be a valid number.")
     private Long patientId;
 
+    @NotBlank(message = "Medicine should not be blank.")
     private String medicine;
 
+    @NotBlank(message = "In frequency field, enter how much intake is required per day.")
     private String frequency;
 
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
-    private Date startDate;
+    @JsonFormat(pattern = "dd-MM-yyyy")
+    private LocalDate startDate;
 
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
-    private Date endDate;
+    @JsonFormat(pattern = "dd-MM-yyyy")
+    private LocalDate endDate;
 
+    @NotBlank(message = "Enter further notes or comments in the notes field. Eg. If the medicine is to be taken after food, or before sleep, etc")
     private String notes;
 }

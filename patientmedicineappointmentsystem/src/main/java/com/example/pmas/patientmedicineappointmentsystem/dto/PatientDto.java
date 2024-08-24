@@ -21,9 +21,8 @@ public class PatientDto {
     private String lastName;
 
     @Email(message = "Enter a valid email address.")
+    @NotBlank(message = "Email cannot be blank.")
     private String email;
-
-//    private String username;
 
     @Pattern(regexp = "\\d{10}", message = "Mobile number must be numeric and exactly 10 digits long.")
     private String mobile;

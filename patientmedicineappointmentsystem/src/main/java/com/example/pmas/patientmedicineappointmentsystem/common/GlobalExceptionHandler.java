@@ -74,6 +74,24 @@ public class GlobalExceptionHandler {
 
     /**
      * A method to handle general exception
+     * @param httpMessageNotReadableException
+     * @return A response entity with the exception message as its body.
+     * @throws InterruptedException
+     */
+//    @ExceptionHandler(HttpMessageNotReadableException.class)
+//    public ResponseEntity<?> handleException(HttpMessageNotReadableException httpMessageNotReadableException) throws InterruptedException{
+//        System.err.println("Exception occurred. Issue with reading incoming Http message.");
+//        System.err.print("Stack trace:");
+//        Thread.sleep(1000);
+//        httpMessageNotReadableException.printStackTrace();
+//        Thread.sleep(1000);
+//        System.out.println("Stack trace printed | Resuming application.");
+//        String error = "Issue with reading incoming Http message. Enter valid input data.";
+//        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+//    }
+
+    /**
+     * A method to handle general exception
      * @param exception
      * @return A response entity with the exception message as its body.
      * @throws InterruptedException

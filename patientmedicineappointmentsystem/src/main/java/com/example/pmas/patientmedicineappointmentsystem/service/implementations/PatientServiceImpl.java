@@ -1,9 +1,10 @@
 package com.example.pmas.patientmedicineappointmentsystem.service.implementations;
 
-import com.example.pmas.patientmedicineappointmentsystem.dto.CreatePatientDto;
 import com.example.pmas.patientmedicineappointmentsystem.dto.PatientDto;
+import com.example.pmas.patientmedicineappointmentsystem.dto.creation.CreatePatientDto;
 import com.example.pmas.patientmedicineappointmentsystem.mapper.PatientMapper;
 import com.example.pmas.patientmedicineappointmentsystem.model.Patient;
+import com.example.pmas.patientmedicineappointmentsystem.repo.AppointmentRepo;
 import com.example.pmas.patientmedicineappointmentsystem.repo.PatientRepo;
 import com.example.pmas.patientmedicineappointmentsystem.service.PatientService;
 import lombok.AllArgsConstructor;
@@ -17,6 +18,7 @@ import java.util.NoSuchElementException;
 @AllArgsConstructor
 public class PatientServiceImpl implements PatientService {
     private PatientRepo patientRepo;
+    private AppointmentRepo appointmentRepo;
 
     /**
      * A service method to get all the patients in the database.
@@ -44,7 +46,9 @@ public class PatientServiceImpl implements PatientService {
      */
     @Override
     public PatientDto getPatientById(Long id) {
-        Patient patient = patientRepo.findById(id).orElseThrow();
+        Patient patient = patientRepo.findById(id).orElseThrow(
+                ()-> new NoSuchElementException("No patient present in our database under given id: " + id + ".")
+        );
         return PatientMapper.mapToPatientDto(patient);
     }
 
@@ -70,7 +74,7 @@ public class PatientServiceImpl implements PatientService {
             Patient updatedPatient = patientRepo.save(PatientMapper.mapToPatient(patientDto));
             return PatientMapper.mapToPatientDto(updatedPatient);
         }
-        throw new NoSuchElementException("Update not possible as no patient exists under the given patient's id.");
+        throw new NoSuchElementException("Update not possible as no patient exists under the given patient id: " + patientDto.getId() + ".");
     }
 
     /**
@@ -79,13 +83,12 @@ public class PatientServiceImpl implements PatientService {
      */
     @Override
     public void deletePatientById(Long id) {
-        if(patientRepo.existsById(id)){
-            patientRepo.deleteById(id);
-            if(patientRepo.existsById(id)){
-                throw new RuntimeException("Exception while deletion of the patient with ID: " + id + ". A patient still exists in the Id.");
-            }
-            return;
+        if(!patientRepo.existsById(id)){
+            throw new NoSuchElementException("Deletion not possible as no patient exists under the given patient id" + id + ".");
         }
-        throw new NoSuchElementException("Deletion not possible as no patient exists under the given patient's id.");
+        patientRepo.deleteById(id);
+        if(patientRepo.existsById(id)){
+            throw new RuntimeException("Exception while deletion of the patient with ID: " + id + ". A patient still exists in the Id.");
+        }
     }
 }

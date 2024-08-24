@@ -1,6 +1,6 @@
 package com.example.pmas.patientmedicineappointmentsystem.service;
 
-import com.example.pmas.patientmedicineappointmentsystem.dto.CreateDoctorDto;
+import com.example.pmas.patientmedicineappointmentsystem.dto.creation.CreateDoctorDto;
 import com.example.pmas.patientmedicineappointmentsystem.dto.DoctorDto;
 
 import java.util.List;

@@ -1,8 +1,9 @@
 package com.example.pmas.patientmedicineappointmentsystem.controller.restful;
 
-import com.example.pmas.patientmedicineappointmentsystem.dto.CreateMedicationDto;
+import com.example.pmas.patientmedicineappointmentsystem.dto.creation.CreateMedicationDto;
 import com.example.pmas.patientmedicineappointmentsystem.dto.MedicationDto;
 import com.example.pmas.patientmedicineappointmentsystem.service.MedicationService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,20 +29,20 @@ public class MedicationController {
         return new ResponseEntity<>(medicationDto, HttpStatus.OK);
     }
 
-    @PostMapping(value = "/create")
-    public ResponseEntity<?> createMedication(CreateMedicationDto createMedicationDto){
+    @PostMapping(value = "/add")
+    public ResponseEntity<?> createMedication(@Valid @RequestBody CreateMedicationDto createMedicationDto){
         MedicationDto medicationDto = medicationService.createMedication(createMedicationDto);
         return new ResponseEntity<>(medicationDto, HttpStatus.CREATED);
     }
 
     @PutMapping(value = "/update")
-    public ResponseEntity<?> updateMedication(MedicationDto medicationDto){
+    public ResponseEntity<?> updateMedication(@Valid @RequestBody MedicationDto medicationDto){
         MedicationDto updatedMedicationDto = medicationService.updateMedication(medicationDto);
         return new ResponseEntity<>(updatedMedicationDto, HttpStatus.CREATED);
     }
 
     @DeleteMapping(value = "/delete/{id}")
-    public ResponseEntity<?> deleteMedication(Long id){
+    public ResponseEntity<?> deleteMedication(@PathVariable(value = "id") Long id){
         String message = medicationService.deleteMedication(id);
         return new ResponseEntity<>(message, HttpStatus.OK);
     }

@@ -1,4 +1,4 @@
-package com.example.pmas.patientmedicineappointmentsystem.dto;
+package com.example.pmas.patientmedicineappointmentsystem.dto.creation;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;

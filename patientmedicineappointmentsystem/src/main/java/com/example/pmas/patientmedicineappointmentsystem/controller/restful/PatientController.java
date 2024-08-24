@@ -1,6 +1,6 @@
 package com.example.pmas.patientmedicineappointmentsystem.controller.restful;
 
-import com.example.pmas.patientmedicineappointmentsystem.dto.CreatePatientDto;
+import com.example.pmas.patientmedicineappointmentsystem.dto.creation.CreatePatientDto;
 import com.example.pmas.patientmedicineappointmentsystem.dto.PatientDto;
 import com.example.pmas.patientmedicineappointmentsystem.service.PatientService;
 import jakarta.validation.Valid;

@@ -1,6 +1,6 @@
 package com.example.pmas.patientmedicineappointmentsystem.mapper;
 
-import com.example.pmas.patientmedicineappointmentsystem.dto.CreatePatientDto;
+import com.example.pmas.patientmedicineappointmentsystem.dto.creation.CreatePatientDto;
 import com.example.pmas.patientmedicineappointmentsystem.dto.PatientDto;
 import com.example.pmas.patientmedicineappointmentsystem.model.Patient;
 

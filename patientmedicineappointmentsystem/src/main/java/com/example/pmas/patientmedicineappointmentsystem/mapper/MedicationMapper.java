@@ -1,14 +1,14 @@
 package com.example.pmas.patientmedicineappointmentsystem.mapper;
 
-import com.example.pmas.patientmedicineappointmentsystem.dto.CreateMedicationDto;
 import com.example.pmas.patientmedicineappointmentsystem.dto.MedicationDto;
+import com.example.pmas.patientmedicineappointmentsystem.dto.creation.CreateMedicationDto;
 import com.example.pmas.patientmedicineappointmentsystem.model.Medication;
+import com.example.pmas.patientmedicineappointmentsystem.model.Patient;
 
 public class MedicationMapper {
     public static MedicationDto mapToMedicationDto(Medication medication){
         return new MedicationDto(
                 medication.getId(),
-//                PatientMapper.mapToPatientDto(medication.getPatient()),
                 medication.getPatient().getId(),
                 medication.getMedicine(),
                 medication.getFrequency(),
@@ -18,10 +18,10 @@ public class MedicationMapper {
         );
     }
 
-    public static Medication mapToMedication(MedicationDto medicationDto){
+    public static Medication mapToMedication(Patient patient, MedicationDto medicationDto){
         return new Medication(
                 medicationDto.getId(),
-                null,
+                patient,
                 medicationDto.getMedicine(),
                 medicationDto.getFrequency(),
                 medicationDto.getStartDate(),
@@ -30,10 +30,10 @@ public class MedicationMapper {
         );
     }
 
-    public static Medication mapToMedicationFromCreateMedicationDto(CreateMedicationDto createMedicationDto){
+    public static Medication mapToMedicationFromCreateMedicationDto(Patient patient, CreateMedicationDto createMedicationDto){
         return new Medication(
                 null,
-                null,
+                patient,
                 createMedicationDto.getMedicine(),
                 createMedicationDto.getFrequency(),
                 createMedicationDto.getStartDate(),

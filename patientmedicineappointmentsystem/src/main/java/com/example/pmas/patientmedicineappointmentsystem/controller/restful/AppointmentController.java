@@ -1,7 +1,7 @@
 package com.example.pmas.patientmedicineappointmentsystem.controller.restful;
 
 import com.example.pmas.patientmedicineappointmentsystem.dto.AppointmentDto;
-import com.example.pmas.patientmedicineappointmentsystem.dto.CreateAppointmentDto;
+import com.example.pmas.patientmedicineappointmentsystem.dto.creation.CreateAppointmentDto;
 import com.example.pmas.patientmedicineappointmentsystem.service.AppointmentService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -44,7 +44,7 @@ public class AppointmentController{
      * A RESTful method to create an appointment.
      * @return A response entity with the appointment as its body.
      */
-    @PostMapping(value="/create")
+    @PostMapping(value="/add")
     public ResponseEntity<?> createAppointment(@Valid @RequestBody CreateAppointmentDto createAppointmentDto){
         AppointmentDto appointmentDto = appointmentService.createAppointment(createAppointmentDto);
         return new ResponseEntity<>(appointmentDto, HttpStatus.CREATED);
@@ -60,4 +60,17 @@ public class AppointmentController{
         String message = appointmentService.deleteAppointment(id);
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
+//
+//    /**
+//     * A RESTful method to delete all appointments for a patient with the patient's id.
+//     * @param patientId The id of the patient.
+//     * @return A message string.
+//     */
+//    @DeleteMapping(value="/deleteAll/{patientId}")
+//    public ResponseEntity<?> deleteAppointmentByPatientId(@PathVariable(value = "patientId") Long patientId){
+//        if(appointmentService.deleteAllAppointmentByPatientId(patientId)){
+//            return new ResponseEntity<>("Deleted all appointments of patient with id: " + patientId + ".", HttpStatus.OK);
+//        }
+//        return new ResponseEntity<>("Could not delete all appointments of patient: " + patientId + ".", HttpStatus.OK);
+//    }
 }

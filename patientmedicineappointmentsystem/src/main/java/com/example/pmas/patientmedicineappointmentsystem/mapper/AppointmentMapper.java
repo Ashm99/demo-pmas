@@ -1,10 +1,10 @@
 package com.example.pmas.patientmedicineappointmentsystem.mapper;
 
 import com.example.pmas.patientmedicineappointmentsystem.dto.AppointmentDto;
-import com.example.pmas.patientmedicineappointmentsystem.dto.CreateAppointmentDto;
+import com.example.pmas.patientmedicineappointmentsystem.dto.creation.CreateAppointmentDto;
 import com.example.pmas.patientmedicineappointmentsystem.model.Appointment;
-
-import java.time.Instant;
+import com.example.pmas.patientmedicineappointmentsystem.model.Doctor;
+import com.example.pmas.patientmedicineappointmentsystem.model.Patient;
 
 public class AppointmentMapper {
     public static AppointmentDto mapToAppointmentDto(Appointment appointment){
@@ -17,13 +17,11 @@ public class AppointmentMapper {
         );
     }
 
-    public static Appointment mapToAppointmentFromCreateAppointmentDto(CreateAppointmentDto createAppointmentDto){
-        return new Appointment(
-                null,
-                null,
-                null,
-                createAppointmentDto.getAppointmentDateTime(),
-                Instant.now()
-        );
+    public static Appointment mapToAppointmentFromCreateAppointmentDto(Patient patient, Doctor doctor, CreateAppointmentDto createAppointmentDto){
+        Appointment appointment = new Appointment();
+        appointment.setPatient(patient);
+        appointment.setDoctor(doctor);
+        appointment.setAppointmentDateTime(createAppointmentDto.getAppointmentDateTime());
+        return appointment;
     }
 }
