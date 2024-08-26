@@ -43,7 +43,9 @@ public class AppointmentServiceImpl implements AppointmentService {
      */
     @Override
     public AppointmentDto getAppointmentById(Long id) {
-        return AppointmentMapper.mapToAppointmentDto(appointmentRepo.findById(id).orElseThrow());
+        return AppointmentMapper.mapToAppointmentDto(appointmentRepo.findById(id).orElseThrow(
+                ()->new NoSuchElementException("No appointment exists under given id: " + id + ".")
+        ));
     }
 
     /**
@@ -56,10 +58,10 @@ public class AppointmentServiceImpl implements AppointmentService {
     public AppointmentDto createAppointment(CreateAppointmentDto createAppointmentDto) {
         Appointment appointment = AppointmentMapper.mapToAppointmentFromCreateAppointmentDto(
                 patientRepo.findById(createAppointmentDto.getPatientId()).orElseThrow(
-                        () -> new NoSuchElementException("No patient exists under given patient id.")
+                        () -> new NoSuchElementException("No patient exists under given patient id: " + createAppointmentDto.getPatientId() + ".")
                 ),
                 doctorRepo.findById(createAppointmentDto.getDoctorId()).orElseThrow(
-                        () -> new NoSuchElementException("No doctor exists under given doctor id.")
+                        () -> new NoSuchElementException("No doctor exists under given doctor id: " + createAppointmentDto.getDoctorId() + ".")
                 ),
                 createAppointmentDto
         );
@@ -76,25 +78,60 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Override
     public String deleteAppointment(Long id) {
         if (!appointmentRepo.existsById(id)) {
-            throw new NoSuchElementException("No appointment exists under the given id");
+            throw new NoSuchElementException("No appointment exists under the given id: " + id + ".");
         }
         appointmentRepo.deleteById(id);
         if (appointmentRepo.existsById(id)) {
-            throw new NoSuchElementException("Appointment still exists with the given id.");
+            throw new RuntimeException("Appointment still exists with the given id: " + id + ".");
         }
         return "Successfully cancelled the appointment.";
     }
-//
-//    /**
-//     * A Service method to delete all the appointments of a particular patient.
-//     * @param patientId The id of the patient whose all appointments are to be deleted.
-//     * @return True if deletion is successful and vice versa.
-//     */
-//    @Override
-//    public boolean deleteAllAppointmentByPatientId(Long patientId) {
-//        if(!appointmentRepo.existsByPatientId(patientId)){
-//            throw new NoSuchElementException("The patient with the given id");
-//        }
-//        return appointmentRepo.deleteAllByPatientId(patientId);
-//    }
+
+    /**
+     * A Service method to find if there are appointments of a particular patient.
+     * @param patientId The id of the patient whose all appointments are to be checked.
+     * @return True if present and vice versa.
+     */
+    @Override
+    public boolean existsByPatientId(Long patientId) {
+        return appointmentRepo.existsByPatientId(patientId);
+    }
+
+    /**
+     * A Service method to delete all the appointments of a particular patient.
+     * @param patientId The id of the doctor whose all appointments are to be deleted.
+     * @return True if deletion is successful and vice versa.
+     */
+    @Override
+    public void deleteAllAppointmentByPatientId(Long patientId) {
+        int rows = appointmentRepo.deleteAllByPatientId(patientId);
+        System.out.println(String.format("%d rows deleted from the appointment table.", rows));
+        if(this.existsByPatientId(patientId)){
+            throw new RuntimeException("Error while deleting appointments of patient with id: " + patientId + ".");
+        }
+    }
+
+    /**
+     * A Service method to find if there are appointments of a particular doctor.
+     * @param doctorId The id of the doctor whose all appointments are to be checked.
+     * @return True if present and vice versa.
+     */
+    @Override
+    public boolean existsByDoctorId(Long doctorId) {
+        return appointmentRepo.existsByDoctorId(doctorId);
+    }
+
+    /**
+     * A Service method to delete all the appointments of a particular doctor.
+     * @param doctorId The id of the doctor whose all appointments are to be deleted.
+     * @return True if deletion is successful and vice versa.
+     */
+    @Override
+    public void deleteAllAppointmentByDoctorId(Long doctorId) {
+        int rows = appointmentRepo.deleteAllByDoctorId(doctorId);
+        System.out.println(String.format("%d rows deleted from the appointment table.", rows));
+        if(this.existsByDoctorId(doctorId)){
+            throw new RuntimeException("Error while deleting appointments of Doctor with id: " + doctorId + ".");
+        }
+    }
 }

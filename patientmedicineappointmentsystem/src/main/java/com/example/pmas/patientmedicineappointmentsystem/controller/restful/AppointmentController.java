@@ -25,7 +25,6 @@ public class AppointmentController{
     @GetMapping(value="/getAll")
     public ResponseEntity<?> getAllAppointments(){
         List<AppointmentDto> appointmentDtos = appointmentService.getAllAppointments();
-        System.out.println(appointmentDtos.isEmpty());
         return new ResponseEntity<>(appointmentDtos, HttpStatus.OK);
     }
 

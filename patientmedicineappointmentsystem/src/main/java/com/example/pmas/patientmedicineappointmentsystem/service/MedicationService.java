@@ -15,4 +15,8 @@ public interface MedicationService {
     MedicationDto updateMedication(MedicationDto medicationDto);
 
     String deleteMedication(Long id);
+
+    boolean existsByPatientId(Long id);
+
+    void deleteAllMedicationByPatientId(Long id);
 }

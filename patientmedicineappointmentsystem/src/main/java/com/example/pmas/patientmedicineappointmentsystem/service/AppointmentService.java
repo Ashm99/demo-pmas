@@ -14,5 +14,11 @@ public interface AppointmentService {
 
     String deleteAppointment(Long id);
 
-//    boolean deleteAllAppointmentByPatientId(Long patientId);
+    boolean existsByDoctorId(Long doctorId);
+
+    void deleteAllAppointmentByDoctorId(Long doctorId);
+
+    boolean existsByPatientId(Long id);
+
+    void deleteAllAppointmentByPatientId(Long id);
 }

@@ -1,11 +1,13 @@
 package com.example.pmas.patientmedicineappointmentsystem.service.implementations;
 
-import com.example.pmas.patientmedicineappointmentsystem.dto.creation.CreateDoctorDto;
 import com.example.pmas.patientmedicineappointmentsystem.dto.DoctorDto;
+import com.example.pmas.patientmedicineappointmentsystem.dto.creation.CreateDoctorDto;
 import com.example.pmas.patientmedicineappointmentsystem.mapper.DoctorMapper;
 import com.example.pmas.patientmedicineappointmentsystem.model.Doctor;
 import com.example.pmas.patientmedicineappointmentsystem.repo.DoctorRepo;
+import com.example.pmas.patientmedicineappointmentsystem.service.AppointmentService;
 import com.example.pmas.patientmedicineappointmentsystem.service.DoctorService;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +19,7 @@ import java.util.NoSuchElementException;
 @AllArgsConstructor
 public class DoctorServiceImpl implements DoctorService {
     private DoctorRepo doctorRepo;
+    private AppointmentService appointmentService;
 
     /**
      * A service method to get all the doctors in the database.
@@ -42,7 +45,9 @@ public class DoctorServiceImpl implements DoctorService {
      **/
     @Override
     public DoctorDto getDoctorById(Long id) {
-        Doctor doctor = doctorRepo.findById(id).orElseThrow();
+        Doctor doctor = doctorRepo.findById(id).orElseThrow(
+                ()->new NoSuchElementException("No doctor present with the given id: " + id + ".")
+        );
         return DoctorMapper.mapToDoctorDto(doctor);
     }
 
@@ -76,14 +81,17 @@ public class DoctorServiceImpl implements DoctorService {
      * @param id To search for and delete the doctor.
      */
     @Override
+    @Transactional
     public void deleteDoctorById(Long id) {
-        if(doctorRepo.existsById(id)){
-            doctorRepo.deleteById(id);
-            if(doctorRepo.existsById(id)){
-                throw new RuntimeException("Exception while deletion of the doctor with ID: " + id + ". A doctor still exists in the Id.");
-            }
-            return;
+        if(!doctorRepo.existsById(id)){
+            throw new NoSuchElementException("Deletion not possible as no doctor exists under the given doctor's id.");
         }
-        throw new NoSuchElementException("Deletion not possible as no one exists under the given doctor's id.");
+        if(appointmentService.existsByDoctorId(id)){
+            appointmentService.deleteAllAppointmentByDoctorId(id);
+        }
+        doctorRepo.deleteById(id);
+        if(doctorRepo.existsById(id)){
+            throw new RuntimeException("Exception while deletion of the doctor with ID: " + id + ". A doctor still exists in the Id.");
+        }
     }
 }

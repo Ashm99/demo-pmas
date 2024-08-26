@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MedicationRepo extends JpaRepository<Medication, Long> {
     boolean existsByPatientId(Long patientId);
-    boolean deleteAllByPatientId(Long patientId);
+    int deleteAllByPatientId(Long patientId);
 }

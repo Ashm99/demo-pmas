@@ -6,6 +6,10 @@ import com.example.pmas.patientmedicineappointmentsystem.model.Appointment;
 import com.example.pmas.patientmedicineappointmentsystem.model.Doctor;
 import com.example.pmas.patientmedicineappointmentsystem.model.Patient;
 
+import java.time.DateTimeException;
+import java.time.Instant;
+import java.time.ZoneId;
+
 public class AppointmentMapper {
     public static AppointmentDto mapToAppointmentDto(Appointment appointment){
         return new AppointmentDto(
@@ -13,15 +17,26 @@ public class AppointmentMapper {
                 PatientMapper.mapToPatientDto(appointment.getPatient()),
                 DoctorMapper.mapToDoctorDto(appointment.getDoctor()),
                 appointment.getAppointmentDateTime(),
-                appointment.getCreatedAt()
+                appointment.getCreatedAt().atZone(ZoneId.systemDefault())
         );
     }
 
     public static Appointment mapToAppointmentFromCreateAppointmentDto(Patient patient, Doctor doctor, CreateAppointmentDto createAppointmentDto){
-        Appointment appointment = new Appointment();
-        appointment.setPatient(patient);
-        appointment.setDoctor(doctor);
-        appointment.setAppointmentDateTime(createAppointmentDto.getAppointmentDateTime());
-        return appointment;
+        Instant appointmentDateTime;
+        try{
+            appointmentDateTime = Instant.parse(createAppointmentDto.getAppointmentDateTime());
+            if(appointmentDateTime.isBefore(Instant.now())){
+                throw new DateTimeException("");
+            }
+        } catch (Exception exception){
+            throw new DateTimeException("Enter valid appointment date and time.");
+        }
+        return new Appointment(
+                null,
+                patient,
+                doctor,
+                appointmentDateTime,
+                Instant.now()
+        );
     }
 }

@@ -4,9 +4,11 @@ import com.example.pmas.patientmedicineappointmentsystem.dto.PatientDto;
 import com.example.pmas.patientmedicineappointmentsystem.dto.creation.CreatePatientDto;
 import com.example.pmas.patientmedicineappointmentsystem.mapper.PatientMapper;
 import com.example.pmas.patientmedicineappointmentsystem.model.Patient;
-import com.example.pmas.patientmedicineappointmentsystem.repo.AppointmentRepo;
 import com.example.pmas.patientmedicineappointmentsystem.repo.PatientRepo;
+import com.example.pmas.patientmedicineappointmentsystem.service.AppointmentService;
+import com.example.pmas.patientmedicineappointmentsystem.service.MedicationService;
 import com.example.pmas.patientmedicineappointmentsystem.service.PatientService;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,10 +20,12 @@ import java.util.NoSuchElementException;
 @AllArgsConstructor
 public class PatientServiceImpl implements PatientService {
     private PatientRepo patientRepo;
-    private AppointmentRepo appointmentRepo;
+    private AppointmentService appointmentService;
+    private MedicationService medicationService;
 
     /**
      * A service method to get all the patients in the database.
+     *
      * @return A list of patients
      */
     @Override
@@ -32,7 +36,7 @@ public class PatientServiceImpl implements PatientService {
                     patientDtoList.add(PatientMapper.mapToPatientDto(patient));
                 }
         );
-        if(patientDtoList.isEmpty()){
+        if (patientDtoList.isEmpty()) {
             throw new NoSuchElementException("No Patients present in the database.");
         }
         return patientDtoList;
@@ -40,20 +44,22 @@ public class PatientServiceImpl implements PatientService {
 
     /**
      * A Service method to find a specific patient with its ID.
+     *
      * @param id
-     * @throws NoSuchElementException If no element exists with given id.
      * @return The patient data.
+     * @throws NoSuchElementException If no element exists with given id.
      */
     @Override
     public PatientDto getPatientById(Long id) {
         Patient patient = patientRepo.findById(id).orElseThrow(
-                ()-> new NoSuchElementException("No patient present in our database under given id: " + id + ".")
+                () -> new NoSuchElementException("No patient present in our database under given id: " + id + ".")
         );
         return PatientMapper.mapToPatientDto(patient);
     }
 
     /**
      * A Service method to add a new patient into the database.
+     *
      * @param patientDto of type CreatePatientDto
      * @return The saved patient data.
      */
@@ -65,12 +71,13 @@ public class PatientServiceImpl implements PatientService {
 
     /**
      * A Service method to update an existing patient in the database.
+     *
      * @param patientDto
      * @return The updated patient data.
      */
     @Override
     public PatientDto updatePatient(PatientDto patientDto) {
-        if(patientRepo.existsById(patientDto.getId())){
+        if (patientRepo.existsById(patientDto.getId())) {
             Patient updatedPatient = patientRepo.save(PatientMapper.mapToPatient(patientDto));
             return PatientMapper.mapToPatientDto(updatedPatient);
         }
@@ -79,15 +86,23 @@ public class PatientServiceImpl implements PatientService {
 
     /**
      * A service method to delete a patient from the database.
+     *
      * @param id To search for and delete the patient.
      */
     @Override
+    @Transactional
     public void deletePatientById(Long id) {
-        if(!patientRepo.existsById(id)){
+        if (!patientRepo.existsById(id)) {
             throw new NoSuchElementException("Deletion not possible as no patient exists under the given patient id" + id + ".");
         }
+        if (appointmentService.existsByPatientId(id)) {
+            appointmentService.deleteAllAppointmentByPatientId(id);
+        }
+        if (medicationService.existsByPatientId(id)) {
+            medicationService.deleteAllMedicationByPatientId(id);
+        }
         patientRepo.deleteById(id);
-        if(patientRepo.existsById(id)){
+        if (patientRepo.existsById(id)) {
             throw new RuntimeException("Exception while deletion of the patient with ID: " + id + ". A patient still exists in the Id.");
         }
     }

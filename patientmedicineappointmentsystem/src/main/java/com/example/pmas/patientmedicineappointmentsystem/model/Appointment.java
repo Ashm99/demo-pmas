@@ -3,7 +3,6 @@ package com.example.pmas.patientmedicineappointmentsystem.model;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 import java.time.Instant;
@@ -11,7 +10,6 @@ import java.time.Instant;
 @Entity
 @AllArgsConstructor
 @RequiredArgsConstructor
-@NoArgsConstructor
 @Data
 public class Appointment {
     @Id

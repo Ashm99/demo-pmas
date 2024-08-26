@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
+import java.time.DateTimeException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -62,14 +63,22 @@ public class GlobalExceptionHandler {
      * @throws InterruptedException
      */
     @ExceptionHandler(NoSuchElementException.class)
-    public ResponseEntity<?> handleDataNotFoundException(NoSuchElementException exception) throws InterruptedException{
-        System.err.println("Exception occurred. There is no data as per your request. Check stack trace for further info.");
-        System.err.print("Stack trace:");
-        Thread.sleep(1000);
-        exception.printStackTrace();
-        Thread.sleep(1000);
-        System.out.println("Stack trace printed | Resuming application.");
+    public ResponseEntity<?> handleDataNotFoundException(NoSuchElementException exception){
+        System.err.println("Exception occurred. There is no data as per your request.");
+        System.err.println("Message: " + exception.getMessage());
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    /**
+     * A method to handle exceptions of type DateTimeException
+     * @param dateTimeException A DateTimeException object
+     * @return A response entity with the exception message as its body.
+     */
+    @ExceptionHandler(DateTimeException.class)
+    public ResponseEntity<?> handleDateTimeException(DateTimeException dateTimeException){
+        System.err.println("Exception occurred with given Date time.");
+        System.err.println("Message: " + dateTimeException.getMessage());
+        return new ResponseEntity<>(dateTimeException.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
     /**
@@ -104,6 +113,6 @@ public class GlobalExceptionHandler {
         exception.printStackTrace();
         Thread.sleep(1000);
         System.out.println("Stack trace printed | Resuming application.");
-        return new ResponseEntity<>(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
     }
 }

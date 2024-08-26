@@ -1,7 +1,7 @@
 package com.example.pmas.patientmedicineappointmentsystem.service.implementations;
 
-import com.example.pmas.patientmedicineappointmentsystem.dto.creation.CreateMedicationDto;
 import com.example.pmas.patientmedicineappointmentsystem.dto.MedicationDto;
+import com.example.pmas.patientmedicineappointmentsystem.dto.creation.CreateMedicationDto;
 import com.example.pmas.patientmedicineappointmentsystem.mapper.MedicationMapper;
 import com.example.pmas.patientmedicineappointmentsystem.model.Medication;
 import com.example.pmas.patientmedicineappointmentsystem.repo.MedicationRepo;
@@ -45,7 +45,7 @@ public class MedicationServiceImpl implements MedicationService {
     @Override
     public MedicationDto getMedicationById(Long id) {
         Medication medication = medicationRepo.findById(id).orElseThrow(
-                () -> new NoSuchElementException("No Medication exists with ID: " + id + ".")
+                () -> new NoSuchElementException("No Medication exists under given id: " + id + ".")
         );
         return MedicationMapper.mapToMedicationDto(medication);
     }
@@ -57,9 +57,9 @@ public class MedicationServiceImpl implements MedicationService {
      * @return A Medication Dto object on successful creation of the medication object.
      */
     @Override
-    public MedicationDto createMedication(CreateMedicationDto createMedicationDto) {
+    public MedicationDto createMedication(CreateMedicationDto createMedicationDto){
         Medication medication = MedicationMapper.mapToMedicationFromCreateMedicationDto(
-                patientRepo.findById(createMedicationDto.getPatientId()).orElseThrow(
+                patientRepo.findById(Long.parseLong(createMedicationDto.getPatientId())).orElseThrow(
                         () -> new NoSuchElementException("No patient exists as per the patient id given.")
                 ),
                 createMedicationDto
@@ -103,12 +103,37 @@ public class MedicationServiceImpl implements MedicationService {
     @Override
     public String deleteMedication(Long id) {
         if (!medicationRepo.existsById(id)) {
-            throw new NoSuchElementException("No medication exists under the given medication's id.");
+            throw new NoSuchElementException("Deletion not possible as no medication exists under the given medication id: " + id + ".");
         }
         medicationRepo.deleteById(id);
         if (medicationRepo.existsById(id)) {
             throw new NoSuchElementException("Error occurred. Medication exists even after deletion.");
         }
         return "Successfully deleted medication with id: " + id + ".";
+    }
+
+
+    /**
+     * A Service method to find if there are medications of a particular patient.
+     * @param patientId The id of the patient whose all medications are to be checked.
+     * @return True if present and vice versa.
+     */
+    @Override
+    public boolean existsByPatientId(Long patientId) {
+        return medicationRepo.existsByPatientId(patientId);
+    }
+
+    /**
+     * A Service method to delete all the medications of a particular patient.
+     * @param patientId The id of the doctor whose all medications are to be deleted.
+     * @return True if deletion is successful and vice versa.
+     */
+    @Override
+    public void deleteAllMedicationByPatientId(Long patientId) {
+        int rows = medicationRepo.deleteAllByPatientId(patientId);
+        System.out.println(String.format("%d rows deleted from the medication table.", rows));
+        if(this.existsByPatientId(patientId)){
+            throw new RuntimeException("Error while deleting appointments of patient with id: " + patientId + ".");
+        }
     }
 }

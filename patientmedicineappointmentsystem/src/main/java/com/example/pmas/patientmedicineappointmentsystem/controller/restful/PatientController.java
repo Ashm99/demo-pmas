@@ -41,12 +41,12 @@ public class PatientController {
 
     /**
      * A RESTful method to create a patient.
-     * @param patientDto A Dto object of type CreatePatientDto
+     * @param createPatientDto A Dto object of type CreatePatientDto
      * @return A response entity with the patient as its body.
      */
     @PostMapping(value="/add")
-    public ResponseEntity<?> addPatient(@Valid @RequestBody CreatePatientDto patientDto){
-        PatientDto savedPatientDto  = patientService.addPatient(patientDto);
+    public ResponseEntity<?> addPatient(@Valid @RequestBody CreatePatientDto createPatientDto){
+        PatientDto savedPatientDto  = patientService.addPatient(createPatientDto);
         return new ResponseEntity<>(savedPatientDto, HttpStatus.CREATED);
     }
 

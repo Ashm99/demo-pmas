@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.Instant;
+import java.time.ZonedDateTime;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -19,5 +20,5 @@ public class AppointmentDto {
 
     private Instant appointmentDateTime;
 
-    private Instant createdAt;
+    private ZonedDateTime createdAt;
 }

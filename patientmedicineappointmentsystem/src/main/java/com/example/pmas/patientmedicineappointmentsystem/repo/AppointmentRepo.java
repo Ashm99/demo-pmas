@@ -7,6 +7,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface AppointmentRepo extends JpaRepository<Appointment, Long> {
     boolean existsByPatientId(Long patientId);
-    boolean deleteAllByPatientId(Long patientId);
+    int deleteAllByPatientId(Long patientId);
+    boolean existsByDoctorId(Long doctorId);
+    int deleteAllByDoctorId(Long doctorId);
 
 }
