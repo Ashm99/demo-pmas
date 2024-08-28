@@ -1,7 +1,7 @@
 package com.example.pmas.patientmedicineappointmentsystem.service.implementations;
 
 import com.example.pmas.patientmedicineappointmentsystem.dto.PatientDto;
-import com.example.pmas.patientmedicineappointmentsystem.dto.creation.CreatePatientDto;
+import com.example.pmas.patientmedicineappointmentsystem.dto.save.SavePatientDto;
 import com.example.pmas.patientmedicineappointmentsystem.mapper.PatientMapper;
 import com.example.pmas.patientmedicineappointmentsystem.model.Patient;
 import com.example.pmas.patientmedicineappointmentsystem.repo.PatientRepo;
@@ -25,16 +25,13 @@ public class PatientServiceImpl implements PatientService {
 
     /**
      * A service method to get all the patients in the database.
-     *
      * @return A list of patients
      */
     @Override
     public List<PatientDto> getAllPatients() {
         List<PatientDto> patientDtoList = new ArrayList<>();
         patientRepo.findAll().forEach(
-                (patient) -> {
-                    patientDtoList.add(PatientMapper.mapToPatientDto(patient));
-                }
+                (patient) -> patientDtoList.add(PatientMapper.mapToPatientDto(patient))
         );
         if (patientDtoList.isEmpty()) {
             throw new NoSuchElementException("No Patients present in the database.");
@@ -59,29 +56,27 @@ public class PatientServiceImpl implements PatientService {
 
     /**
      * A Service method to add a new patient into the database.
-     *
-     * @param patientDto of type CreatePatientDto
+     * @param savePatientDto of type SavePatientDto
      * @return The saved patient data.
      */
     @Override
-    public PatientDto addPatient(CreatePatientDto patientDto) {
-        Patient savedPatient = patientRepo.save(PatientMapper.mapToPatientFromCreatePatientDto(patientDto));
+    public PatientDto addPatient(SavePatientDto savePatientDto) {
+        Patient savedPatient = patientRepo.save(PatientMapper.mapToPatientFromSavePatientDto(null, savePatientDto));
         return PatientMapper.mapToPatientDto(savedPatient);
     }
 
     /**
      * A Service method to update an existing patient in the database.
-     *
-     * @param patientDto
+     * @param savePatientDto A Dto object.
      * @return The updated patient data.
      */
     @Override
-    public PatientDto updatePatient(PatientDto patientDto) {
-        if (patientRepo.existsById(patientDto.getId())) {
-            Patient updatedPatient = patientRepo.save(PatientMapper.mapToPatient(patientDto));
+    public PatientDto updatePatient(Long id, SavePatientDto savePatientDto) {
+        if (patientRepo.existsById(id)) {
+            Patient updatedPatient = patientRepo.save(PatientMapper.mapToPatientFromSavePatientDto(id, savePatientDto));
             return PatientMapper.mapToPatientDto(updatedPatient);
         }
-        throw new NoSuchElementException("Update not possible as no patient exists under the given patient id: " + patientDto.getId() + ".");
+        throw new NoSuchElementException("Update not possible as no patient exists under the given patient id: " + id + ".");
     }
 
     /**

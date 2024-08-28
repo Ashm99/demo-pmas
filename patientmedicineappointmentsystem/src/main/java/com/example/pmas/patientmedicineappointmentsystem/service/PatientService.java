@@ -1,6 +1,6 @@
 package com.example.pmas.patientmedicineappointmentsystem.service;
 
-import com.example.pmas.patientmedicineappointmentsystem.dto.creation.CreatePatientDto;
+import com.example.pmas.patientmedicineappointmentsystem.dto.save.SavePatientDto;
 import com.example.pmas.patientmedicineappointmentsystem.dto.PatientDto;
 
 import java.util.List;
@@ -11,9 +11,9 @@ public interface PatientService {
 
     PatientDto getPatientById(Long id);
 
-    PatientDto addPatient(CreatePatientDto patientDto);
+    PatientDto addPatient(SavePatientDto savePatientDto);
 
-    PatientDto updatePatient(PatientDto patientDto);
+    PatientDto updatePatient(Long id, SavePatientDto savePatientDto);
 
     void deletePatientById(Long id);
 }

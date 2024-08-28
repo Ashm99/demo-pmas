@@ -1,7 +1,7 @@
 package com.example.pmas.patientmedicineappointmentsystem.service.implementations;
 
 import com.example.pmas.patientmedicineappointmentsystem.dto.AppointmentDto;
-import com.example.pmas.patientmedicineappointmentsystem.dto.creation.CreateAppointmentDto;
+import com.example.pmas.patientmedicineappointmentsystem.dto.save.SaveAppointmentDto;
 import com.example.pmas.patientmedicineappointmentsystem.mapper.AppointmentMapper;
 import com.example.pmas.patientmedicineappointmentsystem.model.Appointment;
 import com.example.pmas.patientmedicineappointmentsystem.repo.AppointmentRepo;
@@ -51,19 +51,19 @@ public class AppointmentServiceImpl implements AppointmentService {
     /**
      * A service method to create an appointment.
      *
-     * @param createAppointmentDto Parameter with appointment time, patient and doctor ids.
+     * @param saveAppointmentDto Parameter with appointment time, patient and doctor ids.
      * @return An AppointmentDto object.
      */
     @Override
-    public AppointmentDto createAppointment(CreateAppointmentDto createAppointmentDto) {
-        Appointment appointment = AppointmentMapper.mapToAppointmentFromCreateAppointmentDto(
-                patientRepo.findById(createAppointmentDto.getPatientId()).orElseThrow(
-                        () -> new NoSuchElementException("No patient exists under given patient id: " + createAppointmentDto.getPatientId() + ".")
+    public AppointmentDto createAppointment(SaveAppointmentDto saveAppointmentDto) {
+        Appointment appointment = AppointmentMapper.mapToAppointmentFromSaveAppointmentDto(
+                patientRepo.findById(saveAppointmentDto.getPatientId()).orElseThrow(
+                        () -> new NoSuchElementException("No patient exists under given patient id: " + saveAppointmentDto.getPatientId() + ".")
                 ),
-                doctorRepo.findById(createAppointmentDto.getDoctorId()).orElseThrow(
-                        () -> new NoSuchElementException("No doctor exists under given doctor id: " + createAppointmentDto.getDoctorId() + ".")
+                doctorRepo.findById(saveAppointmentDto.getDoctorId()).orElseThrow(
+                        () -> new NoSuchElementException("No doctor exists under given doctor id: " + saveAppointmentDto.getDoctorId() + ".")
                 ),
-                createAppointmentDto
+                saveAppointmentDto
         );
         Appointment savedAppointment = appointmentRepo.save(appointment);
         return AppointmentMapper.mapToAppointmentDto(savedAppointment);
@@ -100,12 +100,11 @@ public class AppointmentServiceImpl implements AppointmentService {
     /**
      * A Service method to delete all the appointments of a particular patient.
      * @param patientId The id of the doctor whose all appointments are to be deleted.
-     * @return True if deletion is successful and vice versa.
      */
     @Override
     public void deleteAllAppointmentByPatientId(Long patientId) {
         int rows = appointmentRepo.deleteAllByPatientId(patientId);
-        System.out.println(String.format("%d rows deleted from the appointment table.", rows));
+        System.out.printf("%d rows deleted from the appointment table.%n", rows);
         if(this.existsByPatientId(patientId)){
             throw new RuntimeException("Error while deleting appointments of patient with id: " + patientId + ".");
         }
@@ -124,12 +123,11 @@ public class AppointmentServiceImpl implements AppointmentService {
     /**
      * A Service method to delete all the appointments of a particular doctor.
      * @param doctorId The id of the doctor whose all appointments are to be deleted.
-     * @return True if deletion is successful and vice versa.
      */
     @Override
     public void deleteAllAppointmentByDoctorId(Long doctorId) {
         int rows = appointmentRepo.deleteAllByDoctorId(doctorId);
-        System.out.println(String.format("%d rows deleted from the appointment table.", rows));
+        System.out.printf("%d rows deleted from the appointment table.%n", rows);
         if(this.existsByDoctorId(doctorId)){
             throw new RuntimeException("Error while deleting appointments of Doctor with id: " + doctorId + ".");
         }

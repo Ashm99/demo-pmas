@@ -1,7 +1,7 @@
 package com.example.pmas.patientmedicineappointmentsystem.service.implementations;
 
 import com.example.pmas.patientmedicineappointmentsystem.dto.MedicationDto;
-import com.example.pmas.patientmedicineappointmentsystem.dto.creation.CreateMedicationDto;
+import com.example.pmas.patientmedicineappointmentsystem.dto.save.SaveMedicationDto;
 import com.example.pmas.patientmedicineappointmentsystem.mapper.MedicationMapper;
 import com.example.pmas.patientmedicineappointmentsystem.model.Medication;
 import com.example.pmas.patientmedicineappointmentsystem.repo.MedicationRepo;
@@ -53,16 +53,17 @@ public class MedicationServiceImpl implements MedicationService {
     /**
      * A service method to create a medication object.
      *
-     * @param createMedicationDto Input data for medication creation.
+     * @param saveMedicationDto Input data for medication creation.
      * @return A Medication Dto object on successful creation of the medication object.
      */
     @Override
-    public MedicationDto createMedication(CreateMedicationDto createMedicationDto){
-        Medication medication = MedicationMapper.mapToMedicationFromCreateMedicationDto(
-                patientRepo.findById(Long.parseLong(createMedicationDto.getPatientId())).orElseThrow(
+    public MedicationDto addMedication(SaveMedicationDto saveMedicationDto){
+        Medication medication = MedicationMapper.mapToMedicationFromSaveMedicationDto(
+                null,
+                patientRepo.findById(Long.parseLong(saveMedicationDto.getPatientId())).orElseThrow(
                         () -> new NoSuchElementException("No patient exists as per the patient id given.")
                 ),
-                createMedicationDto
+                saveMedicationDto
         );
         Medication savedMedication = medicationRepo.save(medication);
         return MedicationMapper.mapToMedicationDto(savedMedication);
@@ -70,25 +71,26 @@ public class MedicationServiceImpl implements MedicationService {
 
     /**
      * A service method to update a medication object through given object's id.
-     *
-     * @param medicationDto Input data for medication updation.
+     * @param saveMedicationDto Input data for medication updation.
      * @return A Medication Dto object on successful update of the medication object.
      */
     @Override
-    public MedicationDto updateMedication(MedicationDto medicationDto) {
-        if (!medicationRepo.existsById(medicationDto.getId())) {
+    public MedicationDto updateMedication(Long id, SaveMedicationDto saveMedicationDto) {
+        Long updatedPatientId = Long.parseLong(saveMedicationDto.getPatientId().trim());
+        if (!medicationRepo.existsById(id)) {
             throw new NoSuchElementException("No medication exists under the given medication's id.");
         }
-        if (medicationRepo.findById(medicationDto.getId()).get().getPatient().getId() != medicationDto.getPatientId()) {
-            System.out.println(medicationRepo.findById(medicationDto.getId()).get().getPatient().getId());
-            System.out.println(medicationDto.getPatientId());
+        if (medicationRepo.findById(id).get().getPatient().getId() != updatedPatientId) {
+            System.out.println(medicationRepo.findById(id).get().getPatient().getId());
+            System.out.println(updatedPatientId);
             throw new NoSuchElementException("No such medication exists for the mentioned patient's id.");
         }
-        Medication medication = MedicationMapper.mapToMedication(
-                patientRepo.findById(medicationDto.getPatientId()).orElseThrow(
+        Medication medication = MedicationMapper.mapToMedicationFromSaveMedicationDto(
+                id,
+                patientRepo.findById(updatedPatientId).orElseThrow(
                         () -> new NoSuchElementException("No patient exists under given medication's patient id.")
                 ),
-                medicationDto
+                saveMedicationDto
         );
         Medication savedMedication = medicationRepo.save(medication);
         return MedicationMapper.mapToMedicationDto(savedMedication);
@@ -126,12 +128,11 @@ public class MedicationServiceImpl implements MedicationService {
     /**
      * A Service method to delete all the medications of a particular patient.
      * @param patientId The id of the doctor whose all medications are to be deleted.
-     * @return True if deletion is successful and vice versa.
      */
     @Override
     public void deleteAllMedicationByPatientId(Long patientId) {
         int rows = medicationRepo.deleteAllByPatientId(patientId);
-        System.out.println(String.format("%d rows deleted from the medication table.", rows));
+        System.out.printf("%d rows deleted from the medication table.%n", rows);
         if(this.existsByPatientId(patientId)){
             throw new RuntimeException("Error while deleting appointments of patient with id: " + patientId + ".");
         }

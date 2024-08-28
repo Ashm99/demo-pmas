@@ -2,13 +2,12 @@ package com.example.pmas.patientmedicineappointmentsystem.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
-import java.time.Instant;
 import java.time.ZonedDateTime;
 
 @AllArgsConstructor
-@NoArgsConstructor
+@RequiredArgsConstructor
 @Data
 public class AppointmentDto {
 
@@ -18,7 +17,7 @@ public class AppointmentDto {
 
     private DoctorDto doctorDto;
 
-    private Instant appointmentDateTime;
+    private ZonedDateTime appointmentDateTime;
 
     private ZonedDateTime createdAt;
 }

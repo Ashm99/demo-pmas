@@ -1,7 +1,7 @@
 package com.example.pmas.patientmedicineappointmentsystem.service.implementations;
 
 import com.example.pmas.patientmedicineappointmentsystem.dto.DoctorDto;
-import com.example.pmas.patientmedicineappointmentsystem.dto.creation.CreateDoctorDto;
+import com.example.pmas.patientmedicineappointmentsystem.dto.save.SaveDoctorDto;
 import com.example.pmas.patientmedicineappointmentsystem.mapper.DoctorMapper;
 import com.example.pmas.patientmedicineappointmentsystem.model.Doctor;
 import com.example.pmas.patientmedicineappointmentsystem.repo.DoctorRepo;
@@ -53,24 +53,24 @@ public class DoctorServiceImpl implements DoctorService {
 
     /**
      * A Service method to add a new doctor into the database.
-     * @param doctorDto of type CreateDoctorDto
+     * @param doctorDto of type SaveDoctorDto
      * @return The saved doctor data.
      */
     @Override
-    public DoctorDto addDoctor(CreateDoctorDto doctorDto) {
-        Doctor savedDoctor = doctorRepo.save(DoctorMapper.mapToDoctorFromCreateDoctorDto(doctorDto));
+    public DoctorDto addDoctor(SaveDoctorDto saveDoctorDto) {
+        Doctor savedDoctor = doctorRepo.save(DoctorMapper.mapToDoctorFromSaveDoctorDto(null, saveDoctorDto));
         return DoctorMapper.mapToDoctorDto(savedDoctor);
     }
 
     /**
      * A Service method to update an existing doctor in the database.
-     * @param doctorDto A Dto object that is to be updated into the database.
+     * @param saveDoctorDto A Dto object that is to be updated into the database.
      * @return The updated doctor data.
      */
     @Override
-    public DoctorDto updateDoctor(DoctorDto doctorDto) {
-        if(doctorRepo.existsById(doctorDto.getId())){
-            Doctor updatedDoctor = doctorRepo.save(DoctorMapper.mapToDoctor(doctorDto));
+    public DoctorDto updateDoctor(Long id,SaveDoctorDto saveDoctorDto) {
+        if(doctorRepo.existsById(id)){
+            Doctor updatedDoctor = doctorRepo.save(DoctorMapper.mapToDoctorFromSaveDoctorDto(id, saveDoctorDto));
             return DoctorMapper.mapToDoctorDto(updatedDoctor);
         }
         throw new NoSuchElementException("Update not possible as no one exists under the given doctor's id.");

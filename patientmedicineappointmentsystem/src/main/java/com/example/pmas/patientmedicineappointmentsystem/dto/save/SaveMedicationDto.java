@@ -1,15 +1,15 @@
-package com.example.pmas.patientmedicineappointmentsystem.dto.creation;
+package com.example.pmas.patientmedicineappointmentsystem.dto.save;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 @AllArgsConstructor
-@NoArgsConstructor
+@RequiredArgsConstructor
 @Data
-public class CreateMedicationDto {
+public class SaveMedicationDto {
 
     @Pattern(regexp = "^\\d+$", message = "Enter a valid patient id. Expecting a positive number.")
     private String patientId;

@@ -1,6 +1,6 @@
 package com.example.pmas.patientmedicineappointmentsystem.controller.restful;
 
-import com.example.pmas.patientmedicineappointmentsystem.dto.creation.CreateDoctorDto;
+import com.example.pmas.patientmedicineappointmentsystem.dto.save.SaveDoctorDto;
 import com.example.pmas.patientmedicineappointmentsystem.dto.DoctorDto;
 import com.example.pmas.patientmedicineappointmentsystem.service.DoctorService;
 import jakarta.validation.Valid;
@@ -41,23 +41,23 @@ public class DoctorController {
 
     /**
      * A RESTful method to create a doctor.
-     * @param doctorDto A Dto object of type CreateDoctorDto
+     * @param saveDoctorDto A Dto object of type SaveDoctorDto
      * @return A response entity with the doctor as its body.
      */
     @PostMapping(value="/add")
-    public ResponseEntity<?> addDoctor(@Valid @RequestBody CreateDoctorDto doctorDto){
-        DoctorDto savedDoctorDto  = doctorService.addDoctor(doctorDto);
+    public ResponseEntity<?> addDoctor(@Valid @RequestBody SaveDoctorDto saveDoctorDto){
+        DoctorDto savedDoctorDto  = doctorService.addDoctor(saveDoctorDto);
         return new ResponseEntity<>(savedDoctorDto, HttpStatus.CREATED);
     }
 
     /**
      * A RESTful method to update a doctor.
-     * @param doctorDto A Dto object.
+     * @param saveDoctorDto A Dto object.
      * @return A response entity with the doctor as its body.
      */
-    @PutMapping(value="/update")
-    public ResponseEntity<?> updateDoctor(@Valid @RequestBody DoctorDto doctorDto){
-        DoctorDto savedDoctorDto  = doctorService.updateDoctor(doctorDto);
+    @PutMapping(value="/update/{id}")
+    public ResponseEntity<?> updateDoctor(@PathVariable(name = "id") Long id, @Valid @RequestBody SaveDoctorDto saveDoctorDto){
+        DoctorDto savedDoctorDto  = doctorService.updateDoctor(id, saveDoctorDto);
         return new ResponseEntity<>(savedDoctorDto, HttpStatus.OK);
     }
 

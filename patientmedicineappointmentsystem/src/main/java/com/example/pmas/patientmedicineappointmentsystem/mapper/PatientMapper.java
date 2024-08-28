@@ -1,6 +1,6 @@
 package com.example.pmas.patientmedicineappointmentsystem.mapper;
 
-import com.example.pmas.patientmedicineappointmentsystem.dto.creation.CreatePatientDto;
+import com.example.pmas.patientmedicineappointmentsystem.dto.save.SavePatientDto;
 import com.example.pmas.patientmedicineappointmentsystem.dto.PatientDto;
 import com.example.pmas.patientmedicineappointmentsystem.model.Patient;
 
@@ -16,25 +16,14 @@ public class PatientMapper {
         );
     }
 
-    public static Patient mapToPatient(PatientDto patientDto){
+    public static Patient mapToPatientFromSavePatientDto(Long id, SavePatientDto savePatientDto){
         return new Patient(
-                patientDto.getId(),
-                patientDto.getFirstName().trim(),
-                patientDto.getLastName().trim(),
-                patientDto.getEmail().trim(),
-                patientDto.getMobile(),
-                patientDto.getAddress().trim()
-        );
-    }
-
-    public static Patient mapToPatientFromCreatePatientDto(CreatePatientDto patientDto){
-        return new Patient(
-                null,
-                patientDto.getFirstName().trim(),
-                patientDto.getLastName().trim(),
-                patientDto.getEmail().trim(),
-                patientDto.getMobile(),
-                patientDto.getAddress().trim()
+                id,
+                savePatientDto.getFirstName().trim(),
+                savePatientDto.getLastName().trim(),
+                savePatientDto.getEmail().trim(),
+                savePatientDto.getMobile(),
+                savePatientDto.getAddress().trim()
         );
     }
 }

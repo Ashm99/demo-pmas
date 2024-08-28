@@ -1,6 +1,6 @@
 package com.example.pmas.patientmedicineappointmentsystem.controller.restful;
 
-import com.example.pmas.patientmedicineappointmentsystem.dto.creation.CreatePatientDto;
+import com.example.pmas.patientmedicineappointmentsystem.dto.save.SavePatientDto;
 import com.example.pmas.patientmedicineappointmentsystem.dto.PatientDto;
 import com.example.pmas.patientmedicineappointmentsystem.service.PatientService;
 import jakarta.validation.Valid;
@@ -15,7 +15,6 @@ import java.util.List;
 @RequestMapping(value = "/patients")
 @AllArgsConstructor
 public class PatientController {
-
     private PatientService patientService;
 
     /**
@@ -41,23 +40,23 @@ public class PatientController {
 
     /**
      * A RESTful method to create a patient.
-     * @param createPatientDto A Dto object of type CreatePatientDto
+     * @param savePatientDto A Dto object of type SavePatientDto
      * @return A response entity with the patient as its body.
      */
     @PostMapping(value="/add")
-    public ResponseEntity<?> addPatient(@Valid @RequestBody CreatePatientDto createPatientDto){
-        PatientDto savedPatientDto  = patientService.addPatient(createPatientDto);
+    public ResponseEntity<?> addPatient(@Valid @RequestBody SavePatientDto savePatientDto){
+        PatientDto savedPatientDto  = patientService.addPatient(savePatientDto);
         return new ResponseEntity<>(savedPatientDto, HttpStatus.CREATED);
     }
 
     /**
      * A RESTful method to update a patient.
-     * @param patientDto A Dto object.
+     * @param savePatientDto A Dto object.
      * @return A response entity with the patient as its body.
      */
-    @PutMapping(value="/update")
-    public ResponseEntity<?> updatePatient(@Valid @RequestBody PatientDto patientDto){
-        PatientDto savedPatientDto  = patientService.updatePatient(patientDto);
+    @PutMapping(value="/update/{id}")
+    public ResponseEntity<?> updatePatient(@PathVariable(name = "id") Long id, @Valid @RequestBody SavePatientDto savePatientDto){
+        PatientDto savedPatientDto  = patientService.updatePatient(id, savePatientDto);
         return new ResponseEntity<>(savedPatientDto, HttpStatus.OK);
     }
 
