@@ -60,12 +60,14 @@ public class PatientRepositoryTests {
         assertThat(patientList).isNotNull();
         assertThat(patientList.size()).isEqualTo(2);
 
+        assertThat(patientList.get(0).getId()).isGreaterThan(0);
         assertThat(patientList.get(0).getFirstName()).isEqualTo(patient.getFirstName());
         assertThat(patientList.get(0).getLastName()).isEqualTo(patient.getLastName());
         assertThat(patientList.get(0).getEmail()).isEqualTo(patient.getEmail());
         assertThat(patientList.get(0).getAddress()).isEqualTo(patient.getAddress());
         assertThat(patientList.get(0).getMobile()).isEqualTo(patient.getMobile());
 
+        assertThat(patientList.get(1).getId()).isGreaterThan(0);
         assertThat(patientList.get(1).getFirstName()).isEqualTo(patient1.getFirstName());
         assertThat(patientList.get(1).getLastName()).isEqualTo(patient1.getLastName());
         assertThat(patientList.get(1).getEmail()).isEqualTo(patient1.getEmail());
@@ -104,8 +106,7 @@ public class PatientRepositoryTests {
     @Test
     public void givenPatient_whenExistsById_thenReturnTrue(){
 
-        Patient savedPatient = patientRepo.save(patient);
-        Long id = savedPatient.getId();
+        Long id  = patientRepo.save(patient).getId();
 
         boolean result = patientRepo.existsById(id);
 
