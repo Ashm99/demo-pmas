@@ -24,6 +24,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     /**
      * A service method to get all the appointments in the database.
+     *
      * @return A list of appointments.
      */
     @Override
@@ -44,7 +45,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Override
     public AppointmentDto getAppointmentById(Long id) {
         return AppointmentMapper.mapToAppointmentDto(appointmentRepo.findById(id).orElseThrow(
-                ()->new NoSuchElementException("No appointment exists under given id: " + id + ".")
+                () -> new NoSuchElementException("No appointment exists under given id: " + id + ".")
         ));
     }
 
@@ -89,6 +90,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     /**
      * A Service method to find if there are appointments of a particular patient.
+     *
      * @param patientId The id of the patient whose all appointments are to be checked.
      * @return True if present and vice versa.
      */
@@ -99,19 +101,21 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     /**
      * A Service method to delete all the appointments of a particular patient.
+     *
      * @param patientId The id of the doctor whose all appointments are to be deleted.
      */
     @Override
     public void deleteAllAppointmentByPatientId(Long patientId) {
         int rows = appointmentRepo.deleteAllByPatientId(patientId);
         System.out.printf("%d rows deleted from the appointment table.%n", rows);
-        if(this.existsByPatientId(patientId)){
+        if (this.existsByPatientId(patientId)) {
             throw new RuntimeException("Error while deleting appointments of patient with id: " + patientId + ".");
         }
     }
 
     /**
      * A Service method to find if there are appointments of a particular doctor.
+     *
      * @param doctorId The id of the doctor whose all appointments are to be checked.
      * @return True if present and vice versa.
      */
@@ -122,13 +126,14 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     /**
      * A Service method to delete all the appointments of a particular doctor.
+     *
      * @param doctorId The id of the doctor whose all appointments are to be deleted.
      */
     @Override
     public void deleteAllAppointmentByDoctorId(Long doctorId) {
         int rows = appointmentRepo.deleteAllByDoctorId(doctorId);
         System.out.printf("%d rows deleted from the appointment table.%n", rows);
-        if(this.existsByDoctorId(doctorId)){
+        if (this.existsByDoctorId(doctorId)) {
             throw new RuntimeException("Error while deleting appointments of Doctor with id: " + doctorId + ".");
         }
     }

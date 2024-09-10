@@ -45,7 +45,7 @@ public class MedicationController {
      */
     @PostMapping(value = "/add")
     public ResponseEntity<?> addMedication(@Valid @RequestBody SaveMedicationDto saveMedicationDto){
-        MedicationDto medicationDto = medicationService.addMedication(saveMedicationDto);
+        MedicationDto medicationDto = medicationService.saveMedication(saveMedicationDto);
         return new ResponseEntity<>(medicationDto, HttpStatus.CREATED);
     }
 

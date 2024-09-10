@@ -10,7 +10,7 @@ public interface MedicationService {
 
     MedicationDto getMedicationById(Long id);
 
-    MedicationDto addMedication(SaveMedicationDto saveMedicationDto);
+    MedicationDto saveMedication(SaveMedicationDto saveMedicationDto);
 
     MedicationDto updateMedication(Long id, SaveMedicationDto saveMedicationDto);
 

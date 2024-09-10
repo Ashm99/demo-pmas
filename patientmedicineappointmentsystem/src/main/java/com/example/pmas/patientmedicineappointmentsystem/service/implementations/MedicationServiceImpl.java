@@ -57,7 +57,7 @@ public class MedicationServiceImpl implements MedicationService {
      * @return A Medication Dto object on successful creation of the medication object.
      */
     @Override
-    public MedicationDto addMedication(SaveMedicationDto saveMedicationDto) {
+    public MedicationDto saveMedication(SaveMedicationDto saveMedicationDto) {
         Medication medication = MedicationMapper.mapToMedicationFromSaveMedicationDto(
                 null,
                 patientRepo.findById(Long.parseLong(saveMedicationDto.getPatientId())).orElseThrow(
@@ -105,7 +105,7 @@ public class MedicationServiceImpl implements MedicationService {
      */
     @Override
     public String deleteMedication(Long id) {
-            if (!medicationRepo.existsById(id)) {
+        if (!medicationRepo.existsById(id)) {
             throw new NoSuchElementException("Deletion not possible as no medication exists under the given medication id: " + id + ".");
         }
         medicationRepo.deleteById(id);
