@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 
 @Service
 @AllArgsConstructor
@@ -81,7 +82,7 @@ public class MedicationServiceImpl implements MedicationService {
         if (!medicationRepo.existsById(id)) {
             throw new NoSuchElementException("No medication exists under the given medication's id.");
         }
-        if (medicationRepo.findById(id).get().getPatient().getId() != updatedPatientId) {
+        if (!Objects.equals(medicationRepo.findById(id).get().getPatient().getId(), updatedPatientId)) {
             System.out.println(medicationRepo.findById(id).get().getPatient().getId());
             System.out.println(updatedPatientId);
             throw new NoSuchElementException("No such medication exists for the mentioned patient's id.");

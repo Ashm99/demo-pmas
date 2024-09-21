@@ -35,6 +35,7 @@ public class AppointmentRepositoryTests {
         patient.setLastName("Doe");
         patient.setEmail("jdoe@gmail.com");
         patient.setAddress("USA");
+        patient.setPassword("John@2024");
         patient.setMobile("9876543210");
 
         doctor = new Doctor();
@@ -66,6 +67,7 @@ public class AppointmentRepositoryTests {
         assertThat(savedAppointment.getPatient().getLastName()).isEqualTo(patient.getLastName());
         assertThat(savedAppointment.getPatient().getEmail()).isEqualTo(patient.getEmail());
         assertThat(savedAppointment.getPatient().getMobile()).isEqualTo(patient.getMobile());
+        assertThat(savedAppointment.getPatient().getPassword()).isEqualTo(patient.getPassword());
         assertThat(savedAppointment.getPatient().getAddress()).isEqualTo(patient.getAddress());
 
         assertThat(savedAppointment.getDoctor().getFirstName()).isEqualTo(doctor.getFirstName());
@@ -109,6 +111,7 @@ public class AppointmentRepositoryTests {
         assertThat(appointments.get(0).getPatient().getLastName()).isEqualTo(patient.getLastName());
         assertThat(appointments.get(0).getPatient().getEmail()).isEqualTo(patient.getEmail());
         assertThat(appointments.get(0).getPatient().getMobile()).isEqualTo(patient.getMobile());
+        assertThat(appointments.get(0).getPatient().getPassword()).isEqualTo(patient.getPassword());
         assertThat(appointments.get(0).getPatient().getAddress()).isEqualTo(patient.getAddress());
 
         assertThat(appointments.get(0).getDoctor().getFirstName()).isEqualTo(doctor.getFirstName());
@@ -123,6 +126,7 @@ public class AppointmentRepositoryTests {
         assertThat(appointments.get(1).getPatient().getLastName()).isEqualTo(patient.getLastName());
         assertThat(appointments.get(1).getPatient().getEmail()).isEqualTo(patient.getEmail());
         assertThat(appointments.get(1).getPatient().getMobile()).isEqualTo(patient.getMobile());
+        assertThat(appointments.get(1).getPatient().getPassword()).isEqualTo(patient.getPassword());
         assertThat(appointments.get(1).getPatient().getAddress()).isEqualTo(patient.getAddress());
 
         assertThat(appointments.get(1).getDoctor().getFirstName()).isEqualTo(doctor1.getFirstName());
@@ -164,6 +168,7 @@ public class AppointmentRepositoryTests {
         assertThat(optionalAppointment.get().getPatient().getLastName()).isEqualTo(patient.getLastName());
         assertThat(optionalAppointment.get().getPatient().getEmail()).isEqualTo(patient.getEmail());
         assertThat(optionalAppointment.get().getPatient().getMobile()).isEqualTo(patient.getMobile());
+        assertThat(optionalAppointment.get().getPatient().getPassword()).isEqualTo(patient.getPassword());
         assertThat(optionalAppointment.get().getPatient().getAddress()).isEqualTo(patient.getAddress());
 
         assertThat(optionalAppointment.get().getDoctor().getFirstName()).isEqualTo(doctor.getFirstName());
@@ -282,6 +287,7 @@ public class AppointmentRepositoryTests {
         patient1.setLastName("M");
         patient1.setEmail("vidhu@gmail.com");
         patient1.setMobile("9753186420");
+        patient1.setPassword("Vidharan@2024 ");
         patient1.setAddress("India");
         Instant appointmentDateTime1 = Instant.parse("2025-01-02T06:30:00Z");
         Instant appointmentCreatedTime1 = Instant.now();

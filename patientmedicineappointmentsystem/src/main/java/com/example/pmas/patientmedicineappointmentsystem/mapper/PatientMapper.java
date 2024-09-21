@@ -22,7 +22,8 @@ public class PatientMapper {
                 savePatientDto.getFirstName().trim(),
                 savePatientDto.getLastName().trim(),
                 savePatientDto.getEmail().trim(),
-                savePatientDto.getMobile(),
+                savePatientDto.getMobile().trim(),
+                savePatientDto.getPassword(),
                 savePatientDto.getAddress().trim()
         );
     }

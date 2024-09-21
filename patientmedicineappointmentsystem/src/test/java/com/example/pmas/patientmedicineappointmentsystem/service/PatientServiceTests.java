@@ -49,6 +49,7 @@ public class PatientServiceTests {
         patient.setLastName("Doe");
         patient.setEmail("jdoe@gmail.com");
         patient.setAddress("USA");
+        patient.setPassword("John@2024");
         patient.setMobile("9876543210");
 
         savePatientDto = new SavePatientDto();
@@ -56,6 +57,7 @@ public class PatientServiceTests {
         savePatientDto.setLastName(patient.getLastName());
         savePatientDto.setEmail(patient.getEmail());
         savePatientDto.setAddress(patient.getAddress());
+        savePatientDto.setPassword(patient.getPassword());
         savePatientDto.setMobile(patient.getMobile());
 
         patientDto = new PatientDto();
@@ -117,8 +119,9 @@ public class PatientServiceTests {
         patient1.setFirstName("John");
         patient1.setLastName("Smith");
         patient1.setEmail("jsmith@gmail.com");
-        patient1.setAddress("UK");
         patient1.setMobile("9753186420");
+        patient1.setPassword("John@2024");
+        patient1.setAddress("UK");
 
         PatientDto patientDto1 = new PatientDto();
         patientDto1.setId(patient1.getId());

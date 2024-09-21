@@ -39,7 +39,7 @@ public class DoctorServiceTests {
     private SaveDoctorDto saveDoctorDto;
 
     @BeforeEach
-    private void setup() {
+    public void setup() {
         doctor = new Doctor(
                 1L,
                 "John",

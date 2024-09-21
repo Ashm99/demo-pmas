@@ -27,6 +27,8 @@ public class SavePatientDto {
     @Pattern(regexp = "\\d{10}", message = "Mobile number must be numeric and exactly 10 digits long.")
     private String mobile;
 
+    private String password;
+
     @NotBlank(message = "Address of a patient cannot be blank.")
     private String address;
 }

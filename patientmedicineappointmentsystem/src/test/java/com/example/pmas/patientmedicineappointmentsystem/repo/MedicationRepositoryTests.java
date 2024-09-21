@@ -30,6 +30,7 @@ public class MedicationRepositoryTests {
         patient.setLastName("Doe");
         patient.setEmail("jdoe@gmail.com");
         patient.setAddress("USA");
+        patient.setPassword("John@2024");
         patient.setMobile("9876543210");
 
         patient = patientRepo.save(patient);
@@ -57,6 +58,7 @@ public class MedicationRepositoryTests {
         assertThat(savedMedication.getPatient().getLastName()).isEqualTo(patient.getLastName());
         assertThat(savedMedication.getPatient().getEmail()).isEqualTo(patient.getEmail());
         assertThat(savedMedication.getPatient().getMobile()).isEqualTo(patient.getMobile());
+        assertThat(savedMedication.getPatient().getPassword()).isEqualTo(patient.getPassword());
         assertThat(savedMedication.getPatient().getAddress()).isEqualTo(patient.getAddress());
 
         assertThat(savedMedication.getMedicine()).isEqualTo(medication.getMedicine());
@@ -102,6 +104,7 @@ public class MedicationRepositoryTests {
         assertThat(medications.get(0).getPatient().getLastName()).isEqualTo(patient.getLastName());
         assertThat(medications.get(0).getPatient().getEmail()).isEqualTo(patient.getEmail());
         assertThat(medications.get(0).getPatient().getMobile()).isEqualTo(patient.getMobile());
+        assertThat(medications.get(0).getPatient().getPassword()).isEqualTo(patient.getPassword());
         assertThat(medications.get(0).getPatient().getAddress()).isEqualTo(patient.getAddress());
 
         assertThat(medications.get(0).getMedicine()).isEqualTo(medication.getMedicine());
@@ -117,6 +120,7 @@ public class MedicationRepositoryTests {
         assertThat(medications.get(1).getPatient().getLastName()).isEqualTo(patient.getLastName());
         assertThat(medications.get(1).getPatient().getEmail()).isEqualTo(patient.getEmail());
         assertThat(medications.get(1).getPatient().getMobile()).isEqualTo(patient.getMobile());
+        assertThat(medications.get(1).getPatient().getPassword()).isEqualTo(patient.getPassword());
         assertThat(medications.get(1).getPatient().getAddress()).isEqualTo(patient.getAddress());
 
         assertThat(medications.get(1).getMedicine()).isEqualTo(medication1.getMedicine());
@@ -149,6 +153,7 @@ public class MedicationRepositoryTests {
         assertThat(optionalMedication.get().getPatient().getLastName()).isEqualTo(patient.getLastName());
         assertThat(optionalMedication.get().getPatient().getEmail()).isEqualTo(patient.getEmail());
         assertThat(optionalMedication.get().getPatient().getMobile()).isEqualTo(patient.getMobile());
+        assertThat(optionalMedication.get().getPatient().getPassword()).isEqualTo(patient.getPassword());
         assertThat(optionalMedication.get().getPatient().getAddress()).isEqualTo(patient.getAddress());
 
         assertThat(optionalMedication.get().getMedicine()).isEqualTo(medication.getMedicine());

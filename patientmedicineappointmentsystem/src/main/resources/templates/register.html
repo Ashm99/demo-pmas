@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register - PMA System</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body class="m-3">
+    <header>
+      <h4><strong>Patient Medicine Appointment System | Register</strong></h4>
+    </header>
+
+    <section>
+      <div class="register">
+        <div th:if="${param.success}" class="success-message">
+          <div class="alert alert-info">You are successfully registered!</div>
+        </div>
+        <div class="register-form">
+          <form action="#" onsubmit="return validatePassword()" th:action="@{/web/patients/savePatient}" th:object="${newPatient}" method="post">
+            <label for="first-name">First name</label>
+            <input id="first-name" type="text" placeholder="John" th:field="*{firstName}" required/><br />
+  
+            <label for="last-name">Last name</label>
+            <input id="last-name" type="text" placeholder="Doe" th:field="*{lastName}" required/><br />
+  
+            <label for="email">Email</label>
+            <input id="email" type="email" placeholder="jdoe@gmail.com" th:field="*{email}" required/><br />
+  
+            <label for="phone">Phone</label>
+            <input id="phone" type="text" placeholder="9876543210" th:field="*{mobile}" required/><br />
+  
+            <label for="address">Address</label>
+            <input id="address" type="text" placeholder="Georgetown, USA" th:field="*{address}" required/><br />
+  
+            <label for="password">Password</label>
+            <input id="password" type="password" required/><br />
+  
+            <label for="password2">Confirm password</label>
+            <input id="password2" type="password" th:field="*{password}" required/><br />
+            <span id="error-message" style="color: red; display: none;">Passwords do not match!</span>
+  
+            <button type="submit" class="btn btn-primary mb-1">Sign up</button>
+          </form>
+        </div>
+      </div>
+      <div class="login"></div>
+        Already registered?
+        <a th:href="@{/web/patients/login}">Login here!</a>
+      </div>
+    </section>
+
+    <br />
+    <footer>
+      <p>End of Page.</p>
+    </footer>
+    <script>
+      function validatePassword(){
+        console.log('Hello, Ashok!')
+        const password = document.getElementById("password").value;
+        const confirmPassword = document.getElementById("password2").value;
+        const errorMessage = document.getElementById("error-message");
+
+        if(password != confirmPassword){
+          // Show error message when unequal
+          errorMessage.style.display = "block";
+          return false;
+        }
+        // Hide error message when equal
+        errorMessage.style.display = "none";
+        return true;
+      }
+    </script>
+  </body>
+</html>

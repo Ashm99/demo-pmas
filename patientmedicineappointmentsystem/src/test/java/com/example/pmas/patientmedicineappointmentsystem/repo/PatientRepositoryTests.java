@@ -25,6 +25,7 @@ public class PatientRepositoryTests {
         patient.setLastName("Doe");
         patient.setEmail("jdoe@gmail.com");
         patient.setAddress("USA");
+        patient.setPassword("John@2024");
         patient.setMobile("9876543210");
     }
     @DisplayName(value = "JUnit test for save patient method")
@@ -38,8 +39,9 @@ public class PatientRepositoryTests {
         assertThat(savedPatient.getFirstName()).isEqualTo(patient.getFirstName());
         assertThat(savedPatient.getLastName()).isEqualTo(patient.getLastName());
         assertThat(savedPatient.getEmail()).isEqualTo(patient.getEmail());
-        assertThat(savedPatient.getAddress()).isEqualTo(patient.getAddress());
         assertThat(savedPatient.getMobile()).isEqualTo(patient.getMobile());
+        assertThat(savedPatient.getPassword()).isEqualTo(patient.getPassword());
+        assertThat(savedPatient.getAddress()).isEqualTo(patient.getAddress());
     }
 
     @DisplayName(value = "JUnit test for find all patient method")
@@ -49,8 +51,9 @@ public class PatientRepositoryTests {
         patient1.setFirstName("John");
         patient1.setLastName("Smith");
         patient1.setEmail("jsmith@gmail.com");
-        patient1.setAddress("UK");
         patient1.setMobile("99876543210");
+        patient1.setPassword("John@2024");
+        patient1.setAddress("UK");
 
         patientRepo.save(patient);
         patientRepo.save(patient1);
@@ -64,15 +67,17 @@ public class PatientRepositoryTests {
         assertThat(patientList.get(0).getFirstName()).isEqualTo(patient.getFirstName());
         assertThat(patientList.get(0).getLastName()).isEqualTo(patient.getLastName());
         assertThat(patientList.get(0).getEmail()).isEqualTo(patient.getEmail());
-        assertThat(patientList.get(0).getAddress()).isEqualTo(patient.getAddress());
         assertThat(patientList.get(0).getMobile()).isEqualTo(patient.getMobile());
+        assertThat(patientList.get(0).getPassword()).isEqualTo(patient.getPassword());
+        assertThat(patientList.get(0).getAddress()).isEqualTo(patient.getAddress());
 
         assertThat(patientList.get(1).getId()).isGreaterThan(0);
         assertThat(patientList.get(1).getFirstName()).isEqualTo(patient1.getFirstName());
         assertThat(patientList.get(1).getLastName()).isEqualTo(patient1.getLastName());
         assertThat(patientList.get(1).getEmail()).isEqualTo(patient1.getEmail());
-        assertThat(patientList.get(1).getAddress()).isEqualTo(patient1.getAddress());
         assertThat(patientList.get(1).getMobile()).isEqualTo(patient1.getMobile());
+        assertThat(patientList.get(1).getPassword()).isEqualTo(patient1.getPassword());
+        assertThat(patientList.get(1).getAddress()).isEqualTo(patient1.getAddress());
     }
 
     @DisplayName(value = "JUnit test for find by patient id method")
@@ -90,6 +95,7 @@ public class PatientRepositoryTests {
         assertThat(patient1.getLastName()).isEqualTo(patient.getLastName());
         assertThat(patient1.getEmail()).isEqualTo(patient.getEmail());
         assertThat(patient1.getAddress()).isEqualTo(patient.getAddress());
+        assertThat(patient1.getPassword()).isEqualTo(patient.getPassword());
         assertThat(patient1.getMobile()).isEqualTo(patient.getMobile());
     }
 

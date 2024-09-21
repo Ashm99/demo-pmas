@@ -55,6 +55,7 @@ public class MedicationServiceTests {
         patient.setLastName("Doe");
         patient.setEmail("jdoe@gmail.com");
         patient.setAddress("USA");
+        patient.setPassword("John@2024");
         patient.setMobile("9876543210");
 
         medication = new Medication(

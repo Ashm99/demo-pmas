@@ -60,6 +60,7 @@ public class AppointmentServiceTests {
                 "Doe",
                 "jdoe@gmail.com",
                 "USA",
+                "John@2024",
                 "9876543210"
 
         );
@@ -201,9 +202,9 @@ public class AppointmentServiceTests {
                 "Johanna",
                 "Smith",
                 "jsmith@gmail.com",
-                "UK",
-                "9753186420"
-
+                "9753186420",
+                "Johanna@2024",
+                "UK"
         );
         Doctor doctor1 = new Doctor(
                 2L,

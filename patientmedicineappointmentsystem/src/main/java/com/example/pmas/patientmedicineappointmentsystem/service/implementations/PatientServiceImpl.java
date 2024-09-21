@@ -10,6 +10,7 @@ import com.example.pmas.patientmedicineappointmentsystem.service.MedicationServi
 import com.example.pmas.patientmedicineappointmentsystem.service.PatientService;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -22,9 +23,11 @@ public class PatientServiceImpl implements PatientService {
     private PatientRepo patientRepo;
     private AppointmentService appointmentService;
     private MedicationService medicationService;
+    private PasswordEncoder passwordEncoder;
 
     /**
      * A service method to get all the patients in the database.
+     *
      * @return A list of patients
      */
     @Override
@@ -55,18 +58,50 @@ public class PatientServiceImpl implements PatientService {
     }
 
     /**
+     * A Service method to find a specific patient with its mobile no.
+     *
+     * @param username Mobile number of the patient
+     * @return The patient data.
+     * @throws NoSuchElementException If no element exists with given id.
+     */
+    @Override
+    public PatientDto getPatientByUsername(String username) {
+        Patient fetchedPatient = patientRepo.findByMobile(username).orElseThrow(
+                () -> new NoSuchElementException("No patient present in our database under given mobile no.: " + username + "."));
+        return PatientMapper.mapToPatientDto(fetchedPatient);
+    }
+
+    /**
+     * A Service method to find a specific patient's first name with its mobile no..
+     *
+     * @param username Mobile number of the patient
+     * @return The patient's first name.
+     * @throws NoSuchElementException If no element exists with given id.
+     */
+    @Override
+    public String getPatientFirstnameByUsername(String username) {
+        Patient fetchedPatient = patientRepo.findByMobile(username).orElseThrow(
+                () -> new NoSuchElementException("No patient present in our database under given mobile no.: " + username + "."));
+        return fetchedPatient.getFirstName();
+    }
+
+    /**
      * A Service method to add a new patient into the database.
+     *
      * @param savePatientDto of type SavePatientDto
      * @return The saved patient data.
      */
     @Override
     public PatientDto addPatient(SavePatientDto savePatientDto) {
-        Patient savedPatient = patientRepo.save(PatientMapper.mapToPatientFromSavePatientDto(null, savePatientDto));
+        Patient newPatient = PatientMapper.mapToPatientFromSavePatientDto(null, savePatientDto);
+        newPatient.setPassword(passwordEncoder.encode(newPatient.getPassword()));
+        Patient savedPatient = patientRepo.save(newPatient);
         return PatientMapper.mapToPatientDto(savedPatient);
     }
 
     /**
      * A Service method to update an existing patient in the database.
+     *
      * @param savePatientDto A Dto object.
      * @return The updated patient data.
      */
