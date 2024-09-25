@@ -21,5 +21,19 @@ public class Doctor {
 
     private String lastName;
 
-    private String Speciality;
+    private String gender;
+
+    private String mobile;
+
+    private String email;
+
+    private String speciality;
+
+    private int experienceInYears;
+
+    private String qualifications;
+
+    private String languagesSpoken;
+
+    private String officeAddress;
 }

@@ -12,7 +12,19 @@ public class PatientMapper {
                 patient.getLastName(),
                 patient.getEmail(),
                 patient.getMobile(),
-                patient.getAddress()
+                patient.getAddress(),
+                patient.getAge(),
+                patient.getGender(),
+                patient.getBloodGroup(),
+                patient.getEmergencyContactName(),
+                patient.getEmergencyContactMobile(),
+                patient.getEmergencyContactRelation(),
+                patient.getPreviousDiagnoses(),
+                patient.getSurgeries(),
+                patient.getAllergies(),
+                patient.getVaccinationHistory(),
+                patient.isSmoker(),
+                patient.isConsumesAlcohol()
         );
     }
 
@@ -24,7 +36,19 @@ public class PatientMapper {
                 savePatientDto.getEmail().trim(),
                 savePatientDto.getMobile().trim(),
                 savePatientDto.getPassword(),
-                savePatientDto.getAddress().trim()
+                savePatientDto.getAddress().trim(),
+                savePatientDto.getAge(),
+                savePatientDto.getGender(),
+                savePatientDto.getBloodGroup().trim(),
+                savePatientDto.getEmergencyContactName().trim(),
+                savePatientDto.getEmergencyContactMobile().trim(),
+                savePatientDto.getEmergencyContactRelation().trim(),
+                savePatientDto.getPreviousDiagnoses().trim(),
+                savePatientDto.getSurgeries().trim(),
+                savePatientDto.getAllergies().trim(),
+                savePatientDto.getVaccinationHistory().trim(),
+                savePatientDto.getIsSmoker(),
+                savePatientDto.getConsumesAlcohol()
         );
     }
 }

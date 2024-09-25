@@ -14,7 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/patients")
 @AllArgsConstructor
-public class PatientController {
+public class PatientController { // Need to be updated as per the inclusion of age and fields below age in patient class
     private PatientService patientService;
 
     /**

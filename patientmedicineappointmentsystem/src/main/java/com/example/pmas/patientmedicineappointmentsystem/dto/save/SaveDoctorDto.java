@@ -19,7 +19,21 @@ public class SaveDoctorDto {
     @Pattern(regexp = "^[A-Za-z ]*$", message = "Name can only contain letters and spaces")
     private String lastName;
 
+    private String gender;
+
+    private String mobile;
+
+    private String email;
+
     @NotBlank(message = "Doctor speciality cannot be blank.")
     @Pattern(regexp = "^[A-Za-z ]*$", message = "Name can only contain letters and spaces")
     private String speciality;
+
+    private int experienceInYears;
+
+    private String qualifications;
+
+    private String languagesSpoken;
+
+    private String officeAddress;
 }

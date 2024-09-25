@@ -15,5 +15,19 @@ public class DoctorDto {
 
     private String lastName;
 
+    private String gender;
+
+    private String mobile;
+
+    private String email;
+
     private String speciality;
+
+    private int experienceInYears;
+
+    private String qualifications;
+
+    private String languagesSpoken;
+
+    private String officeAddress;
 }

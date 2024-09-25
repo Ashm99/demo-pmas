@@ -31,4 +31,53 @@ public class SavePatientDto {
 
     @NotBlank(message = "Address of a patient cannot be blank.")
     private String address;
+
+    private int age;
+
+    private String gender;
+
+    private String bloodGroup;
+
+    // Emergency Contact Details
+    private String emergencyContactName;
+
+    private String emergencyContactMobile;
+
+    private String emergencyContactRelation;
+
+    // Medical History
+    private String previousDiagnoses;
+
+    private String surgeries;
+
+    private String allergies;
+
+    private String vaccinationHistory;
+
+    // Lifestyle conditions
+    private Boolean isSmoker;
+
+    private Boolean consumesAlcohol;
+
+    @Override
+    public String toString(){
+        return new String ("First name: " + firstName + "\n"
+                + "Last name: " + lastName + "\n"
+                + "Email: " + email + "\n"
+                + "Mobile: " + mobile + "\n"
+                + "Password: " + password + "\n"
+                + "Address: " + address + "\n"
+                + "Age: " + age + "\n"
+                + "Gender: " + gender + "\n"
+                + "Blood group: " + bloodGroup + "\n"
+                + "Emergency Contact Name: " + emergencyContactName + "\n"
+                + "Emergency Contact Mobile: " + emergencyContactMobile + "\n"
+                + "Emergency Contact Relation: " + emergencyContactRelation + "\n"
+                + "Previous Diagnoses: " + previousDiagnoses + "\n"
+                + "Surgeries: " + surgeries + "\n"
+                + "Allergies: " + allergies + "\n"
+                + "Vaccination History: " + vaccinationHistory + "\n"
+                + "Smokes: " + isSmoker + "\n"
+                + "Consumes alcohol: " + consumesAlcohol + "\n");
+    }
 }

@@ -19,4 +19,31 @@ public class PatientDto {
     private String mobile;
 
     private String address;
+
+    private int age;
+
+    private String gender;
+
+    private String bloodGroup;
+
+    // Emergency Contact Details
+    private String emergencyContactName;
+
+    private String emergencyContactMobile;
+
+    private String emergencyContactRelation;
+
+    // Medical History
+    private String previousDiagnoses;
+
+    private String surgeries;
+
+    private String allergies;
+
+    private String vaccinationHistory;
+
+    // Lifestyle conditions
+    private boolean isSmoker;
+
+    private boolean consumesAlcohol;
 }

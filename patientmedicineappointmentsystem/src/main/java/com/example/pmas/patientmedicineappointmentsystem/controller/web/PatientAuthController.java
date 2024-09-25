@@ -40,12 +40,7 @@ public class PatientAuthController {
      */
     @PostMapping(value = "/savePatient")
     public String savePatient(@ModelAttribute SavePatientDto savePatientDto) {
-        System.out.println(savePatientDto.getFirstName());
-        System.out.println(savePatientDto.getLastName());
-        System.out.println(savePatientDto.getEmail());
-        System.out.println(savePatientDto.getMobile());
-        System.out.println(savePatientDto.getAddress());
-        System.out.println(savePatientDto.getPassword());
+        System.out.println(savePatientDto.toString());
         patientService.addPatient(savePatientDto);
         return "redirect:/web/patients/register?success";
     }

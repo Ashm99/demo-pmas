@@ -12,51 +12,100 @@
     />
   </head>
   <body class="m-3">
-    <header>
-      <h4><strong>Patient Medicine Appointment System | Register</strong></h4>
-    </header>
-
-    <section>
-      <div class="register">
-        <div th:if="${param.success}" class="success-message">
-          <div class="alert alert-info">You are successfully registered!</div>
-        </div>
-        <div class="register-form">
-          <form action="#" onsubmit="return validatePassword()" th:action="@{/web/patients/savePatient}" th:object="${newPatient}" method="post">
-            <label for="first-name">First name</label>
-            <input id="first-name" type="text" placeholder="John" th:field="*{firstName}" required/><br />
-  
-            <label for="last-name">Last name</label>
-            <input id="last-name" type="text" placeholder="Doe" th:field="*{lastName}" required/><br />
-  
-            <label for="email">Email</label>
-            <input id="email" type="email" placeholder="jdoe@gmail.com" th:field="*{email}" required/><br />
-  
-            <label for="phone">Phone</label>
-            <input id="phone" type="text" placeholder="9876543210" th:field="*{mobile}" required/><br />
-  
-            <label for="address">Address</label>
-            <input id="address" type="text" placeholder="Georgetown, USA" th:field="*{address}" required/><br />
-  
-            <label for="password">Password</label>
-            <input id="password" type="password" required/><br />
-  
-            <label for="password2">Confirm password</label>
-            <input id="password2" type="password" th:field="*{password}" required/><br />
-            <span id="error-message" style="color: red; display: none;">Passwords do not match!</span>
-  
-            <button type="submit" class="btn btn-primary mb-1">Sign up</button>
-          </form>
-        </div>
+    <div class="container-fluid d-flex justify-content-center">
+      <div class="col-sm-12 col-md-6">
+        <header>
+          <h4><strong>Patient Medicine Appointment System | Register</strong></h4>
+        </header>
+        <section>
+          <div class="register">
+            <div th:if="${param.success}" class="success-message">
+              <div class="alert alert-info">You are successfully registered!</div>
+            </div>
+            <div class="register-form">
+              <form action="#" onsubmit="return validatePassword()" th:action="@{/web/patients/savePatient}" th:object="${newPatient}" method="post">
+                <label for="first-name">First name</label>
+                <input id="first-name" class="form-control" type="text" placeholder="John" th:field="*{firstName}" required  autofocus="autofocus"/><br />
+                
+                <label for="last-name">Last name</label>
+                <input id="last-name" class="form-control" type="text" placeholder="Doe" th:field="*{lastName}" required/><br />
+                
+                <label for="email">Email</label>
+                <input id="email" class="form-control" type="email" placeholder="jdoe@gmail.com" th:field="*{email}" required/><br />
+                
+                <label for="phone">Phone</label>
+                <input id="phone" class="form-control" type="text" placeholder="9876543210" th:field="*{mobile}" required/><br />
+                
+                <label for="address">Address</label>
+                <input id="address" class="form-control" type="text" placeholder="Georgetown, USA" th:field="*{address}" required/><br />
+                
+                <label for="password">Password</label>
+                <input id="password" class="form-control" type="password" required/><br />
+                
+                <label for="password2">Confirm password</label>
+                <input id="password2" class="form-control" type="password" th:field="*{password}" required/><br />
+                <span id="error-message" class="form-control" style="color: red; display: none;">Passwords do not match!</span>
+        
+                <label for="age">Age</label>
+                <input id="age" class="form-control" type="number" placeholder="25" th:field="*{age}" required /><br />
+        
+                <span>Gender</span>
+                <div class="form-control">
+                  <label><input id="genderMale" type="radio" name="gender" th:field="*{gender}" value="Male"/>Male</label>
+                  <label><input id="genderFemale" type="radio" name="gender" th:field="*{gender}" value="Female"/>Female</label>
+                </div><br />
+        
+                <label for="bloodgroup">Bloodgroup</label>
+                <input id="bloodgroup" class="form-control" type="text" placeholder="A1+" th:field="*{bloodGroup}" required /><br />
+                <span><strong>Emergency contact details:</strong></span><br />
+        
+                <label for="emergencyContactName">Name</label>
+                <input id="emergencyContactName" class="form-control" type="text" placeholder="Johanna" th:field="*{emergencyContactName}" required /><br />
+        
+                <label for="emergencyContactMobile">Mobile</label>
+                <input id="emergencyContactMobile" class="form-control" type="text" placeholder="9876543211" th:field="*{emergencyContactMobile}" required /><br />
+        
+                <label for="emergencyContactRelation">Relation</label>
+                <input id="emergencyContactRelation" class="form-control" type="text" placeholder="Sister" th:field="*{emergencyContactRelation}" required /><br />
+                <span><strong>Medical History:</strong></span><br />
+        
+                <label for="previousDiagnoses" class="form-label">Previous Diagnoses</label>
+                <textarea id="previousDiagnoses" class="form-control" type="text" placeholder="Diagnosed with Asthma since past 6 years." th:field="*{previousDiagnoses}" required></textarea> <br />
+        
+                <label for="surgeries">Surgeries</label>
+                <textarea id="surgeries" class="form-control" type="text" placeholder="Operated for a broken little finger bone." th:field="*{surgeries}" required></textarea> <br />
+        
+                <label for="allergies">Allergies</label>
+                <textarea id="allergies" class="form-control" type="text" placeholder="Allergic to milk." th:field="*{allergies}" required></textarea> <br />
+        
+                <label for="vaccinationHistory">Vaccination History</label>
+                <textarea id="vaccinationHistory" class="form-control" type="text" placeholder="Covishield First dosage on June 2021 and second dosage on 2024." th:field="*{vaccinationHistory}" required></textarea> <br />
+        
+                <span>Do you smoke?</span>
+                <div class="form-control">
+                  <label><input id="isSmokerYes" type="radio" name="isSmoker" th:field="*{isSmoker}" value="true"/>Yes</label>
+                  <label><input id="isSmokerNo" type="radio" name="isSmoker" th:field="*{isSmoker}" value="false"/>No</label>
+                </div><br />
+        
+                <span>Do you consume alcohol?</span>
+                <div class="form-control">
+                  <label><input id="consumesAlcoholYes" type="radio" name="consumesAlcohol" th:field="*{consumesAlcohol}" value="true"/>Yes</label>
+                  <label><input id="consumesAlcoholNo" type="radio" name="consumesAlcohol" th:field="*{consumesAlcohol}" value="false"/>No</label>
+                </div><br>
+        
+                <button type="submit" class="btn btn-primary mb-1">Sign up</button>
+              </form>
+            </div>
+          </div>
+          <div class="login"></div>
+            Already registered?
+            <a th:href="@{/web/patients/login}">Login here!</a>
+          </div>
+        </section>
+        <br />
       </div>
-      <div class="login"></div>
-        Already registered?
-        <a th:href="@{/web/patients/login}">Login here!</a>
-      </div>
-    </section>
-
-    <br />
-    <footer>
+    </div>
+    <footer class="text-center">
       <p>End of Page.</p>
     </footer>
     <script>
