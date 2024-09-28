@@ -56,7 +56,7 @@ public class MedicationController {
      */
     @PutMapping(value = "/update/{id}")
     public ResponseEntity<?> updateMedication(@PathVariable(name = "id")Long id, @Valid @RequestBody SaveMedicationDto saveMedicationDto){
-        MedicationDto updatedMedicationDto = medicationService.updateMedication(id, saveMedicationDto);
+        MedicationDto updatedMedicationDto = medicationService.updateMedication(id,null, saveMedicationDto);
         return new ResponseEntity<>(updatedMedicationDto, HttpStatus.CREATED);
     }
 

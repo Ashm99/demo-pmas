@@ -15,11 +15,19 @@ public class MedicationDto {
 
     private String medicine;
 
+    private String dosage;
+
     private String frequency;
+
+    private String status;
 
     private String startDate;
 
     private String endDate;
+
+    private String prescriptionDate;
+
+    private String updatedDate;
 
     private String notes;
 }

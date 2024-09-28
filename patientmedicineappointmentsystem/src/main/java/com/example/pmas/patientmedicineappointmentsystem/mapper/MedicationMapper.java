@@ -14,15 +14,20 @@ public class MedicationMapper {
                 medication.getId(),
                 medication.getPatient().getId(),
                 medication.getMedicine(),
+                medication.getDosage(),
                 medication.getFrequency(),
+                medication.getStatus(),
                 medication.getStartDate().toString(),
                 medication.getEndDate().toString(),
+                medication.getPrescriptionDate().toString(),
+                medication.getUpdatedDate().toString(),
                 medication.getNotes()
         );
     }
 
-    public static Medication mapToMedicationFromSaveMedicationDto(Long id, Patient patient, SaveMedicationDto saveMedicationDto){
-        LocalDate startDate, endDate;
+    public static Medication mapToMedicationFromSaveMedicationDto(Long id, Patient patient, LocalDate prescriptionDate, SaveMedicationDto saveMedicationDto){
+        LocalDate startDate, endDate, today;
+        today = LocalDate.now();
         // Checking if the start date provided is valid or not
         try{
             startDate = LocalDate.parse(saveMedicationDto.getStartDate());
@@ -46,9 +51,13 @@ public class MedicationMapper {
                 id,
                 patient,
                 saveMedicationDto.getMedicine().trim(),
+                saveMedicationDto.getDosage().trim(),
                 saveMedicationDto.getFrequency().trim(),
+                saveMedicationDto.getStatus().trim(),
                 startDate,
                 endDate,
+                prescriptionDate,
+                today,
                 saveMedicationDto.getNotes().trim()
         );
     }

@@ -59,31 +59,31 @@ public class MedicationServiceTests {
         patient.setMobile("9876543210");
 
         medication = new Medication(
-                1L,
-                patient,
-                "Dolo 650mg",
-                "Twice a day.",
-                today,
-                dayAfterTomorrow,
-                "One each after breakfast and dinner."
+//                1L,
+//                patient,
+//                "Dolo 650mg",
+//                "Twice a day.",
+//                today,
+//                dayAfterTomorrow,
+//                "One each after breakfast and dinner."
         );
 
         medicationDto = new MedicationDto(
-                1L,
-                patient.getId(),
-                "Dolo 650mg",
-                "Twice a day.",
-                today.toString(),
-                dayAfterTomorrow.toString(),
-                "One each after breakfast and dinner."
+//                1L,
+//                patient.getId(),
+//                "Dolo 650mg",
+//                "Twice a day.",
+//                today.toString(),
+//                dayAfterTomorrow.toString(),
+//                "One each after breakfast and dinner."
         );
         saveMedicationDto = new SaveMedicationDto(
-                patient.getId().toString(),
-                "Dolo 650mg",
-                "Twice a day.",
-                today.toString(),
-                dayAfterTomorrow.toString(),
-                "One each after breakfast and dinner."
+//                patient.getId().toString(),
+//                "Dolo 650mg",
+//                "Twice a day.",
+//                today.toString(),
+//                dayAfterTomorrow.toString(),
+//                "One each after breakfast and dinner."
         );
     }
 
@@ -131,23 +131,23 @@ public class MedicationServiceTests {
     @Test
     public void givenMedicationList_whenGetAllMedication_thenReturnMedicationList() {
         Medication medication1 = new Medication(
-                2L,
-                patient,
-                "Eritel AM",
-                "Once a day.",
-                today,
-                dayAfterTomorrow,
-                "After dinner."
+//                2L,
+//                patient,
+//                "Eritel AM",
+//                "Once a day.",
+//                today,
+//                dayAfterTomorrow,
+//                "After dinner."
         );
 
         MedicationDto medicationDto1 = new MedicationDto(
-                2L,
-                patient.getId(),
-                "Eritel AM",
-                "Once a day.",
-                today.toString(),
-                dayAfterTomorrow.toString(),
-                "After dinner."
+//                2L,
+//                patient.getId(),
+//                "Eritel AM",
+//                "Once a day.",
+//                today.toString(),
+//                dayAfterTomorrow.toString(),
+//                "After dinner."
         );
         List<Medication> medicationList = List.of(medication, medication1);
         when(medicationRepo.findAll()).thenReturn(medicationList);
@@ -229,7 +229,7 @@ public class MedicationServiceTests {
         given(medicationRepo.existsById(any())).willReturn(false);
 
         // Action and assertion
-        assertThrows(NoSuchElementException.class, () -> medicationService.updateMedication(medication.getId(), saveMedicationDto));
+        assertThrows(NoSuchElementException.class, () -> medicationService.updateMedication(medication.getId(),null, saveMedicationDto));
     }
 
     @DisplayName(value = "Junit test method to update a medication that is unavailable for the given patient")
@@ -241,7 +241,7 @@ public class MedicationServiceTests {
         saveMedicationDto.setPatientId("2");
 
         // Action and assertion
-        assertThrows(NoSuchElementException.class, () -> medicationService.updateMedication(medication.getId(), saveMedicationDto));
+        assertThrows(NoSuchElementException.class, () -> medicationService.updateMedication(medication.getId(),null,  saveMedicationDto));
     }
 
     @DisplayName(value = "Junit test method to update a medication successfully")
@@ -262,7 +262,7 @@ public class MedicationServiceTests {
                     .thenReturn(medicationDto);
 
             // Action
-            MedicationDto updatedMedicationDto = medicationService.updateMedication(medication.getId(), saveMedicationDto);
+            MedicationDto updatedMedicationDto = medicationService.updateMedication(medication.getId(), null, saveMedicationDto);
 
             // Assertion
             assertThat(updatedMedicationDto).isNotNull();

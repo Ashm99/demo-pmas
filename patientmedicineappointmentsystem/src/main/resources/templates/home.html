@@ -17,12 +17,7 @@
       <div class="col-sm-12 col-md-11">
         <header>
           <h4 class="mt-3 mb-3"><strong>Patient | Home</strong></h4>
-          <nav class="d-flex justify-content-end">
-              <a href="#" class="ms-3 mt-3"><i class="fa-regular fa-calendar-check"></i> Appointments </a>
-              <a href="#" class="ms-3 mt-3"><i class="fa-solid fa-pills"></i> Medications </a>
-              <a href="#" class="ms-3 mt-3"><i class="fa-solid fa-user"></i> Profile </a>
-              <a th:href="@{/web/patients/confirm-logout}"  class="ms-3 mt-3"><i class="fa-solid fa-right-from-bracket"></i> Logout </a>
-          </nav>
+          <p th:replace="~{common/patient-nav-bar::patient-navigation-bar}">Navigation links</p>
         </header>
         <section>
           <div class="message">

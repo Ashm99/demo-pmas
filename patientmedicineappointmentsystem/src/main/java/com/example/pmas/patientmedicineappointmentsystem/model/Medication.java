@@ -23,11 +23,19 @@ public class Medication {
 
     private String medicine;
 
+    private String dosage;
+
     private String frequency;
+
+    private String status;
 
     private LocalDate startDate;
 
     private LocalDate endDate;
+
+    private LocalDate prescriptionDate;
+
+    private LocalDate updatedDate;
 
     private String notes;
 }

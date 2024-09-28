@@ -10,6 +10,7 @@ import com.example.pmas.patientmedicineappointmentsystem.service.MedicationServi
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -64,6 +65,7 @@ public class MedicationServiceImpl implements MedicationService {
                 patientRepo.findById(Long.parseLong(saveMedicationDto.getPatientId())).orElseThrow(
                         () -> new NoSuchElementException("No patient exists as per the patient id given.")
                 ),
+                LocalDate.now(),
                 saveMedicationDto
         );
         Medication savedMedication = medicationRepo.save(medication);
@@ -77,7 +79,7 @@ public class MedicationServiceImpl implements MedicationService {
      * @return A Medication Dto object on successful update of the medication object.
      */
     @Override
-    public MedicationDto updateMedication(Long id, SaveMedicationDto saveMedicationDto) {
+    public MedicationDto updateMedication(Long id, LocalDate prescriptionDate, SaveMedicationDto saveMedicationDto) {
         Long updatedPatientId = Long.parseLong(saveMedicationDto.getPatientId().trim());
         if (!medicationRepo.existsById(id)) {
             throw new NoSuchElementException("No medication exists under the given medication's id.");
@@ -92,6 +94,7 @@ public class MedicationServiceImpl implements MedicationService {
                 patientRepo.findById(updatedPatientId).orElseThrow(
                         () -> new NoSuchElementException("No patient exists under given medication's patient id.")
                 ),
+                prescriptionDate,
                 saveMedicationDto
         );
         Medication savedMedication = medicationRepo.save(medication);
@@ -140,5 +143,29 @@ public class MedicationServiceImpl implements MedicationService {
         if (this.existsByPatientId(patientId)) {
             throw new RuntimeException("Error while deleting appointments of patient with id: " + patientId + ".");
         }
+    }
+
+    /**
+     * A method to get the medications for a particular patient with their username
+     * @param username Username of the patient
+     * @return List of medications of the patient
+     */
+    @Override
+    public List<MedicationDto> getAllMedicationByUsername(String username) {
+        Long patientId = patientRepo.findByMobile(username).get().getId();
+        List<MedicationDto> medicationDtoList = new ArrayList<>();
+        medicationRepo.findAllByPatientId(patientId).forEach(
+                medication -> medicationDtoList.add(MedicationMapper.mapToMedicationDto(medication))
+        );
+        return medicationDtoList;
+    }
+
+    /**
+     * @param username Patient username
+     * @return Patient Id as a String
+     */
+    @Override
+    public String getPatientIdByUsername(String username) {
+        return patientRepo.findByMobile(username).get().getId().toString();
     }
 }

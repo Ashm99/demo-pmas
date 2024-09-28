@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Medication | View</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  </head>
+  <body class="m-3">
+    <div class="container-fluid d-flex justify-content-center">
+      <div class="sign-in col-sm-12 col-md-6">
+        <header>
+          <h4 class="text-info">Medicine data | View</h4>
+          <p th:replace="~{common/patient-nav-bar::patient-navigation-bar}">Navigation links</p>
+        </header>
+
+        <section>
+          <div>
+            <p>
+              <strong>Medication ID: </strong>
+              <span th:text="${medicineDto.id}">ID</span>
+            </p>
+            <p>
+              <strong>Medicine Name: </strong
+              ><span th:text="${medicineDto.medicine}">Medicine name</span>
+            </p>
+            <p>
+              <strong>Dosage: </strong
+              ><span th:text="${medicineDto.dosage}">Dosage</span>
+            </p>
+            <p>
+              <strong>Frequency: </strong
+              ><span th:text="${medicineDto.frequency}">Frequency</span>
+            </p>
+            <p>
+              <strong>Status: </strong>
+              <span th:text="${medicineDto.status}">Status</span>
+            </p>
+            <p>
+              <strong>Start date: </strong
+              ><span th:text="${medicineDto.startDate}">Start date</span>
+            </p>
+            <p>
+              <strong>End date: </strong
+              ><span th:text="${medicineDto.endDate}">End date</span>
+            </p>
+            <p>
+              <strong>Prescription Date: </strong
+              ><span th:text="${medicineDto.prescriptionDate}">Prescription Date</span>
+            </p>
+            </p>
+            <p>
+              <strong>Updated Date: </strong
+              ><span th:text="${medicineDto.updatedDate}">Updated Date</span>
+            </p>
+            <p>
+              <strong>Note: </strong
+              ><span th:text="${medicineDto.notes}">Note</span>
+            </p>
+          </div>
+        </section>
+      </div>
+    </div>
+    <footer class="text-center">
+      <p>End of Page.</p>
+    </footer>
+  </body>
+</html>

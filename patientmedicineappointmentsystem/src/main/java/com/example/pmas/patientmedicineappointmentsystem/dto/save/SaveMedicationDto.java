@@ -12,13 +12,17 @@ import lombok.RequiredArgsConstructor;
 public class SaveMedicationDto {
 
     @Pattern(regexp = "^\\d+$", message = "Enter a valid patient id. Expecting a positive number.")
-    private String patientId;
+    private String patientId; // To save into the db
 
     @NotBlank(message = "Medicine should not be blank.")
     private String medicine;
 
+    private String dosage;
+
     @NotBlank(message = "In frequency field, enter how much intake is required per day.")
     private String frequency;
+
+    private String status;
 
     @Pattern(regexp = "^\\d{4}-\\d{2}-\\d{2}$", message = "Enter medication start date in <yyyy-MM-dd> format.")
     private String startDate;
@@ -28,4 +32,18 @@ public class SaveMedicationDto {
 
     @NotBlank(message = "Enter further notes or comments in the notes field. Eg. If the medicine is to be taken after food, or before sleep, etc")
     private String notes;
+
+    @Override
+    public String toString() {
+        return "SaveMedicationDto{" +
+                "\n\tpatientId='" + patientId + '\'' +
+                ", \n\tmedicine='" + medicine + '\'' +
+                ", \n\tdosage='" + dosage + '\'' +
+                ", \n\tfrequency='" + frequency + '\'' +
+                ", \n\tstatus='" + status + '\'' +
+                ", \n\tstartDate='" + startDate + '\'' +
+                ", \n\tendDate='" + endDate + '\'' +
+                ", \n\tnotes='" + notes + '\'' +
+                "\n}";
+    }
 }
