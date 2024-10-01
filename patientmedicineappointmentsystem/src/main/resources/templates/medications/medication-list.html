@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.thymeleaf.org">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -10,33 +10,40 @@
       integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
   </head>
   <body class="m-3">
     <div class="container-fluid d-flex justify-content-center">
-      <div class="medication-list col-sm-12 col-md-11">
+      <div class="col-sm-12 col-md-11">
         <header>
           <h4 class="mt-3 mb-3"><strong>Medication | View</strong></h4>
-          <p th:replace="~{common/patient-nav-bar::patient-navigation-bar}">Navigation links</p>
+          <p th:replace="~{common/patient-nav-bar::patient-navigation-bar}">
+            Navigation links
+          </p>
         </header>
         <section>
           <div class="add-medicine">
             <button
               class="btn btn-success mb-3"
-              th:onclick="|window.location.href='@{/web/medications/add-medication}'|" 
+              th:onclick="|window.location.href='@{/web/medications/add-medication}'|"
             >
               Add medicine
             </button>
           </div>
 
           <div th:if="${isEmpty}">
-            <p>No medicines exist. Add a medicine to display.</p>
+            <p>No medicines exist. Add one to display.</p>
           </div>
 
           <div th:unless="${isEmpty}">
             <div class="row">
               <div class="col-md-11">
-                <table class="table table-responsive table-bordered table-striped">
+                <table
+                  class="table table-responsive table-bordered table-striped"
+                >
                   <thead>
                     <tr>
                       <th>S.No</th>
@@ -55,15 +62,15 @@
                   <tbody>
                     <tr th:each="med, iterStat :${medicineList}">
                       <td th:text="${iterStat.count}">1</td>
-                      <td th:text="${med.medicine}">
-                        Medicine name
-                      </td>
+                      <td th:text="${med.medicine}">Medicine name</td>
                       <td th:text="${med.dosage}">Dosage</td>
                       <td th:text="${med.frequency}">Intake frequency</td>
                       <td th:text="${med.status}">Status</td>
                       <td th:text="${med.startDate}">Start date</td>
                       <td th:text="${med.endDate}">End date</td>
-                      <td th:text="${med.prescriptionDate}">Prescription date</td>
+                      <td th:text="${med.prescriptionDate}">
+                        Prescription date
+                      </td>
                       <td th:text="${med.updatedDate}">Updated date</td>
                       <td th:text="${med.notes}">Note</td>
                       <td>
@@ -71,7 +78,7 @@
                           <button
                             class="btn btn-primary btn-sm"
                             th:onclick="|window.location.href='@{/web/medications/update-medication/{id}(id=${med.id})}'|"
-                            >
+                          >
                             Update
                           </button>
                         </span>

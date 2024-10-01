@@ -32,6 +32,10 @@ public class SecurityConfiguration{
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+                .csrf(csrf -> csrf
+                        .ignoringRequestMatchers(
+                                "/web/appointments/doctors",
+                                "/web/appointments/checkSlots"))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers( // URL matching for allowed pages
                                 "/web/patients/login",

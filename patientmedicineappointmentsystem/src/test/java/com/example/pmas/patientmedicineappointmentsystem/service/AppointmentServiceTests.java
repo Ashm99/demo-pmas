@@ -119,11 +119,7 @@ public class AppointmentServiceTests {
         // Mock behaviour
         try (MockedStatic<AppointmentMapper> appointmentMapperMockedStatic = mockStatic(AppointmentMapper.class)) {
             appointmentMapperMockedStatic
-                    .when(() -> AppointmentMapper.mapToAppointmentFromSaveAppointmentDto(
-                            any(Patient.class),
-                            any(Doctor.class),
-                            any(SaveAppointmentDto.class)
-                    ))
+                    .when(() -> AppointmentMapper.mapToAppointmentFromSaveAppointmentDto(any(SaveAppointmentDto.class)))
                     .thenReturn(appointment);
             given(patientRepo.findById(any())).willReturn(Optional.of(patient));
             given(doctorRepo.findById(any())).willReturn(Optional.of(doctor));
@@ -153,8 +149,6 @@ public class AppointmentServiceTests {
         try (MockedStatic<AppointmentMapper> appointmentMapperMockedStatic = mockStatic(AppointmentMapper.class)) {
             appointmentMapperMockedStatic
                     .when(() -> AppointmentMapper.mapToAppointmentFromSaveAppointmentDto(
-                            any(Patient.class),
-                            any(Doctor.class),
                             any(SaveAppointmentDto.class)
                     ))
                     .thenReturn(appointment);
@@ -176,8 +170,6 @@ public class AppointmentServiceTests {
         try (MockedStatic<AppointmentMapper> appointmentMapperMockedStatic = mockStatic(AppointmentMapper.class)) {
             appointmentMapperMockedStatic
                     .when(() -> AppointmentMapper.mapToAppointmentFromSaveAppointmentDto(
-                            any(Patient.class),
-                            any(Doctor.class),
                             any(SaveAppointmentDto.class)
                     ))
                     .thenReturn(appointment);

@@ -3,31 +3,29 @@ package com.example.pmas.patientmedicineappointmentsystem.mapper;
 import com.example.pmas.patientmedicineappointmentsystem.dto.AppointmentDto;
 import com.example.pmas.patientmedicineappointmentsystem.dto.save.SaveAppointmentDto;
 import com.example.pmas.patientmedicineappointmentsystem.model.Appointment;
-import com.example.pmas.patientmedicineappointmentsystem.model.Doctor;
-import com.example.pmas.patientmedicineappointmentsystem.model.Patient;
 
 import java.time.DateTimeException;
-import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 
 public class AppointmentMapper {
     public static AppointmentDto mapToAppointmentDto(Appointment appointment){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy hh:mm a");
         return new AppointmentDto(
                 appointment.getId(),
                 PatientMapper.mapToPatientDto(appointment.getPatient()),
                 DoctorMapper.mapToDoctorDto(appointment.getDoctor()),
-                appointment.getAppointmentDateTime().atZone(ZoneId.systemDefault()),
-                appointment.getCreatedAt().atZone(ZoneId.systemDefault())
+                appointment.getAppointmentDateTime().format(formatter),
+                appointment.getCreatedAt().format(formatter)
         );
     }
 
-    public static Appointment mapToAppointmentFromSaveAppointmentDto(Patient patient, Doctor doctor, SaveAppointmentDto saveAppointmentDto){
-        Instant appointmentDateTime;
+    public static Appointment mapToAppointmentFromSaveAppointmentDto(SaveAppointmentDto saveAppointmentDto){
+        LocalDateTime appointmentDateTime;
         try{
-            LocalDateTime localDateTime = LocalDateTime.parse(saveAppointmentDto.getAppointmentDateTime());
-            appointmentDateTime = localDateTime.atZone(ZoneId.systemDefault()).toInstant();
-            if(appointmentDateTime.isBefore(Instant.now())){
+            appointmentDateTime = LocalDateTime.parse(saveAppointmentDto.getAppointmentDateTime());
+            if(appointmentDateTime.isBefore(LocalDateTime.now())){
+                System.err.println("Select a time in the future for the appointment.");
                 throw new DateTimeException("");
             }
         } catch (Exception exception){
@@ -35,10 +33,10 @@ public class AppointmentMapper {
         }
         return new Appointment(
                 null,
-                patient,
-                doctor,
+                null,
+                null,
                 appointmentDateTime,
-                Instant.now()
+                LocalDateTime.now()
         );
     }
 }

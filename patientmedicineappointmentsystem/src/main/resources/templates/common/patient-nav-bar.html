@@ -14,7 +14,7 @@
 <div th:fragment="patient-navigation-bar">
     <nav class="d-flex justify-content-end">
         <a th:href="@{/web/patients/home}" class="ms-3 mt-3"><i class="fa-solid fa-house-chimney"></i></i> Home </a>
-        <a href="#" class="ms-3 mt-3"><i class="fa-regular fa-calendar-check"></i> Appointments </a>
+        <a th:href="@{/web/appointments/list}" class="ms-3 mt-3"><i class="fa-regular fa-calendar-check"></i> Appointments </a>
         <a th:href="@{/web/medications/list}" class="ms-3 mt-3"><i class="fa-solid fa-pills"></i> Medications </a>
         <a href="#" class="ms-3 mt-3"><i class="fa-solid fa-user"></i> Profile </a>
         <a th:href="@{/web/patients/confirm-logout}"  class="ms-3 mt-3"><i class="fa-solid fa-right-from-bracket"></i> Logout </a>

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create Appointment</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body class="m-3">
+    <div class="container-fluid d-flex justify-content-center">
+        <div class="add-appointment col-sm-12 col-md-8">
+            <header>
+                <h4><strong>Book a new appointment</strong></h4>
+                <p th:replace="~{common/patient-nav-bar::patient-navigation-bar}">Navigation links</p>
+            </header>
+            <br>
+            <section>
+                <form id="appointmentForm" th:action="@{/web/appointments/book}" th:object="${appointment}"
+                    method="post">
+                    <label for="speciality">Select Speciality:</label>
+                    <select id="speciality" class="form-control" name="speciality" autofocus="autofocus">
+                        <option value="" disabled selected>Select a speciality</option>
+                        <!-- Placeholder option -->
+                        <option th:each="speciality : ${specialties}" th:value="${speciality}" th:text="${speciality}">
+                            Speciality1
+                        </option>
+                    </select>
+                    <br>
+                    <p>After selecting a speciality, select one of the doctors to view their slot availability.</p>
+                    <div id="doctorContainer" class="d-flex flex-wrap justify-content-start">
+                        <!--A div element for populating the dynamic doctors-->
+                    </div>
+                    <br>
+                    <label for="date">Select Date:</label>
+                    <input type="date" id="date" class="form-control" name="date" />
+                    <br>
+                    <button type="button" id="checkSlots" class="btn btn-primary">View Slots</button>
+                    <br>
+                    <div id="slotsContainer"></div>
+                    <br>
+                    <input type="hidden" th:field="*{doctorId}" id="doctorId"/>
+                    <input type="hidden" th:field="*{patientId}" th:text="${patientId}" />
+                    <button type="submit" class="btn btn-success form-control mb-3">Book Appointment</button>
+                </form>
+            </section>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            // says that once the DOM is ready, perform funtion()
+
+            console.log('DOM is ready.');
+            $('#speciality').change(function () {
+                // sets an event listener when the element with id speciality (i.e. <select> element) changes (... the value)
+                console.log('speciality changed.');
+
+                $.post('/web/appointments/doctors', { speciality: $(this).val() }, function (data) {
+                    console.log('AJAX call for doctor list sent.');
+                    // AJAX request to fetch doctors - endpoint, value or param, callback for action
+                    // meaning: When a speciality is selected, it makes a POST request to the endpoint.
+                    // The request sends the selected speciality value as data. (this -> the DOM)
+                    // When spring boot responds with a list of doctors, the callback function (with data) is executed.
+
+                    $('#doctorContainer').empty();
+                    console.log('Previous card data emptied.');
+
+                    // clear any pre-existing doctors from the element with id doctorContainer
+
+                    $.each(data, function (i, doctor) {
+                        // console.log('Displaying data of one doctor.');
+                        // for each object in data, the callback function is executed.
+
+                        $('#doctorContainer').append(`
+                            <div class="card m-2" style="display: inline-block; width: 200px;">
+                                <div class="card-body">
+                                    <h5 class="card-title">${doctor.firstName} ${doctor.lastName}</h5>
+                                    <p class="card-text"><strong>Experience:</strong> ${doctor.experienceInYears} years</p>
+                                    <p class="card-text"><strong>Qualifications:</strong> ${doctor.qualifications}</p>
+                                    <p class="card-text"><strong>Languages known:</strong> ${doctor.languagesSpoken}</p>
+                                    <p class="card-text"><strong>Email:</strong> ${doctor.email}</p>
+                                    <button type="button" class="btn btn-secondary select-doctor" data-doctor-id="${doctor.id}">Select</button>
+                                </div>
+                            </div>
+                        `);
+                    });
+                    console.log('Added all doctors');
+                });
+            });
+
+            $('#checkSlots').click(function () {
+                // setting an event listener to check if the element with id checkSlots is clicked
+                console.log('Check slots event listener hit.');
+
+                const doctorId = $('.select-doctor.active').data('doctor-id');
+                // Get the selected doctor ID from the select button on the doctor card
+                console.log('Slot to be checked for ' + doctorId);
+
+                const date = $('#date').val();
+                // get the selected date value
+                console.log('Slot to be checked on ' + date);
+
+                $.post('/web/appointments/checkSlots', { doctorId: doctorId, date: date }, function (slots) {
+                    // an AJAX post call to check the slots for the selected doctor and date
+                    console.log('AJAX call to check slots made.');
+
+                    $('#slotsContainer').empty();
+                    // Empties any pre-existing slots (html code) in the container
+
+                    console.log('slots:' + slots);
+                    $.each(slots, function (i, slot) {
+                        const slotElement = $(`
+                            <label class="m-3">
+                                <input type="radio" name="appointmentDateTime" value="${date}T${slot.time}" ${slot.booked ? ' disabled' : ''} />
+                                ${slot.displayString}
+                            </label>
+                        `);
+                        // Looping through the returned slots and creating a radio button for each available slot.
+                        // If a slot is booked, the radio button is disabled.
+
+                        $('#slotsContainer').append(slotElement);
+                        // Each slot is displayed with its corresponding time.  
+                    });
+                });
+            });
+
+            // Event delegation to handle doctor selection
+            $(document).on('click', '.select-doctor', function () {
+                $('.select-doctor').removeClass('active');
+                $(this).addClass('active');
+
+                // Remove border from all cards
+                $('.card').removeClass('border border-primary');
+                // Add border to the selected doctor's card
+                $(this).closest('.card').addClass('border border-primary');
+
+                // Set the hidden input field value to the selected doctor's ID
+                const doctorId = $(this).data('doctor-id');
+                $('#doctorId').val(doctorId);
+            });
+
+            // Prevent border removal when interacting with date or slots
+            $('#date, #slotsContainer').on('focus blur', function () {
+                // Prevent the active doctor's border from being removed
+                const doctorId = $('.select-doctor.active').data('doctor-id');
+                if (doctorId) {
+                    $('.card:has(.select-doctor.active)').addClass('border border-primary');
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

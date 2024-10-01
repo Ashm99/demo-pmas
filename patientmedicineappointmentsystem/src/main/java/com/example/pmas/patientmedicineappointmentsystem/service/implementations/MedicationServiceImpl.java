@@ -161,6 +161,7 @@ public class MedicationServiceImpl implements MedicationService {
     }
 
     /**
+     * A service method to get the current patient Id with the username
      * @param username Patient username
      * @return Patient Id as a String
      */

@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Entity
 @AllArgsConstructor
@@ -27,8 +27,8 @@ public class Appointment {
     private Doctor doctor;
 
     @Column(nullable = false, columnDefinition = "datetime")
-    private Instant appointmentDateTime;
+    private LocalDateTime appointmentDateTime;
 
     @Column(nullable = false, columnDefinition = "datetime default current_timestamp")
-    private Instant createdAt;
+    private LocalDateTime createdAt;
 }
