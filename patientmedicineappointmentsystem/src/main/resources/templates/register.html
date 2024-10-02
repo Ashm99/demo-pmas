@@ -22,10 +22,13 @@
             <div th:if="${param.success}" class="success-message">
               <div class="alert alert-info">You are successfully registered! <br> Your phone number is your username.</div>
             </div>
+            <div th:if="${param.mobileAlreadyExists}" class="mobileAlreadyExists-message">
+              <div class="alert alert-danger">A patient already exists in provided mobile number.<br> Enter a valid one.</div>
+            </div>
             <div class="register-form">
               <form action="#" onsubmit="return validatePassword()" th:action="@{/web/patients/savePatient}" th:object="${newPatient}" method="post">
                 <label for="first-name">First name</label>
-                <input id="first-name" class="form-control" type="text" placeholder="John" th:field="*{firstName}" required  autofocus="autofocus"/><br />
+                <input id="first-name" class="form-control" type="text" placeholder="John" th:field="*{firstName}" required autofocus="autofocus"/><br />
                 
                 <label for="last-name">Last name</label>
                 <input id="last-name" class="form-control" type="text" placeholder="Doe" th:field="*{lastName}" required/><br />
@@ -47,12 +50,12 @@
                 <span id="error-message" class="form-control" style="color: red; display: none;">Passwords do not match!</span>
         
                 <label for="age">Age</label>
-                <input id="age" class="form-control" type="number" placeholder="25" th:field="*{age}" required /><br />
+                <input id="age" class="form-control" type="number" placeholder="25" th:field="*{age}" required min="1"/><br />
         
                 <span>Gender</span>
                 <div class="form-control">
-                  <label><input id="genderMale" type="radio" name="gender" th:field="*{gender}" value="Male"/>Male</label>
-                  <label><input id="genderFemale" type="radio" name="gender" th:field="*{gender}" value="Female"/>Female</label>
+                  <label><input id="genderMale" type="radio" name="gender" placeholder="1" th:field="*{gender}" value="Male" required/>Male</label>
+                  <label><input id="genderFemale" type="radio" name="gender" placeholder="2" th:field="*{gender}" value="Female" required/>Female</label>
                 </div><br />
         
                 <label for="bloodgroup">Bloodgroup</label>
@@ -83,14 +86,14 @@
         
                 <span>Do you smoke?</span>
                 <div class="form-control">
-                  <label><input id="isSmokerYes" type="radio" name="isSmoker" th:field="*{isSmoker}" value="true"/>Yes</label>
-                  <label><input id="isSmokerNo" type="radio" name="isSmoker" th:field="*{isSmoker}" value="false"/>No</label>
+                  <label><input id="isSmokerYes" type="radio" name="isSmoker" placeholder="1" th:field="*{isSmoker}" value="true" required/>Yes</label>
+                  <label><input id="isSmokerNo" type="radio" name="isSmoker" placeholder="2" th:field="*{isSmoker}" value="false" required/>No</label>
                 </div><br />
         
                 <span>Do you consume alcohol?</span>
                 <div class="form-control">
-                  <label><input id="consumesAlcoholYes" type="radio" name="consumesAlcohol" th:field="*{consumesAlcohol}" value="true"/>Yes</label>
-                  <label><input id="consumesAlcoholNo" type="radio" name="consumesAlcohol" th:field="*{consumesAlcohol}" value="false"/>No</label>
+                  <label><input id="consumesAlcoholYes" type="radio" name="consumesAlcohol" th:field="*{consumesAlcohol}" value="true" required/>Yes</label>
+                  <label><input id="consumesAlcoholNo" type="radio" name="consumesAlcohol" th:field="*{consumesAlcohol}" value="false" required/>No</label>
                 </div><br>
         
                 <button type="submit" class="btn btn-primary mb-1">Sign up</button>
@@ -105,9 +108,6 @@
         <br />
       </div>
     </div>
-    <footer class="text-center">
-      <p>End of Page.</p>
-    </footer>
     <script>
       function validatePassword(){
         console.log('Hello, Boy!')

@@ -93,6 +93,9 @@ public class PatientServiceImpl implements PatientService {
      */
     @Override
     public PatientDto addPatient(SavePatientDto savePatientDto) {
+        if(patientRepo.findByMobile(savePatientDto.getMobile()).isPresent()){
+            throw new RuntimeException("Patient already exists with given mobile.");
+        }
         Patient newPatient = PatientMapper.mapToPatientFromSavePatientDto(null, savePatientDto);
         newPatient.setPassword(passwordEncoder.encode(newPatient.getPassword()));
         Patient savedPatient = patientRepo.save(newPatient);

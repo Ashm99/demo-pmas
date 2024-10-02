@@ -22,6 +22,9 @@
             <div th:if="${param.success}" class="success-message">
               <div class="alert alert-info">Doctor successfully registered!</div>
             </div>
+            <div th:if="${param.mobileAlreadyExists}" class="mobileAlreadyExists-message">
+              <div class="alert alert-danger">A doctor already exists in provided mobile number.<br> Enter a valid one.</div>
+            </div>
             <div class="register-form">
               <form action="#" th:action="@{/web/doctors/saveDoctor}" th:object="${newDoctor}" method="post">
                 <label for="first-name">First name</label>
@@ -32,8 +35,8 @@
         
                 <span>Gender</span>
                 <div class="form-control">
-                  <label><input id="genderMale" type="radio" name="gender" th:field="*{gender}" value="Male"/>Male</label>
-                  <label><input id="genderFemale" type="radio" name="gender" th:field="*{gender}" value="Female"/>Female</label>
+                  <label><input id="genderMale" type="radio" name="gender" th:field="*{gender}" value="Male" required/>Male</label>
+                  <label><input id="genderFemale" type="radio" name="gender" th:field="*{gender}" value="Female" required/>Female</label>
                 </div><br />
                 
                 <label for="phone">Phone</label>
@@ -69,8 +72,5 @@
         <br />
       </div>
     </div>
-    <footer class="text-center">
-      <p>End of Page.</p>
-    </footer>
   </body>
 </html>

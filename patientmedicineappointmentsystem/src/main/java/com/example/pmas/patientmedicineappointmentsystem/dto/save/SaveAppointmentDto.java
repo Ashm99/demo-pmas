@@ -17,6 +17,6 @@ public class SaveAppointmentDto {
     @NotNull(message = "Doctor id cannot be null")
     private Long doctorId;
 
-    @Pattern(regexp = "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$", message = "Enter value in <yyyy-MM-dd>T<HH:mm:ss>Z format")
+    @Pattern(regexp = "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$", message = "Enter value in <yyyy-MM-dd>T<HH:mm:ss> format")
     private String appointmentDateTime;
 }

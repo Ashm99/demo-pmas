@@ -31,9 +31,14 @@ public class DoctorWebController {
      * A mvc method saving the doctor
      */
     @PostMapping(value = "/saveDoctor")
-    public String register(Model model, @Valid @ModelAttribute SaveDoctorDto saveDoctorDto  ) {
-        System.out.println(saveDoctorDto.toString());
-        doctorService.addDoctor(saveDoctorDto);
+    public String register(Model model, @Valid @ModelAttribute SaveDoctorDto saveDoctorDto) {
+//        System.out.println(saveDoctorDto.toString());
+        try{
+            doctorService.addDoctor(saveDoctorDto);
+        } catch (RuntimeException e){
+            System.err.println(e.getMessage());
+            return "redirect:/web/doctors/register?mobileAlreadyExists";
+        }
         return "redirect:/web/doctors/register?success";
     }
 }

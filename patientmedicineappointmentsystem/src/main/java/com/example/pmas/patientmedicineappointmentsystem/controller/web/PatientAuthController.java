@@ -2,6 +2,7 @@ package com.example.pmas.patientmedicineappointmentsystem.controller.web;
 
 import com.example.pmas.patientmedicineappointmentsystem.dto.save.SavePatientDto;
 import com.example.pmas.patientmedicineappointmentsystem.service.PatientService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,9 +40,14 @@ public class PatientAuthController {
      * A mvc method to save the new patient
      */
     @PostMapping(value = "/savePatient")
-    public String savePatient(@ModelAttribute SavePatientDto savePatientDto) {
-        System.out.println(savePatientDto.toString());
-        patientService.addPatient(savePatientDto);
+    public String savePatient(@Valid @ModelAttribute SavePatientDto savePatientDto, Model model) {
+//        System.out.println(savePatientDto.toString());
+        try{
+            patientService.addPatient(savePatientDto);
+        } catch (RuntimeException e){
+            System.err.println(e.getMessage());
+            return "redirect:/web/patients/register?mobileAlreadyExists";
+        }
         return "redirect:/web/patients/register?success";
     }
 

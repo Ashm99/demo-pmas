@@ -83,6 +83,9 @@ public class DoctorServiceImpl implements DoctorService {
      */
     @Override
     public DoctorDto addDoctor(SaveDoctorDto saveDoctorDto) {
+        if(doctorRepo.findByMobile(saveDoctorDto.getMobile()).isPresent()){
+            throw new RuntimeException("Doctor already exists with given mobile.");
+        }
         Doctor savedDoctor = doctorRepo.save(DoctorMapper.mapToDoctorFromSaveDoctorDto(null, saveDoctorDto));
         return DoctorMapper.mapToDoctorDto(savedDoctor);
     }

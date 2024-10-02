@@ -22,6 +22,7 @@ public class SaveMedicationDto {
     @NotBlank(message = "In frequency field, enter how much intake is required per day.")
     private String frequency;
 
+    @NotBlank(message = "Medicine current status is mandatory.")
     private String status;
 
     @Pattern(regexp = "^\\d{4}-\\d{2}-\\d{2}$", message = "Enter medication start date in <yyyy-MM-dd> format.")
@@ -30,7 +31,6 @@ public class SaveMedicationDto {
     @Pattern(regexp = "^\\d{4}-\\d{2}-\\d{2}$", message = "Enter medication end date in <yyyy-MM-dd> format.")
     private String endDate;
 
-    @NotBlank(message = "Enter further notes or comments in the notes field. Eg. If the medicine is to be taken after food, or before sleep, etc")
     private String notes;
 
     @Override

@@ -24,9 +24,13 @@ public class SavePatientDto {
     @NotBlank(message = "Email cannot be blank.")
     private String email;
 
-    @Pattern(regexp = "\\d{10}", message = "Mobile number must be numeric and exactly 10 digits long.")
+    @Pattern(regexp = "^\\d{10}$", message = "Mobile number must be numeric and exactly 10 digits long.")
     private String mobile;
 
+    @Pattern(
+            regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*(),.?\":{}|<>])[A-Za-z\\d!@#$%^&*(),.?\":{}|<>]{8,}$",
+            message = "Password must contain at least 8characters. " +
+                    "At least one capital letter, at least one small, at least one number and at least one special character.")
     private String password;
 
     @NotBlank(message = "Address of a patient cannot be blank.")
@@ -39,19 +43,28 @@ public class SavePatientDto {
     private String bloodGroup;
 
     // Emergency Contact Details
+    @NotBlank(message = "Name of the emergency contact cannot be blank.")
+    @Pattern(regexp = "^[A-Za-z ]*$", message = "Name of the emergency contact can only contain letters and spaces")
     private String emergencyContactName;
 
+    @Pattern(regexp = "^\\d{10}$", message = "Emergency contact Mobile number must be numeric and exactly 10 digits long.")
     private String emergencyContactMobile;
 
+    @NotBlank(message = "Emergency contact relationship cannot be blank.")
+    @Pattern(regexp = "^[A-Za-z ]*$", message = "Relationship of the emergency contact can only contain letters and spaces")
     private String emergencyContactRelation;
 
     // Medical History
+    @NotBlank(message = "Emergency contact relationship cannot be blank.")
     private String previousDiagnoses;
 
+    @NotBlank(message = "Emergency contact relationship cannot be blank.")
     private String surgeries;
 
+    @NotBlank(message = "Emergency contact relationship cannot be blank.")
     private String allergies;
 
+    @NotBlank(message = "Emergency contact relationship cannot be blank.")
     private String vaccinationHistory;
 
     // Lifestyle conditions

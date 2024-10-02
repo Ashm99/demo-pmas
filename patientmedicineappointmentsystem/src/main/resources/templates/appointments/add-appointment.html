@@ -23,7 +23,7 @@
                 <form id="appointmentForm" th:action="@{/web/appointments/book}" th:object="${appointment}"
                     method="post">
                     <label for="speciality">Select Speciality:</label>
-                    <select id="speciality" class="form-control" name="speciality" autofocus="autofocus">
+                    <select id="speciality" class="form-control" name="speciality" autofocus="autofocus" required>
                         <option value="" disabled selected>Select a speciality</option>
                         <!-- Placeholder option -->
                         <option th:each="speciality : ${specialties}" th:value="${speciality}" th:text="${speciality}">
@@ -37,7 +37,7 @@
                     </div>
                     <br>
                     <label for="date">Select Date:</label>
-                    <input type="date" id="date" class="form-control" name="date" />
+                    <input type="date" id="date" class="form-control" name="date" required/>
                     <br>
                     <button type="button" id="checkSlots" class="btn btn-primary">View Slots</button>
                     <br>

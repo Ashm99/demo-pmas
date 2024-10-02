@@ -19,8 +19,11 @@ public class SaveDoctorDto {
     @Pattern(regexp = "^[A-Za-z ]*$", message = "Name can only contain letters and spaces")
     private String lastName;
 
+    @NotBlank(message = "Gender cannot be blank.")
     private String gender;
 
+    @NotBlank(message = "Mobile number is a mandatory field")
+    @Pattern(regexp = "^\\d{10}$", message = "Mobile number should be 10 digits long.")
     private String mobile;
 
     private String email;

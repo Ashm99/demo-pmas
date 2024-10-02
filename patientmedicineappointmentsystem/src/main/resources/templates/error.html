@@ -12,15 +12,19 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body class="m-3">
-  <div class="col-sm-12 col-md-6">
+  <div class="container-fluid d-flex justify-content-center">
+    <div class="sign-in col-sm-12 col-md-6">
     <header>
-      <p th:replace="~{common/patient-nav-bar::patient-navigation-bar}">Navigation links</p>
+      <nav class="d-flex justify-content-end">
+          <a th:href="@{/web/patients/home}" class="ms-3 mt-3"><i class="fa-solid fa-house-chimney"></i></i> Home </a>
+      </nav>
       <h4 class="text-danger">Error!</h4>
     </header>
     
     <section>
       <p th:text="${message}">Performed action was interrupted due to error.</p>
     </section>
+  </div>
   </div>
 </body>
 </html>
