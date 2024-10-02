@@ -44,13 +44,28 @@ public class DoctorServiceTests {
                 1L,
                 "John",
                 "Smith",
-                "General"
+                "Male",
+                "9988776655",
+                "jsmith@gmail.com",
+                "Jsmith@1234",
+                "General",
+                5,
+                "MBBS",
+                "English",
+                "USA"
         );
         doctorDto = new DoctorDto(
-                doctor.getId(),
-                doctor.getFirstName(),
-                doctor.getLastName(),
-                doctor.getSpeciality()
+                1L,
+                "John",
+                "Smith",
+                "Male",
+                "9988776655",
+                "jsmith@gmail.com",
+                "General",
+                5,
+                "MBBS",
+                "English",
+                "USA"
         );
         saveDoctorDto = new SaveDoctorDto(
                 doctor.getFirstName(),

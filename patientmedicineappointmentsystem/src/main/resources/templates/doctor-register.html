@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register - PMA System</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body class="m-3">
+    <div class="container-fluid d-flex justify-content-center">
+      <div class="col-sm-12 col-md-6">
+        <header>
+          <h4><strong>Patient Medicine Appointment System | Doctor Registration</strong></h4>
+        </header>
+        <section>
+          <div class="register">
+            <div th:if="${param.success}" class="success-message">
+              <div class="alert alert-info">Doctor successfully registered!</div>
+            </div>
+            <div class="register-form">
+              <form action="#" th:action="@{/web/doctors/saveDoctor}" th:object="${newDoctor}" method="post">
+                <label for="first-name">First name</label>
+                <input id="first-name" class="form-control" type="text" placeholder="John" th:field="*{firstName}" required  autofocus="autofocus"/><br />
+                
+                <label for="last-name">Last name</label>
+                <input id="last-name" class="form-control" type="text" placeholder="Doe" th:field="*{lastName}" required/><br />
+        
+                <span>Gender</span>
+                <div class="form-control">
+                  <label><input id="genderMale" type="radio" name="gender" th:field="*{gender}" value="Male"/>Male</label>
+                  <label><input id="genderFemale" type="radio" name="gender" th:field="*{gender}" value="Female"/>Female</label>
+                </div><br />
+                
+                <label for="phone">Phone</label>
+                <input id="phone" class="form-control" type="text" placeholder="9876543210" th:field="*{mobile}" required/><br />
+                
+                <label for="email">Email</label>
+                <input id="email" class="form-control" type="email" placeholder="jdoe@gmail.com" th:field="*{email}" required/><br />
+                
+                <label for="speciality" class="form-label">Speciality</label>
+                <input id="speciality" class="form-control" type="text" placeholder="ENT or Cardiology" th:field="*{speciality}" required></input> <br />
+
+                <label for="experienceInYears">Experience, in years</label>
+                <input id="experienceInYears" class="form-control" type="number" placeholder="5" th:field="*{experienceInYears}" required /><br />
+        
+                <label for="qualifications">Qualifications</label>
+                <input id="qualifications" class="form-control" type="text" placeholder="MBBS, MS" th:field="*{qualifications}" required /><br />
+        
+                <label for="languagesSpoken">Languages spoken</label>
+                <input id="languagesSpoken" class="form-control" type="text" placeholder="English, Tamil, Hindi, Telugu, Kannada" th:field="*{languagesSpoken}" required /><br />
+                
+                <label for="officeAddress">Office address</label>
+                <input id="officeAddress" class="form-control" type="text" placeholder="Georgetown, USA" th:field="*{officeAddress}" required/><br />
+        
+                <button type="submit" class="btn btn-primary mb-1">Sign up</button>
+              </form>
+            </div>
+          </div>
+          <div class="login">
+            Want to go to the patient login screen?
+            <a th:href="@{/web/patients/login}">Click here!</a>
+          </div>
+        </section>
+        <br />
+      </div>
+    </div>
+    <footer class="text-center">
+      <p>End of Page.</p>
+    </footer>
+  </body>
+</html>

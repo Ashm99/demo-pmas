@@ -15,12 +15,12 @@
     <div class="container-fluid d-flex justify-content-center">
       <div class="col-sm-12 col-md-6">
         <header>
-          <h4><strong>Patient Medicine Appointment System | Register</strong></h4>
+          <h4><strong>Patient Medicine Appointment System | Patient Registration</strong></h4>
         </header>
         <section>
           <div class="register">
             <div th:if="${param.success}" class="success-message">
-              <div class="alert alert-info">You are successfully registered!</div>
+              <div class="alert alert-info">You are successfully registered! <br> Your phone number is your username.</div>
             </div>
             <div class="register-form">
               <form action="#" onsubmit="return validatePassword()" th:action="@{/web/patients/savePatient}" th:object="${newPatient}" method="post">
@@ -110,12 +110,13 @@
     </footer>
     <script>
       function validatePassword(){
-        console.log('Hello, Ashok!')
+        console.log('Hello, Boy!')
         const password = document.getElementById("password").value;
         const confirmPassword = document.getElementById("password2").value;
         const errorMessage = document.getElementById("error-message");
 
         if(password != confirmPassword){
+          console.log("Password and Confirm password do not match.")
           // Show error message when unequal
           errorMessage.style.display = "block";
           return false;

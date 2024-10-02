@@ -9,11 +9,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 
 @DataJpaTest // Will load the Entity and JPA related classes -> The repository layer
 public class AppointmentRepositoryTests {
@@ -49,9 +49,9 @@ public class AppointmentRepositoryTests {
         appointment = new Appointment();
         appointment.setPatient(patient);
         appointment.setDoctor(doctor);
-        Instant appointmentDateTime = Instant.parse("2025-01-01T06:30:00Z");
+        LocalDateTime appointmentDateTime = LocalDateTime.parse("2025-01-01T06:30:00Z");
         appointment.setAppointmentDateTime(appointmentDateTime);
-        Instant appointmentCreatedTime = Instant.now();
+        LocalDateTime appointmentCreatedTime = LocalDateTime.now();
         appointment.setCreatedAt(appointmentCreatedTime);
 
     }
@@ -87,8 +87,8 @@ public class AppointmentRepositoryTests {
         doctor1.setFirstName("Rebecca");
         doctor1.setLastName("Johnson");
         doctor1.setSpeciality("Orthopedics");
-        Instant appointmentDateTime1 = Instant.parse("2025-01-02T06:30:00Z");
-        Instant appointmentCreatedTime1 = Instant.now();
+        LocalDateTime appointmentDateTime1 = LocalDateTime.parse("2025-01-02T06:30:00Z");
+        LocalDateTime appointmentCreatedTime1 = LocalDateTime.now();
 
         doctor1 = doctorRepo.save(doctor1);
 
@@ -236,8 +236,8 @@ public class AppointmentRepositoryTests {
         doctor1.setFirstName("Rebecca");
         doctor1.setLastName("Johnson");
         doctor1.setSpeciality("Orthopedics");
-        Instant appointmentDateTime1 = Instant.parse("2025-01-02T06:30:00Z");
-        Instant appointmentCreatedTime1 = Instant.now();
+        LocalDateTime appointmentDateTime1 = LocalDateTime.parse("2025-01-02T06:30:00Z");
+        LocalDateTime appointmentCreatedTime1 = LocalDateTime.now();
 
         doctor1 = doctorRepo.save(doctor1);
 
@@ -289,8 +289,8 @@ public class AppointmentRepositoryTests {
         patient1.setMobile("9753186420");
         patient1.setPassword("Vidharan@2024 ");
         patient1.setAddress("India");
-        Instant appointmentDateTime1 = Instant.parse("2025-01-02T06:30:00Z");
-        Instant appointmentCreatedTime1 = Instant.now();
+        LocalDateTime appointmentDateTime1 = LocalDateTime.parse("2025-01-02T06:30:00Z");
+        LocalDateTime appointmentCreatedTime1 = LocalDateTime.now();
 
         patient1 = patientRepo.save(patient1);
 

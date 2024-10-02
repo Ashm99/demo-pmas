@@ -2,8 +2,10 @@ package com.example.pmas.patientmedicineappointmentsystem.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -13,6 +15,7 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration{
 
     @Bean
@@ -32,21 +35,41 @@ public class SecurityConfiguration{
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf
-                        .ignoringRequestMatchers(
-                                "/web/appointments/doctors",
-                                "/web/appointments/checkSlots"))
+                .csrf(csrf -> csrf.disable())
+//                .csrf(csrf -> csrf
+//                        .ignoringRequestMatchers(
+//                                "/web/appointments/doctors",
+//                                "/web/appointments/checkSlots"))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers( // URL matching for allowed pages
                                 "/web/patients/login",
                                 "/web/patients/register",
                                 "/web/patients/savePatient",
+                                "/web/doctors/register",
+                                "/web/doctors/saveDoctor",
+                                "/doctors/getAll",
+                                "/doctors/get/{id}",
                                 "/css/**",
                                 "/js/**"
+                        ).permitAll()
+                        .requestMatchers( // URL matching for allowed pages
+                                HttpMethod.POST,
+                                "/doctors/add",
+                                "/doctors/addAll"
+                        ).permitAll()
+                        .requestMatchers( // URL matching for allowed pages
+                                HttpMethod.PUT,
+                                "/doctors/update/{id}"
+                        ).permitAll()
+                        .requestMatchers( // URL matching for allowed pages
+                                HttpMethod.DELETE,
+                                "/doctors/delete/{id}"
                         ).permitAll()
                         .anyRequest().authenticated()) // Stating that any other request should be authenticated
                 .formLogin(form -> form
                         .loginPage("/web/patients/login")
+                        // The controller method that renders the html page should have this endpoint of GET type
+                        // Further the same html login page should make a POST request to this same url in order to authenticate/login
                         .defaultSuccessUrl("/web/patients/home", true)
                         .permitAll())
                 .logout(logout -> logout

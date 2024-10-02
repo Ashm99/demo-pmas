@@ -53,6 +53,31 @@ public class DoctorServiceImpl implements DoctorService {
 
     /**
      * A Service method to add a new doctor into the database.
+     * @param saveDoctorDtoList of type SaveDoctorDto
+     * @return The saved doctor data.
+     */
+    @Override
+    public List<DoctorDto> addAllDoctors(List<SaveDoctorDto> saveDoctorDtoList) {
+        List<Doctor> doctorList = new ArrayList<>();
+        saveDoctorDtoList.forEach(
+                saveDoctorDto -> {
+                    doctorList.add(DoctorMapper.mapToDoctorFromSaveDoctorDto(null, saveDoctorDto));
+                }
+        );
+
+        List<Doctor> savedDoctorList = doctorRepo.saveAll(doctorList);
+
+        List<DoctorDto> doctorDtoList = new ArrayList<>();
+        savedDoctorList.forEach(
+                fetchedDoctor -> {
+                    doctorDtoList.add(DoctorMapper.mapToDoctorDto(fetchedDoctor));
+                }
+        );
+        return doctorDtoList;
+    }
+
+    /**
+     * A Service method to add a new doctor into the database.
      * @param saveDoctorDto of type SaveDoctorDto
      * @return The saved doctor data.
      */

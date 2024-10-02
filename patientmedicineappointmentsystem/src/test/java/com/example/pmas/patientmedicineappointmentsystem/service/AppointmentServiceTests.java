@@ -49,8 +49,8 @@ public class AppointmentServiceTests {
     private PatientDto patientDto;
     private Doctor doctor;
     private DoctorDto doctorDto;
-    private Instant dayAfterTomorrowNoon;
-    private Instant now;
+    private LocalDateTime dayAfterTomorrowNoon;
+    private LocalDateTime now;
 
     @BeforeEach
     public void setup() {
@@ -59,25 +59,56 @@ public class AppointmentServiceTests {
                 "John",
                 "Doe",
                 "jdoe@gmail.com",
-                "USA",
+                "9876543210",
                 "John@2024",
-                "9876543210"
-
+                "USA",
+                24,
+                "Male",
+                "A1+",
+                "Johanna",
+                "9876543211",
+                "Sister",
+                "None",
+                "None",
+                "None",
+                "None",
+                false,
+                true
         );
 
         doctor = new Doctor(
                 1L,
                 "John",
                 "Smith",
-                "General"
+                "Male",
+                "9988776655",
+                "jsmith@gmail.com",
+                "Jsmith@1234",
+                "General",
+                5,
+                "MBBS",
+                "English",
+                "USA"
         );
         patientDto = new PatientDto(
                 1L,
                 "John",
                 "Doe",
                 "jdoe@gmail.com",
+                "9876543210",
                 "USA",
-                "9876543210"
+                24,
+                "Male",
+                "A1+",
+                "Johanna",
+                "9876543211",
+                "Sister",
+                "None",
+                "None",
+                "None",
+                "None",
+                false,
+                true
 
         );
 
@@ -85,13 +116,19 @@ public class AppointmentServiceTests {
                 1L,
                 "John",
                 "Smith",
-                "General"
+                "Male",
+                "9988776655",
+                "jsmith@gmail.com",
+                "General",
+                5,
+                "MBBS",
+                "English",
+                "USA"
         );
 
         dayAfterTomorrowNoon = LocalDateTime
-                .of(LocalDate.now().plusDays(2), LocalTime.NOON)
-                .toInstant(ZoneOffset.ofHoursMinutes(5, 30));
-        now = Instant.now();
+                .of(LocalDate.now().plusDays(2), LocalTime.NOON);
+        now = LocalDateTime.now();
 
         appointment = new Appointment();
         appointment.setId(1L);
@@ -104,8 +141,8 @@ public class AppointmentServiceTests {
         appointmentDto.setId(1L);
         appointmentDto.setPatientDto(patientDto);
         appointmentDto.setDoctorDto(doctorDto);
-        appointmentDto.setAppointmentDateTime(dayAfterTomorrowNoon.atZone(ZoneId.systemDefault()));
-        appointmentDto.setCreatedAt(now.atZone(ZoneId.systemDefault()));
+        appointmentDto.setAppointmentDateTime(dayAfterTomorrowNoon.toString());
+        appointmentDto.setCreatedAt(now.toString());
 
         saveAppointmentDto = new SaveAppointmentDto();
         saveAppointmentDto.setPatientId(patient.getId());
@@ -190,19 +227,39 @@ public class AppointmentServiceTests {
     public void givenAppointmentList_whenGetAll_thenReturnAppointmentList() {
         // Arrangements
         Patient patient1 = new Patient(
-                2L,
+                1L,
+                "John",
+                "Doe",
+                "jdoe@gmail.com",
+                "9876543210",
+                "John@2024",
+                "USA",
+                24,
+                "Male",
+                "A1+",
                 "Johanna",
-                "Smith",
-                "jsmith@gmail.com",
-                "9753186420",
-                "Johanna@2024",
-                "UK"
+                "9876543211",
+                "Sister",
+                "None",
+                "None",
+                "None",
+                "None",
+                false,
+                true
         );
         Doctor doctor1 = new Doctor(
-                2L,
-                "Raja",
-                "M",
-                "General"
+                1L,
+                "John",
+                "Smith",
+                "Male",
+                "9988776655",
+                "jsmith@gmail.com",
+                "Jsmith@1234",
+                "General",
+                5,
+                "MBBS",
+                "English",
+                "USA"
         );
 
         PatientDto patientDto1 = new PatientDto();
@@ -230,8 +287,8 @@ public class AppointmentServiceTests {
         appointmentDto1.setId(appointment1.getId());
         appointmentDto1.setPatientDto(patientDto1);
         appointmentDto1.setDoctorDto(doctorDto1);
-        appointmentDto1.setAppointmentDateTime(dayAfterTomorrowNoon.atZone(ZoneId.systemDefault()));
-        appointmentDto1.setCreatedAt(now.atZone(ZoneId.systemDefault()));
+        appointmentDto1.setAppointmentDateTime(dayAfterTomorrowNoon.toString());
+        appointmentDto1.setCreatedAt(now.toString());
 
         // Mock behaviour
         given(appointmentRepo.findAll()).willReturn(List.of(appointment, appointment1));

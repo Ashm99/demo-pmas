@@ -13,6 +13,8 @@ public interface DoctorService {
 
     DoctorDto addDoctor(SaveDoctorDto saveDoctorDto);
 
+    List<DoctorDto> addAllDoctors(List<SaveDoctorDto> saveDoctorDtoList);
+
     DoctorDto updateDoctor(Long id, SaveDoctorDto saveDoctorDto);
 
     void deleteDoctorById(Long id);
