@@ -10,7 +10,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import java.util.List;
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 
 @DataJpaTest // Will load the Entity and JPA related classes -> The repository layer
 public class PatientRepositoryTests {
@@ -20,13 +20,27 @@ public class PatientRepositoryTests {
 
     @BeforeEach
     public void setUp(){
-        patient = new Patient();
-        patient.setFirstName("John");
-        patient.setLastName("Doe");
-        patient.setEmail("jdoe@gmail.com");
-        patient.setAddress("USA");
-        patient.setPassword("John@2024");
-        patient.setMobile("9876543210");
+        patient = new Patient(
+                null,
+                "John",
+                "Doe",
+                "jdoe@gmail.com",
+                "9876543210",
+                "John@2024",
+                "USA",
+                25,
+                "Male",
+                "O+",
+                "Johanna",
+                "1234567890",
+                "Sister",
+                "None",
+                "None",
+                "None",
+                "None",
+                false,
+                true
+        );
     }
     @DisplayName(value = "JUnit test for save patient method")
     @Test
@@ -36,24 +50,33 @@ public class PatientRepositoryTests {
 
         assertThat(savedPatient).isNotNull();
         assertThat(savedPatient.getId()).isGreaterThan(0);
-        assertThat(savedPatient.getFirstName()).isEqualTo(patient.getFirstName());
-        assertThat(savedPatient.getLastName()).isEqualTo(patient.getLastName());
-        assertThat(savedPatient.getEmail()).isEqualTo(patient.getEmail());
-        assertThat(savedPatient.getMobile()).isEqualTo(patient.getMobile());
-        assertThat(savedPatient.getPassword()).isEqualTo(patient.getPassword());
-        assertThat(savedPatient.getAddress()).isEqualTo(patient.getAddress());
+        assertThat(savedPatient).isEqualTo(patient);
     }
 
     @DisplayName(value = "JUnit test for find all patient method")
     @Test
     public void givenPatientList_whenFind_thenReturnPatientList (){
-        Patient patient1 = new Patient();
-        patient1.setFirstName("John");
-        patient1.setLastName("Smith");
-        patient1.setEmail("jsmith@gmail.com");
-        patient1.setMobile("99876543210");
-        patient1.setPassword("John@2024");
-        patient1.setAddress("UK");
+        Patient patient1 = new Patient(
+                null,
+                "Vidharan",
+                "M",
+                "vidhu@gmail.com",
+                "9753186420",
+                "Vidharan@2024",
+                "India",
+                25,
+                "Male",
+                "O+",
+                "Sakthi",
+                "1234567890",
+                "Sister",
+                "None",
+                "None",
+                "None",
+                "None",
+                false,
+                true
+        );
 
         patientRepo.save(patient);
         patientRepo.save(patient1);
@@ -64,20 +87,10 @@ public class PatientRepositoryTests {
         assertThat(patientList.size()).isEqualTo(2);
 
         assertThat(patientList.get(0).getId()).isGreaterThan(0);
-        assertThat(patientList.get(0).getFirstName()).isEqualTo(patient.getFirstName());
-        assertThat(patientList.get(0).getLastName()).isEqualTo(patient.getLastName());
-        assertThat(patientList.get(0).getEmail()).isEqualTo(patient.getEmail());
-        assertThat(patientList.get(0).getMobile()).isEqualTo(patient.getMobile());
-        assertThat(patientList.get(0).getPassword()).isEqualTo(patient.getPassword());
-        assertThat(patientList.get(0).getAddress()).isEqualTo(patient.getAddress());
+        assertThat(patientList.get(0)).isEqualTo(patient);
 
         assertThat(patientList.get(1).getId()).isGreaterThan(0);
-        assertThat(patientList.get(1).getFirstName()).isEqualTo(patient1.getFirstName());
-        assertThat(patientList.get(1).getLastName()).isEqualTo(patient1.getLastName());
-        assertThat(patientList.get(1).getEmail()).isEqualTo(patient1.getEmail());
-        assertThat(patientList.get(1).getMobile()).isEqualTo(patient1.getMobile());
-        assertThat(patientList.get(1).getPassword()).isEqualTo(patient1.getPassword());
-        assertThat(patientList.get(1).getAddress()).isEqualTo(patient1.getAddress());
+        assertThat(patientList.get(1)).isEqualTo(patient1);
     }
 
     @DisplayName(value = "JUnit test for find by patient id method")
@@ -91,12 +104,7 @@ public class PatientRepositoryTests {
 
         assertThat(patient1).isNotNull();
         assertThat(patient1.getId()).isGreaterThan(0);
-        assertThat(patient1.getFirstName()).isEqualTo(patient.getFirstName());
-        assertThat(patient1.getLastName()).isEqualTo(patient.getLastName());
-        assertThat(patient1.getEmail()).isEqualTo(patient.getEmail());
-        assertThat(patient1.getAddress()).isEqualTo(patient.getAddress());
-        assertThat(patient1.getPassword()).isEqualTo(patient.getPassword());
-        assertThat(patient1.getMobile()).isEqualTo(patient.getMobile());
+        assertThat(patient1).isEqualTo(patient);
     }
 
     @DisplayName(value = "JUnit test for find by patient id method without patient")
@@ -141,5 +149,29 @@ public class PatientRepositoryTests {
 
     }
 
+    @DisplayName("JUnit test method for findByMobile method - Positive case")
+    @Test
+    public void givenMobile_whenFindByMobile_thenReturnDoctor() {
+        // Given
+        patientRepo.save(patient);
 
+        // When
+        Optional<Patient> fetchedPatient = patientRepo.findByMobile("9876543210");
+
+        // Then
+        assertThat(fetchedPatient).isPresent();
+        assertThat(fetchedPatient.get()).isEqualTo(patient);
+    }
+
+    @DisplayName("JUnit test method for findByMobile method when no doctor found")
+    @Test
+    public void givenInvalidMobile_whenFindByMobile_thenReturnEmptyOptional() {
+        // Given nothing
+
+        // When
+        Optional<Patient> fetchedPatient = patientRepo.findByMobile("9876543210");
+
+        // Then
+        assertThat(fetchedPatient).isEmpty();
+    }
 }

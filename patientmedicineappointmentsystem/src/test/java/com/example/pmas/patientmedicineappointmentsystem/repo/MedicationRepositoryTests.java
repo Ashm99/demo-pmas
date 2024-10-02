@@ -25,25 +25,46 @@ public class MedicationRepositoryTests {
 
     @BeforeEach
     public void setup() {
-        patient = new Patient();
-        patient.setFirstName("John");
-        patient.setLastName("Doe");
-        patient.setEmail("jdoe@gmail.com");
-        patient.setAddress("USA");
-        patient.setPassword("John@2024");
-        patient.setMobile("9876543210");
+        patient = new Patient(
+                null,
+                "John",
+                "Doe",
+                "jdoe@gmail.com",
+                "9876543210",
+                "John@2024",
+                "USA",
+                25,
+                "Male",
+                "O+",
+                "Johanna",
+                "1234567890",
+                "Sister",
+                "None",
+                "None",
+                "None",
+                "None",
+                false,
+                true
+        );
 
         patient = patientRepo.save(patient);
 
-        medication = new Medication();
-        medication.setPatient(patient);
-        medication.setMedicine("Dolo 650mg");
-        medication.setFrequency("Twice a day");
-        medication.setNotes("After breakfast and dinner.");
-
         today = LocalDate.now();
-        medication.setStartDate(today);
-        medication.setEndDate(today.plusDays(3));
+
+        medication = new Medication(
+                null,
+                patient,
+                "Dolo",
+                "650 mg",
+                "Twice a day",
+                "Complete",
+                today,
+                today.plusDays(3),
+                today,
+                today,
+                "After breakfast and dinner."
+        );
+
     }
 
     @DisplayName(value="JUnit test for save medication method")
@@ -54,18 +75,9 @@ public class MedicationRepositoryTests {
         assertThat(savedMedication).isNotNull();
         assertThat(savedMedication.getId()).isGreaterThan(0);
 
-        assertThat(savedMedication.getPatient().getFirstName()).isEqualTo(patient.getFirstName());
-        assertThat(savedMedication.getPatient().getLastName()).isEqualTo(patient.getLastName());
-        assertThat(savedMedication.getPatient().getEmail()).isEqualTo(patient.getEmail());
-        assertThat(savedMedication.getPatient().getMobile()).isEqualTo(patient.getMobile());
-        assertThat(savedMedication.getPatient().getPassword()).isEqualTo(patient.getPassword());
-        assertThat(savedMedication.getPatient().getAddress()).isEqualTo(patient.getAddress());
+        assertThat(savedMedication.getPatient()).isEqualTo(patient);
 
-        assertThat(savedMedication.getMedicine()).isEqualTo(medication.getMedicine());
-        assertThat(savedMedication.getFrequency()).isEqualTo(medication.getFrequency());
-        assertThat(savedMedication.getNotes()).isEqualTo(medication.getNotes());
-        assertThat(savedMedication.getStartDate().toString()).isEqualTo(today.toString());
-        assertThat(savedMedication.getEndDate().toString()).isEqualTo(today.plusDays(3).toString());
+        assertThat(savedMedication).isEqualTo(medication);
     }
 
     @DisplayName(value="JUnit test for find all medication method without medication object.")
@@ -80,14 +92,19 @@ public class MedicationRepositoryTests {
     @Test
     public void givenMedicationList_whenFindAll_thenReturnMedicationList(){
 
-        Medication medication1 = new Medication();
-        medication1.setPatient(patient);
-        medication1.setMedicine("Clear Gel");
-        medication1.setFrequency("Once in a day");
-        medication1.setNotes("Before going to bed. Wash the face, let it dry, then apply the gel.");
-
-        medication.setStartDate(today);
-        medication.setEndDate(today.plusDays(14));
+        Medication medication1 = new Medication(
+                null,
+                patient,
+                "Clear Gel",
+                "Slight coat over the face",
+                "Once in a day",
+                "Complete",
+                today,
+                today.plusDays(14),
+                today,
+                today,
+                "Before going to bed. Wash the face, let it dry, then apply the gel."
+        );
 
         medication = medicationRepo.save(medication);
         medication1 = medicationRepo.save(medication1);
@@ -99,35 +116,15 @@ public class MedicationRepositoryTests {
 
         assertThat(medications.get(0).getId()).isEqualTo(medication.getId());
 
-        assertThat(medications.get(0).getPatient().getId()).isEqualTo(patient.getId());
-        assertThat(medications.get(0).getPatient().getFirstName()).isEqualTo(patient.getFirstName());
-        assertThat(medications.get(0).getPatient().getLastName()).isEqualTo(patient.getLastName());
-        assertThat(medications.get(0).getPatient().getEmail()).isEqualTo(patient.getEmail());
-        assertThat(medications.get(0).getPatient().getMobile()).isEqualTo(patient.getMobile());
-        assertThat(medications.get(0).getPatient().getPassword()).isEqualTo(patient.getPassword());
-        assertThat(medications.get(0).getPatient().getAddress()).isEqualTo(patient.getAddress());
+        assertThat(medications.get(0).getPatient()).isEqualTo(patient);
 
-        assertThat(medications.get(0).getMedicine()).isEqualTo(medication.getMedicine());
-        assertThat(medications.get(0).getFrequency()).isEqualTo(medication.getFrequency());
-        assertThat(medications.get(0).getNotes()).isEqualTo(medication.getNotes());
-        assertThat(medications.get(0).getStartDate()).isEqualTo(medication.getStartDate());
-        assertThat(medications.get(0).getEndDate()).isEqualTo(medication.getEndDate());
+        assertThat(medications.get(0)).isEqualTo(medication);
 
         assertThat(medications.get(1).getId()).isEqualTo(medication1.getId());
 
-        assertThat(medications.get(1).getPatient().getId()).isEqualTo(patient.getId());
-        assertThat(medications.get(1).getPatient().getFirstName()).isEqualTo(patient.getFirstName());
-        assertThat(medications.get(1).getPatient().getLastName()).isEqualTo(patient.getLastName());
-        assertThat(medications.get(1).getPatient().getEmail()).isEqualTo(patient.getEmail());
-        assertThat(medications.get(1).getPatient().getMobile()).isEqualTo(patient.getMobile());
-        assertThat(medications.get(1).getPatient().getPassword()).isEqualTo(patient.getPassword());
-        assertThat(medications.get(1).getPatient().getAddress()).isEqualTo(patient.getAddress());
+        assertThat(medications.get(1).getPatient()).isEqualTo(patient);
 
-        assertThat(medications.get(1).getMedicine()).isEqualTo(medication1.getMedicine());
-        assertThat(medications.get(1).getFrequency()).isEqualTo(medication1.getFrequency());
-        assertThat(medications.get(1).getNotes()).isEqualTo(medication1.getNotes());
-        assertThat(medications.get(1).getStartDate()).isEqualTo(medication1.getStartDate());
-        assertThat(medications.get(1).getEndDate()).isEqualTo(medication1.getEndDate());
+        assertThat(medications.get(1)).isEqualTo(medication1);
     }
 
     @DisplayName(value="JUnit test for find medication by id without medication object.")
@@ -148,22 +145,12 @@ public class MedicationRepositoryTests {
 
         assertThat(optionalMedication.get().getId()).isEqualTo(medication.getId());
 
-        assertThat(optionalMedication.get().getPatient().getId()).isEqualTo(patient.getId());
-        assertThat(optionalMedication.get().getPatient().getFirstName()).isEqualTo(patient.getFirstName());
-        assertThat(optionalMedication.get().getPatient().getLastName()).isEqualTo(patient.getLastName());
-        assertThat(optionalMedication.get().getPatient().getEmail()).isEqualTo(patient.getEmail());
-        assertThat(optionalMedication.get().getPatient().getMobile()).isEqualTo(patient.getMobile());
-        assertThat(optionalMedication.get().getPatient().getPassword()).isEqualTo(patient.getPassword());
-        assertThat(optionalMedication.get().getPatient().getAddress()).isEqualTo(patient.getAddress());
+        assertThat(optionalMedication.get().getPatient()).isEqualTo(patient);
 
-        assertThat(optionalMedication.get().getMedicine()).isEqualTo(medication.getMedicine());
-        assertThat(optionalMedication.get().getFrequency()).isEqualTo(medication.getFrequency());
-        assertThat(optionalMedication.get().getNotes()).isEqualTo(medication.getNotes());
-        assertThat(optionalMedication.get().getStartDate()).isEqualTo(medication.getStartDate());
-        assertThat(optionalMedication.get().getEndDate()).isEqualTo(medication.getEndDate());
+        assertThat(optionalMedication.get()).isEqualTo(medication);
     }
 
-    @DisplayName(value="JUnit test for exxistsById repo method without medication object.")
+    @DisplayName(value="JUnit test for existsById repo method without medication object.")
     @Test
     public void givenNoMedicationObject_whenExistsById_thenReturnFalse(){
         boolean medicationIsPresent = medicationRepo.existsById(1L);
@@ -212,14 +199,19 @@ public class MedicationRepositoryTests {
     @DisplayName(value="JUnit test for deleteAllByPatientId repo method.")
     @Test
     public void givenMedicationObject_whenDeleteAllByPatientId_thenRemoveAllMedicationForPatient(){
-        Medication medication1 = new Medication();
-        medication1.setPatient(patient);
-        medication1.setMedicine("Clear Gel");
-        medication1.setFrequency("Once in a day");
-        medication1.setNotes("Before going to bed. Wash the face, let it dry, then apply the gel.");
-
-        medication.setStartDate(today);
-        medication.setEndDate(today.plusDays(14));
+        Medication medication1 = new Medication(
+                null,
+                patient,
+                "Clear Gel",
+                "Slight coat over the face",
+                "Once in a day",
+                "Complete",
+                today,
+                today.plusDays(14),
+                today,
+                today,
+                "Before going to bed. Wash the face, let it dry, then apply the gel."
+        );
 
         medication = medicationRepo.save(medication);
         medication1 = medicationRepo.save(medication1);
@@ -231,4 +223,45 @@ public class MedicationRepositoryTests {
         assertThat(noOfRows).isEqualTo(2);
         assertThat(medicationRepo.existsByPatientId(patient.getId())).isFalse();
     }
+    @DisplayName("JUnit test method for findAllByPatientId method")
+    @Test
+    public void givenPatientId_whenFindAllByPatientId_thenReturnListOfMedications() {
+        // Given
+
+        Medication medication1 = new Medication(
+                null,
+                patient,
+                "Clear Gel",
+                "Slight coat over the face",
+                "Once a day",
+                "Complete",
+                today,
+                today.plusDays(14),
+                today,
+                today,
+                "Before going to bed. Wash the face, let it dry, then apply the gel."
+        );
+
+        medicationRepo.save(medication);
+        medicationRepo.save(medication1);
+
+        // When
+        List<Medication> medications = medicationRepo.findAllByPatientId(patient.getId());
+
+        // Then
+        assertThat(medications).isNotEmpty();
+        assertThat(medications.size()).isEqualTo(2);
+        assertThat(medications).containsExactlyInAnyOrder(medication1, medication);
+    }
+
+    @DisplayName("JUnit test method for findAllByPatientId when no medications exist for patient")
+    @Test
+    public void givenPatientId_whenFindAllByPatientId_thenReturnEmptyList() {
+        // When
+        List<Medication> medications = medicationRepo.findAllByPatientId(patient.getId());
+
+        // Then
+        assertThat(medications).isEmpty();
+    }
+
 }

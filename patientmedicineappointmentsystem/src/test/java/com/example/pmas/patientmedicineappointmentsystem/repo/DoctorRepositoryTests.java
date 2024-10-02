@@ -20,10 +20,19 @@ public class DoctorRepositoryTests {
 
     @BeforeEach
     public void setUp(){
-        doctor = new Doctor();
-        doctor.setFirstName("John");
-        doctor.setLastName("Doe");
-        doctor.setSpeciality("General");
+        doctor = new Doctor(
+                null,
+                "John",
+                "Doe",
+                "Male",
+                "7777777777",
+                "johndoe@gmail.com",
+                "General",
+                5,
+                "MBBS",
+                "English",
+                "USA"
+        );
     }
 
     @DisplayName(value = "JUnit test for find all method when no data given")
@@ -37,10 +46,19 @@ public class DoctorRepositoryTests {
     @DisplayName(value = "JUnit test for find all method")
     @Test
     public void givenDoctorList_whenFindAll_thenReturnDoctorList(){
-        Doctor doctor1 = new Doctor();
-        doctor1.setFirstName("Rebecca");
-        doctor1.setLastName("Doe");
-        doctor1.setSpeciality("Gynecologist");
+        Doctor doctor1 = new Doctor(
+                null,
+                "Rebecca",
+                "Johnson",
+                "Female",
+                "7777777778",
+                "rjohn@gmail.com",
+                "Orthopedics",
+                5,
+                "MBBS",
+                "English",
+                "USA"
+        );
 
         doctorRepo.save(doctor);
         doctorRepo.save(doctor1);
@@ -50,13 +68,7 @@ public class DoctorRepositoryTests {
         assertThat(doctors.size()).isEqualTo(2);
 
         assertThat(doctors.get(0).getId()).isGreaterThan(0);
-        assertThat(doctors.get(0).getFirstName()).isEqualTo(doctor.getFirstName());
-        assertThat(doctors.get(0).getLastName()).isEqualTo(doctor.getLastName());
-        assertThat(doctors.get(0).getSpeciality()).isEqualTo(doctor.getSpeciality());
-        assertThat(doctors.get(1).getId()).isGreaterThan(1);
-        assertThat(doctors.get(1).getFirstName()).isEqualTo(doctor1.getFirstName());
-        assertThat(doctors.get(1).getLastName()).isEqualTo(doctor1.getLastName());
-        assertThat(doctors.get(1).getSpeciality()).isEqualTo(doctor1.getSpeciality());
+        assertThat(doctors.get(0)).isEqualTo(doctor);
     }
 
     @DisplayName(value = "JUnit test for find doctor by id method")
@@ -68,9 +80,7 @@ public class DoctorRepositoryTests {
         assertThat(fetchedDoctor).isNotEmpty();
 
         assertThat(fetchedDoctor.get().getId()).isGreaterThan(0);
-        assertThat(fetchedDoctor.get().getFirstName()).isEqualTo(doctor.getFirstName());
-        assertThat(fetchedDoctor.get().getLastName()).isEqualTo(doctor.getLastName());
-        assertThat(fetchedDoctor.get().getSpeciality()).isEqualTo(doctor.getSpeciality());
+        assertThat(fetchedDoctor.get()).isEqualTo(doctor);
     }
 
     @DisplayName(value = "JUnit test for find doctor by id method without a doctor")
@@ -88,9 +98,7 @@ public class DoctorRepositoryTests {
 
         assertThat(savedDoctor).isNotNull();
         assertThat(savedDoctor.getId()).isGreaterThan(0);
-        assertThat(savedDoctor.getFirstName()).isEqualTo(doctor.getFirstName());
-        assertThat(savedDoctor.getLastName()).isEqualTo(doctor.getLastName());
-        assertThat(savedDoctor.getSpeciality()).isEqualTo(doctor.getSpeciality());
+        assertThat(savedDoctor).isEqualTo(doctor);
     }
 
     @DisplayName(value = "JUnit test method for save doctor method during updation.")
@@ -142,6 +150,120 @@ public class DoctorRepositoryTests {
 
         Optional<Doctor> optionalDoctor = doctorRepo.findById(id);
         assertThat(optionalDoctor).isEmpty();
+    }
+
+    @DisplayName("JUnit test method for getAllBySpeciality method")
+    @Test
+    public void givenSpeciality_whenGetAllBySpeciality_thenReturnListOfDoctors() {
+        // Given
+        Doctor doctor1 = new Doctor(
+                null,
+                "Alice",
+                "Smith",
+                "Female",
+                "8888888888",
+                "alice@example.com",
+                "Cardiology",
+                10,
+                "MBBS",
+                "English",
+                "USA"
+        );
+        Doctor doctor2 = new Doctor(
+                null,
+                "Bob",
+                "Brown",
+                "Male",
+                "9999999999",
+                "bob@example.com",
+                "Cardiology",
+                8,
+                "MBBS",
+                "English",
+                "USA"
+        );
+
+        doctorRepo.save(doctor);  // General
+        doctorRepo.save(doctor1); // Cardiology
+        doctorRepo.save(doctor2); // Cardiology
+
+        // When
+        List<Doctor> cardiologists = doctorRepo.getAllBySpeciality("Cardiology");
+
+        // Then
+        assertThat(cardiologists).isNotEmpty();
+        assertThat(cardiologists.size()).isEqualTo(2);
+        assertThat(cardiologists).containsExactlyInAnyOrder(doctor1, doctor2);
+    }
+
+    @DisplayName("JUnit test method for getDistinctSpeciality method")
+    @Test
+    public void whenGetDistinctSpeciality_thenReturnDistinctSpecialties() {
+        // Given
+        Doctor doctor1 = new Doctor(
+                null,
+                "Alice",
+                "Smith",
+                "Female",
+                "8888888888",
+                "alice@example.com",
+                "Cardiology",
+                10,
+                "MBBS",
+                "English",
+                "USA"
+        );
+        Doctor doctor2 = new Doctor(
+                null,
+                "Bob",
+                "Brown",
+                "Male",
+                "9999999999",
+                "bob@example.com",
+                "General",
+                8,
+                "MBBS",
+                "English",
+                "USA"
+        );
+
+        doctorRepo.save(doctor);  // General
+        doctorRepo.save(doctor1); // Cardiology
+        doctorRepo.save(doctor2); // General
+
+        // When
+        List<String> distinctSpecialities = doctorRepo.getDistinctSpeciality();
+
+        // Then
+        assertThat(distinctSpecialities).isNotEmpty();
+        assertThat(distinctSpecialities.size()).isEqualTo(2);
+        assertThat(distinctSpecialities).containsExactlyInAnyOrder("Cardiology", "General");
+    }
+
+    @DisplayName("JUnit test method for findByMobile method")
+    @Test
+    public void givenMobile_whenFindByMobile_thenReturnDoctor() {
+        // Given
+        doctorRepo.save(doctor);
+
+        // When
+        Optional<Doctor> fetchedDoctor = doctorRepo.findByMobile("7777777777");
+
+        // Then
+        assertThat(fetchedDoctor).isPresent();
+        assertThat(fetchedDoctor.get()).isEqualTo(doctor);
+    }
+
+    @DisplayName("JUnit test method for findByMobile method when no doctor found")
+    @Test
+    public void givenInvalidMobile_whenFindByMobile_thenReturnEmptyOptional() {
+        // Given nothing
+
+        // When
+        Optional<Doctor> fetchedDoctor = doctorRepo.findByMobile("7777777777");
+
+        // Then
+        assertThat(fetchedDoctor).isEmpty();
     }
 
 

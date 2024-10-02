@@ -93,7 +93,7 @@ public class MedicationServiceTests {
         // Mock Behaviour
         try (MockedStatic<MedicationMapper> medicationMapperMockedStatic = mockStatic(MedicationMapper.class)) {
             medicationMapperMockedStatic
-                    .when(() -> MedicationMapper.mapToMedicationFromSaveMedicationDto(any(), any(), any(SaveMedicationDto.class)))
+                    .when(() -> MedicationMapper.mapToMedicationFromSaveMedicationDto(any(), any(), any(LocalDate.class), any(SaveMedicationDto.class)))
                     .thenReturn(medication);
             given(patientRepo.findById(patient.getId())).willReturn(Optional.of(patient));
             given(medicationRepo.save(medication)).willReturn(medication);
@@ -254,7 +254,7 @@ public class MedicationServiceTests {
         given(patientRepo.findById(any())).willReturn(Optional.of(patient));
         try (MockedStatic<MedicationMapper> medicationMapperMockedStatic = mockStatic(MedicationMapper.class)) {
             medicationMapperMockedStatic
-                    .when(() -> MedicationMapper.mapToMedicationFromSaveMedicationDto(any(), any(Patient.class), any(SaveMedicationDto.class)))
+                    .when(() -> MedicationMapper.mapToMedicationFromSaveMedicationDto(any(), any(Patient.class), any(LocalDate.class), any(SaveMedicationDto.class)))
                     .thenReturn(medication);
             given(medicationRepo.save(medication)).willReturn(medication);
             medicationMapperMockedStatic

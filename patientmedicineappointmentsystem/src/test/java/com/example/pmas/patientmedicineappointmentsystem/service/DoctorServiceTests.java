@@ -47,7 +47,6 @@ public class DoctorServiceTests {
                 "Male",
                 "9988776655",
                 "jsmith@gmail.com",
-                "Jsmith@1234",
                 "General",
                 5,
                 "MBBS",
@@ -68,9 +67,9 @@ public class DoctorServiceTests {
                 "USA"
         );
         saveDoctorDto = new SaveDoctorDto(
-                doctor.getFirstName(),
-                doctor.getLastName(),
-                doctor.getSpeciality()
+//                doctor.getFirstName(),
+//                doctor.getLastName(),
+//                doctor.getSpeciality()
         );
     }
 
@@ -104,16 +103,16 @@ public class DoctorServiceTests {
     public void givenDoctorList_whenGetAllDoctors_thenReturnDoctorDtoList() {
         // Mock behaviour
         Doctor doctor1 = new Doctor(
-                2L,
-                "Raja",
-                "M",
-                "General"
+//                2L,
+//                "Raja",
+//                "M",
+//                "General"
         );
         DoctorDto doctorDto1 = new DoctorDto(
-                doctor1.getId(),
-                doctor1.getFirstName(),
-                doctor1.getLastName(),
-                doctor1.getSpeciality()
+//                doctor1.getId(),
+//                doctor1.getFirstName(),
+//                doctor1.getLastName(),
+//                doctor1.getSpeciality()
         );
         List<Doctor> doctors = List.of(doctor, doctor1);
         given(doctorRepo.findAll()).willReturn(doctors);

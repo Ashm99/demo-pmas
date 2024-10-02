@@ -30,18 +30,41 @@ public class AppointmentRepositoryTests {
 
     @BeforeEach
     public void setup() {
-        patient = new Patient();
-        patient.setFirstName("John");
-        patient.setLastName("Doe");
-        patient.setEmail("jdoe@gmail.com");
-        patient.setAddress("USA");
-        patient.setPassword("John@2024");
-        patient.setMobile("9876543210");
+        patient = new Patient(
+                null,
+                "John",
+                "Doe",
+                "jdoe@gmail.com",
+                "9876543210",
+                "John@2024",
+                "USA",
+                25,
+                "Male",
+                "O+",
+                "Johanna",
+                "1234567890",
+                "Sister",
+                "None",
+                "None",
+                "None",
+                "None",
+                false,
+                true
+        );
 
-        doctor = new Doctor();
-        doctor.setFirstName("John");
-        doctor.setLastName("Doe");
-        doctor.setSpeciality("General");
+        doctor = new Doctor(
+                null,
+                "John",
+                "Doe",
+                "Male",
+                "7777777777",
+                "johndoe@gmail.com",
+                "General",
+                5,
+                "MBBS",
+                "English",
+                "USA"
+        );
 
         patient = patientRepo.save(patient);
         doctor = doctorRepo.save(doctor);
@@ -49,7 +72,7 @@ public class AppointmentRepositoryTests {
         appointment = new Appointment();
         appointment.setPatient(patient);
         appointment.setDoctor(doctor);
-        LocalDateTime appointmentDateTime = LocalDateTime.parse("2025-01-01T06:30:00Z");
+        LocalDateTime appointmentDateTime = LocalDateTime.parse("2025-01-01T06:30:00");
         appointment.setAppointmentDateTime(appointmentDateTime);
         LocalDateTime appointmentCreatedTime = LocalDateTime.now();
         appointment.setCreatedAt(appointmentCreatedTime);
@@ -63,16 +86,9 @@ public class AppointmentRepositoryTests {
 
         assertThat(savedAppointment).isNotNull();
 
-        assertThat(savedAppointment.getPatient().getFirstName()).isEqualTo(patient.getFirstName());
-        assertThat(savedAppointment.getPatient().getLastName()).isEqualTo(patient.getLastName());
-        assertThat(savedAppointment.getPatient().getEmail()).isEqualTo(patient.getEmail());
-        assertThat(savedAppointment.getPatient().getMobile()).isEqualTo(patient.getMobile());
-        assertThat(savedAppointment.getPatient().getPassword()).isEqualTo(patient.getPassword());
-        assertThat(savedAppointment.getPatient().getAddress()).isEqualTo(patient.getAddress());
+        assertThat(savedAppointment.getPatient()).isEqualTo(patient);
 
-        assertThat(savedAppointment.getDoctor().getFirstName()).isEqualTo(doctor.getFirstName());
-        assertThat(savedAppointment.getDoctor().getLastName()).isEqualTo(doctor.getLastName());
-        assertThat(savedAppointment.getDoctor().getSpeciality()).isEqualTo(doctor.getSpeciality());
+        assertThat(savedAppointment.getDoctor()).isEqualTo(doctor);
 
         assertThat(savedAppointment.getAppointmentDateTime().toString()).isEqualTo(appointment.getAppointmentDateTime().toString());
         assertThat(savedAppointment.getCreatedAt().toString()).isEqualTo(appointment.getCreatedAt().toString());
@@ -83,11 +99,21 @@ public class AppointmentRepositoryTests {
     @Test
     public void givenAppointmentList_whenFindAll_thenReturnAppointmentList() {
 
-        Doctor doctor1 = new Doctor();
-        doctor1.setFirstName("Rebecca");
-        doctor1.setLastName("Johnson");
-        doctor1.setSpeciality("Orthopedics");
-        LocalDateTime appointmentDateTime1 = LocalDateTime.parse("2025-01-02T06:30:00Z");
+        Doctor doctor1 = new Doctor(
+                null,
+                "Rebecca",
+                "Johnson",
+                "Female",
+                "7777777778",
+                "rjohn@gmail.com",
+                "Orthopedics",
+                5,
+                "MBBS",
+                "English",
+                "USA"
+        );
+
+        LocalDateTime appointmentDateTime1 = LocalDateTime.parse("2025-01-02T06:30:00");
         LocalDateTime appointmentCreatedTime1 = LocalDateTime.now();
 
         doctor1 = doctorRepo.save(doctor1);
@@ -106,32 +132,16 @@ public class AppointmentRepositoryTests {
         assertThat(appointments).isNotEmpty();
         assertThat(appointments.size()).isEqualTo(2);
 
-        assertThat(appointments.get(0).getPatient().getId()).isEqualTo(patient.getId());
-        assertThat(appointments.get(0).getPatient().getFirstName()).isEqualTo(patient.getFirstName());
-        assertThat(appointments.get(0).getPatient().getLastName()).isEqualTo(patient.getLastName());
-        assertThat(appointments.get(0).getPatient().getEmail()).isEqualTo(patient.getEmail());
-        assertThat(appointments.get(0).getPatient().getMobile()).isEqualTo(patient.getMobile());
-        assertThat(appointments.get(0).getPatient().getPassword()).isEqualTo(patient.getPassword());
-        assertThat(appointments.get(0).getPatient().getAddress()).isEqualTo(patient.getAddress());
+        assertThat(appointments.get(0).getPatient()).isEqualTo(patient);
 
-        assertThat(appointments.get(0).getDoctor().getFirstName()).isEqualTo(doctor.getFirstName());
-        assertThat(appointments.get(0).getDoctor().getLastName()).isEqualTo(doctor.getLastName());
-        assertThat(appointments.get(0).getDoctor().getSpeciality()).isEqualTo(doctor.getSpeciality());
+        assertThat(appointments.get(0).getDoctor()).isEqualTo(doctor);
 
         assertThat(appointments.get(0).getAppointmentDateTime().toString()).isEqualTo(appointment.getAppointmentDateTime().toString());
         assertThat(appointments.get(0).getCreatedAt().toString()).isEqualTo(appointment.getCreatedAt().toString());
 
-        assertThat(appointments.get(1).getPatient().getId()).isEqualTo(patient.getId());
-        assertThat(appointments.get(1).getPatient().getFirstName()).isEqualTo(patient.getFirstName());
-        assertThat(appointments.get(1).getPatient().getLastName()).isEqualTo(patient.getLastName());
-        assertThat(appointments.get(1).getPatient().getEmail()).isEqualTo(patient.getEmail());
-        assertThat(appointments.get(1).getPatient().getMobile()).isEqualTo(patient.getMobile());
-        assertThat(appointments.get(1).getPatient().getPassword()).isEqualTo(patient.getPassword());
-        assertThat(appointments.get(1).getPatient().getAddress()).isEqualTo(patient.getAddress());
+        assertThat(appointments.get(1).getPatient()).isEqualTo(patient);
 
-        assertThat(appointments.get(1).getDoctor().getFirstName()).isEqualTo(doctor1.getFirstName());
-        assertThat(appointments.get(1).getDoctor().getLastName()).isEqualTo(doctor1.getLastName());
-        assertThat(appointments.get(1).getDoctor().getSpeciality()).isEqualTo(doctor1.getSpeciality());
+        assertThat(appointments.get(1).getDoctor()).isEqualTo(doctor1);
 
         assertThat(appointments.get(1).getAppointmentDateTime().toString()).isEqualTo(appointmentDateTime1.toString());
         assertThat(appointments.get(1).getCreatedAt().toString()).isEqualTo(appointmentCreatedTime1.toString());
@@ -163,17 +173,9 @@ public class AppointmentRepositoryTests {
 
         assertThat(optionalAppointment).isNotEmpty();
 
-        assertThat(optionalAppointment.get().getPatient().getId()).isEqualTo(patient.getId());
-        assertThat(optionalAppointment.get().getPatient().getFirstName()).isEqualTo(patient.getFirstName());
-        assertThat(optionalAppointment.get().getPatient().getLastName()).isEqualTo(patient.getLastName());
-        assertThat(optionalAppointment.get().getPatient().getEmail()).isEqualTo(patient.getEmail());
-        assertThat(optionalAppointment.get().getPatient().getMobile()).isEqualTo(patient.getMobile());
-        assertThat(optionalAppointment.get().getPatient().getPassword()).isEqualTo(patient.getPassword());
-        assertThat(optionalAppointment.get().getPatient().getAddress()).isEqualTo(patient.getAddress());
+        assertThat(optionalAppointment.get().getPatient()).isEqualTo(patient);
 
-        assertThat(optionalAppointment.get().getDoctor().getFirstName()).isEqualTo(doctor.getFirstName());
-        assertThat(optionalAppointment.get().getDoctor().getLastName()).isEqualTo(doctor.getLastName());
-        assertThat(optionalAppointment.get().getDoctor().getSpeciality()).isEqualTo(doctor.getSpeciality());
+        assertThat(optionalAppointment.get().getDoctor()).isEqualTo(doctor);
 
         assertThat(optionalAppointment.get().getAppointmentDateTime().toString()).isEqualTo(appointment.getAppointmentDateTime().toString());
         assertThat(optionalAppointment.get().getCreatedAt().toString()).isEqualTo(appointment.getCreatedAt().toString());
@@ -232,11 +234,21 @@ public class AppointmentRepositoryTests {
     @Test
     public void givenSavedPatientId_whenDeleteAllByPatientId_thenReturnNoOfRowsDeleted() {
 
-        Doctor doctor1 = new Doctor();
-        doctor1.setFirstName("Rebecca");
-        doctor1.setLastName("Johnson");
-        doctor1.setSpeciality("Orthopedics");
-        LocalDateTime appointmentDateTime1 = LocalDateTime.parse("2025-01-02T06:30:00Z");
+        Doctor doctor1 = new Doctor(
+                null,
+                "Rebecca",
+                "Johnson",
+                "Female",
+                "7777777778",
+                "rjohn@gmail.com",
+                "Orthopedics",
+                5,
+                "MBBS",
+                "English",
+                "USA"
+        );
+
+        LocalDateTime appointmentDateTime1 = LocalDateTime.parse("2025-01-02T06:30:00");
         LocalDateTime appointmentCreatedTime1 = LocalDateTime.now();
 
         doctor1 = doctorRepo.save(doctor1);
@@ -282,14 +294,28 @@ public class AppointmentRepositoryTests {
     @Test
     public void givenSavedDoctorId_whenDeleteAllByDoctorId_thenReturnNoOfRowsDeleted() {
 
-        Patient patient1 = new Patient();
-        patient1.setFirstName("Vidharan");
-        patient1.setLastName("M");
-        patient1.setEmail("vidhu@gmail.com");
-        patient1.setMobile("9753186420");
-        patient1.setPassword("Vidharan@2024 ");
-        patient1.setAddress("India");
-        LocalDateTime appointmentDateTime1 = LocalDateTime.parse("2025-01-02T06:30:00Z");
+        Patient patient1 = new Patient(
+                null,
+                "Vidharan",
+                "M",
+                "vidhu@gmail.com",
+                "9753186420",
+                "Vidharan@2024",
+                "India",
+                25,
+                "Male",
+                "O+",
+                "Sakthi",
+                "1234567890",
+                "Sister",
+                "None",
+                "None",
+                "None",
+                "None",
+                false,
+                true
+        );
+        LocalDateTime appointmentDateTime1 = LocalDateTime.parse("2025-01-02T06:30:00");
         LocalDateTime appointmentCreatedTime1 = LocalDateTime.now();
 
         patient1 = patientRepo.save(patient1);
@@ -311,4 +337,60 @@ public class AppointmentRepositoryTests {
 
         assertThat(noOfRows).isEqualTo(2);
     }
+    @DisplayName("JUnit test method for getAllByPatientId method")
+    @Test
+    public void givenPatientId_whenGetAllByPatientId_thenReturnListOfAppointments() {
+        // Given
+        LocalDateTime appointmentDateTime1 = LocalDateTime.parse("2025-01-03T06:30:00");
+        LocalDateTime appointmentCreatedTime1 = LocalDateTime.now();
+
+        Appointment appointment1 = new Appointment();
+        appointment1.setPatient(patient);
+        appointment1.setDoctor(doctor);
+        appointment1.setAppointmentDateTime(appointmentDateTime1);
+        appointment1.setCreatedAt(appointmentCreatedTime1);
+
+        appointmentRepo.save(appointment);  // Save the first appointment
+        appointmentRepo.save(appointment1); // Save a second appointment for the same patient
+
+        // When
+        List<Appointment> appointments = appointmentRepo.getAllByPatientId(patient.getId());
+
+        // Then
+        assertThat(appointments).isNotEmpty();
+        assertThat(appointments.size()).isEqualTo(2);
+        assertThat(appointments.get(0).getPatient()).isEqualTo(patient);
+        assertThat(appointments.get(1).getPatient()).isEqualTo(patient);
+    }
+
+    @DisplayName("JUnit test method for existsByDoctorIdAndAppointmentDateTimeBetween method")
+    @Test
+    public void givenDoctorIdAndTimeRange_whenExistsByDoctorIdAndAppointmentDateTimeBetween_thenReturnTrue() {
+        // Given
+        LocalDateTime startTime = LocalDateTime.parse("2025-01-01T06:30:00");
+        LocalDateTime endTime = LocalDateTime.parse("2025-01-01T06:59:00");
+
+        appointmentRepo.save(appointment); // Saving an appointment within the time range
+
+        // When
+        boolean exists = appointmentRepo.existsByDoctorIdAndAppointmentDateTimeBetween(doctor.getId(), startTime, endTime);
+
+        // Then
+        assertThat(exists).isTrue();
+    }
+
+    @DisplayName("JUnit test method for existsByDoctorIdAndAppointmentDateTimeBetween method with no appointments")
+    @Test
+    public void givenDoctorIdAndTimeRange_whenExistsByDoctorIdAndAppointmentDateTimeBetween_thenReturnFalse() {
+        // Given
+        LocalDateTime startTime = LocalDateTime.parse("2025-01-01T00:00:00");
+        LocalDateTime endTime = LocalDateTime.parse("2025-01-01T23:59:59");
+
+        // When
+        boolean exists = appointmentRepo.existsByDoctorIdAndAppointmentDateTimeBetween(doctor.getId(), startTime, endTime);
+
+        // Then
+        assertThat(exists).isFalse();
+    }
+
 }
