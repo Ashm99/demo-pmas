@@ -52,9 +52,9 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     /**
-     * A Service method to add a new doctor into the database.
+     * A Service method to add multiple new doctors into the database.
      * @param saveDoctorDtoList of type SaveDoctorDto
-     * @return The saved doctor data.
+     * @return The saved doctor list.
      */
     @Override
     public List<DoctorDto> addAllDoctors(List<SaveDoctorDto> saveDoctorDtoList) {

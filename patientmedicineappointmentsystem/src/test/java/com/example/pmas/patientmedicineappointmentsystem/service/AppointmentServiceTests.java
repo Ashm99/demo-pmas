@@ -3,8 +3,10 @@ package com.example.pmas.patientmedicineappointmentsystem.service;
 import com.example.pmas.patientmedicineappointmentsystem.dto.AppointmentDto;
 import com.example.pmas.patientmedicineappointmentsystem.dto.DoctorDto;
 import com.example.pmas.patientmedicineappointmentsystem.dto.PatientDto;
+import com.example.pmas.patientmedicineappointmentsystem.dto.SlotDto;
 import com.example.pmas.patientmedicineappointmentsystem.dto.save.SaveAppointmentDto;
 import com.example.pmas.patientmedicineappointmentsystem.mapper.AppointmentMapper;
+import com.example.pmas.patientmedicineappointmentsystem.mapper.DoctorMapper;
 import com.example.pmas.patientmedicineappointmentsystem.model.Appointment;
 import com.example.pmas.patientmedicineappointmentsystem.model.Doctor;
 import com.example.pmas.patientmedicineappointmentsystem.model.Patient;
@@ -22,7 +24,9 @@ import org.mockito.Mock;
 import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -129,24 +133,27 @@ public class AppointmentServiceTests {
                 .of(LocalDate.now().plusDays(2), LocalTime.NOON);
         now = LocalDateTime.now();
 
-        appointment = new Appointment();
-        appointment.setId(1L);
-        appointment.setPatient(patient);
-        appointment.setDoctor(doctor);
-        appointment.setAppointmentDateTime(dayAfterTomorrowNoon);
-        appointment.setCreatedAt(now);
+        appointment = new Appointment(
+                1L,
+                patient,
+                doctor,
+                dayAfterTomorrowNoon,
+                now
+        );
 
-        appointmentDto = new AppointmentDto();
-        appointmentDto.setId(1L);
-        appointmentDto.setPatientDto(patientDto);
-        appointmentDto.setDoctorDto(doctorDto);
-        appointmentDto.setAppointmentDateTime(dayAfterTomorrowNoon.toString());
-        appointmentDto.setCreatedAt(now.toString());
+        appointmentDto = new AppointmentDto(
+                1L,
+                patientDto,
+                doctorDto,
+                dayAfterTomorrowNoon.toString(),
+                now.toString()
+        );
 
-        saveAppointmentDto = new SaveAppointmentDto();
-        saveAppointmentDto.setPatientId(patient.getId());
-        saveAppointmentDto.setDoctorId(doctor.getId());
-        saveAppointmentDto.setAppointmentDateTime(dayAfterTomorrowNoon.atZone(ZoneId.systemDefault()).toString());
+        saveAppointmentDto = new SaveAppointmentDto(
+                patient.getId(),
+                doctor.getId(),
+                dayAfterTomorrowNoon.toString()
+        );
     }
 
     @DisplayName(value = "JUnit test method to create an appointment successfully")
@@ -170,11 +177,7 @@ public class AppointmentServiceTests {
             // Assertion
             assertThat(savedAppointmentDto).isNotNull();
 
-            assertThat(savedAppointmentDto.getId()).isEqualTo(appointmentDto.getId());
-            assertThat(savedAppointmentDto.getPatientDto()).isEqualTo(appointmentDto.getPatientDto());
-            assertThat(savedAppointmentDto.getDoctorDto()).isEqualTo(appointmentDto.getDoctorDto());
-            assertThat(savedAppointmentDto.getAppointmentDateTime()).isEqualTo(appointmentDto.getAppointmentDateTime());
-            assertThat(savedAppointmentDto.getCreatedAt()).isEqualTo(appointmentDto.getCreatedAt());
+            assertThat(savedAppointmentDto).isEqualTo(appointmentDto);
         }
     }
 
@@ -260,19 +263,40 @@ public class AppointmentServiceTests {
                 "USA"
         );
 
-        PatientDto patientDto1 = new PatientDto();
-        patientDto1.setId(patient1.getId());
-        patientDto1.setFirstName(patient1.getFirstName());
-        patientDto1.setLastName(patient1.getLastName());
-        patientDto1.setEmail(patient1.getEmail());
-        patientDto1.setAddress(patient1.getAddress());
-        patientDto1.setMobile(patient1.getMobile());
+        PatientDto patientDto1 = new PatientDto(
+                1L,
+                "John",
+                "Doe",
+                "jdoe@gmail.com",
+                "9876543210",
+                "USA",
+                24,
+                "Male",
+                "A1+",
+                "Johanna",
+                "9876543211",
+                "Sister",
+                "None",
+                "None",
+                "None",
+                "None",
+                false,
+                true
+        );
 
-        DoctorDto doctorDto1 = new DoctorDto();
-        doctorDto1.setId(doctor1.getId());
-        doctorDto1.setFirstName(doctor1.getFirstName());
-        doctorDto1.setLastName(doctor1.getLastName());
-        doctorDto1.setSpeciality(doctor1.getSpeciality());
+        DoctorDto doctorDto1 = new DoctorDto(
+                1L,
+                "John",
+                "Smith",
+                "Male",
+                "9988776655",
+                "jsmith@gmail.com",
+                "General",
+                5,
+                "MBBS",
+                "English",
+                "USA"
+        );
 
         Appointment appointment1 = new Appointment();
         appointment1.setId(2L);
@@ -305,17 +329,9 @@ public class AppointmentServiceTests {
             assertThat(appointmentDtoList).isNotEmpty();
             assertThat(appointmentDtoList.size()).isEqualTo(2);
 
-            assertThat(appointmentDtoList.get(0).getId()).isEqualTo(appointmentDto.getId());
-            assertThat(appointmentDtoList.get(0).getPatientDto()).isEqualTo(appointmentDto.getPatientDto());
-            assertThat(appointmentDtoList.get(0).getDoctorDto()).isEqualTo(appointmentDto.getDoctorDto());
-            assertThat(appointmentDtoList.get(0).getAppointmentDateTime()).isEqualTo(appointmentDto.getAppointmentDateTime());
-            assertThat(appointmentDtoList.get(0).getCreatedAt()).isEqualTo(appointmentDto.getCreatedAt());
+            assertThat(appointmentDtoList.get(0)).isEqualTo(appointmentDto);
 
-            assertThat(appointmentDtoList.get(1).getId()).isEqualTo(appointmentDto1.getId());
-            assertThat(appointmentDtoList.get(1).getPatientDto()).isEqualTo(appointmentDto1.getPatientDto());
-            assertThat(appointmentDtoList.get(1).getDoctorDto()).isEqualTo(appointmentDto1.getDoctorDto());
-            assertThat(appointmentDtoList.get(1).getAppointmentDateTime()).isEqualTo(appointmentDto1.getAppointmentDateTime());
-            assertThat(appointmentDtoList.get(1).getCreatedAt()).isEqualTo(appointmentDto1.getCreatedAt());
+            assertThat(appointmentDtoList.get(1)).isEqualTo(appointmentDto1);
         }
     }
 
@@ -345,13 +361,8 @@ public class AppointmentServiceTests {
             // Action
             AppointmentDto fetchedAppointmentDto = appointmentService.getAppointmentById(appointment.getId());
 
-            assertThat(fetchedAppointmentDto.getId()).isEqualTo(appointmentDto.getId());
-            assertThat(fetchedAppointmentDto.getPatientDto()).isEqualTo(appointmentDto.getPatientDto());
-            assertThat(fetchedAppointmentDto.getDoctorDto()).isEqualTo(appointmentDto.getDoctorDto());
-            assertThat(fetchedAppointmentDto.getAppointmentDateTime()).isEqualTo(appointmentDto.getAppointmentDateTime());
-            assertThat(fetchedAppointmentDto.getCreatedAt()).isEqualTo(appointmentDto.getCreatedAt());
-
-        }
+            assertThat(fetchedAppointmentDto).isEqualTo(appointmentDto);
+            }
     }
 
     @DisplayName(value = "JUnit test method to get an appointment by id that is unavailable")
@@ -431,7 +442,7 @@ public class AppointmentServiceTests {
         given(appointmentRepo.deleteAllByPatientId(any())).willReturn(2);
         given(appointmentService.existsByPatientId(any())).willReturn(true);
 
-        // Action and asssertion
+        // Action and assertion
         Assertions.assertThrows(RuntimeException.class, () -> appointmentService.deleteAllAppointmentByPatientId(patient.getId()));
     }
 
@@ -445,6 +456,7 @@ public class AppointmentServiceTests {
         // Action and assertion
         appointmentService.deleteAllAppointmentByPatientId(patient.getId());
     }
+    // getAllAppointmentByUsername
 
     @DisplayName(value = "JUnit test method to check if any appointment exists for a doctor - existing case")
     @Test
@@ -487,4 +499,114 @@ public class AppointmentServiceTests {
         // Action and assertion
         appointmentService.deleteAllAppointmentByDoctorId(doctor.getId());
     }
+    @DisplayName(value = "JUnit test method to get all appointments by username")
+    @Test
+    public void givenUsername_whenGetAllAppointmentByUsername_thenReturnAppointmentLists() {
+        String username = "9876543210";
+        Long patientId = 1L;
+
+        // Mock behavior
+        given(patientRepo.findByMobile(username)).willReturn(Optional.of(patient));
+        given(appointmentRepo.getAllByPatientId(patientId)).willReturn(List.of(appointment));
+
+        try (MockedStatic<AppointmentMapper> appointmentMapperMockedStatic = mockStatic(AppointmentMapper.class)) {
+            appointmentMapperMockedStatic
+                    .when(() -> AppointmentMapper.mapToAppointmentDto(appointment))
+                    .thenReturn(appointmentDto);
+
+            // Action
+            List<List<AppointmentDto>> result = appointmentService.getAllAppointmentByUsername(username);
+
+            // Assertions
+            assertThat(result).isNotNull();
+            assertThat(result.size()).isEqualTo(2);
+            assertThat(result.get(0)).containsExactly(appointmentDto); // upcoming
+            assertThat(result.get(1)).isEmpty(); // completed, since `appointment` is in the future
+        }
+    }
+
+    @DisplayName(value = "JUnit test method to get doctors by speciality")
+    @Test
+    public void givenSpeciality_whenGetDoctorsBySpeciality_thenReturnDoctorList() {
+        String speciality = "General";
+
+        // Mock behavior
+        given(doctorRepo.getAllBySpeciality(speciality)).willReturn(List.of(doctor));
+
+        try (MockedStatic<DoctorMapper> doctorMapperMockedStatic = mockStatic(DoctorMapper.class)) {
+            doctorMapperMockedStatic
+                    .when(() -> DoctorMapper.mapToDoctorDto(doctor))
+                    .thenReturn(doctorDto);
+
+            // Action
+            List<DoctorDto> result = appointmentService.getDoctorsBySpeciality(speciality);
+
+            // Assertions
+            assertThat(result).isNotEmpty();
+            assertThat(result.size()).isEqualTo(1);
+            assertThat(result.get(0)).isEqualTo(doctorDto);
+        }
+    }
+
+    @DisplayName(value = "JUnit test method to get all doctor specialties")
+    @Test
+    public void whenGetAllDoctorSpecialties_thenReturnSpecialtyList() {
+        // Mock behavior
+        List<String> specialties = List.of("General", "Pediatric", "Dental");
+        given(doctorRepo.getDistinctSpeciality()).willReturn(specialties);
+
+        // Action
+        List<String> result = appointmentService.getAllDoctorSpecialties();
+
+        // Assertions
+        assertThat(result).isNotEmpty();
+        assertThat(result.size()).isEqualTo(3);
+        assertThat(result).containsExactlyInAnyOrder("General", "Pediatric", "Dental");
+    }
+
+    @DisplayName(value = "JUnit test method to get all doctor specialties when none found")
+    @Test
+    public void whenNoDoctors_thenThrowException() {
+        // Mock behavior
+        given(doctorRepo.getDistinctSpeciality()).willReturn(Collections.emptyList());
+
+        // Action and assertion
+        Assertions.assertThrows(RuntimeException.class, () -> appointmentService.getAllDoctorSpecialties());
+    }
+
+    @DisplayName(value = "JUnit test method to get available slots")
+    @Test
+    public void givenDoctorIdAndDate_whenGetAvailableSlots_thenReturnSlotList() {
+        Long doctorId = 1L;
+        String date = LocalDate.now().toString();
+
+        // Mock behavior
+        given(appointmentRepo.existsByDoctorIdAndAppointmentDateTimeBetween(any(), any(), any()))
+                .willReturn(false); // Simulate that all slots are available
+
+        // Action
+        List<SlotDto> result = appointmentService.getAvailableSlots(doctorId, date);
+
+        // Assertions
+        assertThat(result).isNotEmpty();
+        assertThat(result.size()).isGreaterThan(0); // Expecting slots to be added
+        assertThat(result.get(0).getTime()).isEqualTo(LocalTime.of(9, 0)); // Check the first slot
+    }
+
+    @DisplayName(value = "JUnit test method to get patient ID by username")
+    @Test
+    public void givenUsername_whenGetPatientIdByUsername_thenReturnPatientId() {
+        String username = "9876543210";
+        Long expectedPatientId = 1L;
+
+        // Mock behavior
+        given(patientRepo.findByMobile(username)).willReturn(Optional.of(patient));
+
+        // Action
+        Long result = appointmentService.getPatientIdByUsername(username);
+
+        // Assertions
+        assertThat(result).isEqualTo(expectedPatientId);
+    }
+
 }

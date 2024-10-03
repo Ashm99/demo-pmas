@@ -49,41 +49,64 @@ public class MedicationServiceTests {
     @BeforeEach
     public void setup() {
 
-        patient = new Patient();
-        patient.setId(1L);
-        patient.setFirstName("John");
-        patient.setLastName("Doe");
-        patient.setEmail("jdoe@gmail.com");
-        patient.setAddress("USA");
-        patient.setPassword("John@2024");
-        patient.setMobile("9876543210");
+        patient = new Patient(
+                1L,
+                "John",
+                "Doe",
+                "jdoe@gmail.com",
+                "9876543210",
+                "John@2024",
+                "USA",
+                25,
+                "Male",
+                "O+",
+                "Johanna",
+                "1234567890",
+                "Sister",
+                "None",
+                "None",
+                "None",
+                "None",
+                false,
+                true
+        );
 
         medication = new Medication(
-//                1L,
-//                patient,
-//                "Dolo 650mg",
-//                "Twice a day.",
-//                today,
-//                dayAfterTomorrow,
-//                "One each after breakfast and dinner."
+                1L,
+                patient,
+                "Dolo",
+                "650 mg",
+                "Twice a day",
+                "Complete",
+                today,
+                today.plusDays(3),
+                today,
+                today,
+                "After breakfast and dinner."
         );
 
         medicationDto = new MedicationDto(
-//                1L,
-//                patient.getId(),
-//                "Dolo 650mg",
-//                "Twice a day.",
-//                today.toString(),
-//                dayAfterTomorrow.toString(),
-//                "One each after breakfast and dinner."
+                1L,
+                patient.getId(),
+                "Dolo",
+                "650 mg",
+                "Twice a day",
+                "Complete",
+                today.toString(),
+                today.plusDays(3).toString(),
+                today.toString(),
+                today.toString(),
+                "After breakfast and dinner."
         );
         saveMedicationDto = new SaveMedicationDto(
-//                patient.getId().toString(),
-//                "Dolo 650mg",
-//                "Twice a day.",
-//                today.toString(),
-//                dayAfterTomorrow.toString(),
-//                "One each after breakfast and dinner."
+                patient.getId().toString(),
+                "Dolo",
+                "650 mg",
+                "Twice a day",
+                "Complete",
+                today.toString(),
+                today.plusDays(3).toString(),
+                "After breakfast and dinner."
         );
     }
 
@@ -107,13 +130,7 @@ public class MedicationServiceTests {
             // Assertion
             assertThat(savedMedication).isNotNull();
 
-            assertThat(savedMedication.getId()).isEqualTo(medicationDto.getId());
-            assertThat(savedMedication.getPatientId()).isEqualTo(medicationDto.getPatientId());
-            assertThat(savedMedication.getMedicine()).isEqualTo(medicationDto.getMedicine());
-            assertThat(savedMedication.getFrequency()).isEqualTo(medicationDto.getFrequency());
-            assertThat(savedMedication.getStartDate()).isEqualTo(medicationDto.getStartDate());
-            assertThat(savedMedication.getEndDate()).isEqualTo(medicationDto.getEndDate());
-            assertThat(savedMedication.getNotes()).isEqualTo(medicationDto.getNotes());
+            assertThat(savedMedication).isEqualTo(medicationDto);
         }
     }
 
@@ -131,23 +148,31 @@ public class MedicationServiceTests {
     @Test
     public void givenMedicationList_whenGetAllMedication_thenReturnMedicationList() {
         Medication medication1 = new Medication(
-//                2L,
-//                patient,
-//                "Eritel AM",
-//                "Once a day.",
-//                today,
-//                dayAfterTomorrow,
-//                "After dinner."
+                2L,
+                patient,
+                "Eritel AM",
+                "650 mg",
+                "Once a day.",
+                "Complete",
+                today,
+                today.plusDays(3),
+                today,
+                today,
+                "After dinner."
         );
 
         MedicationDto medicationDto1 = new MedicationDto(
-//                2L,
-//                patient.getId(),
-//                "Eritel AM",
-//                "Once a day.",
-//                today.toString(),
-//                dayAfterTomorrow.toString(),
-//                "After dinner."
+                2L,
+                patient.getId(),
+                "Eritel AM",
+                "650 mg",
+                "Once a day.",
+                "Complete",
+                today.toString(),
+                today.plusDays(3).toString(),
+                today.toString(),
+                today.toString(),
+                "After dinner."
         );
         List<Medication> medicationList = List.of(medication, medication1);
         when(medicationRepo.findAll()).thenReturn(medicationList);
@@ -167,21 +192,7 @@ public class MedicationServiceTests {
             assertThat(savedMedicationDtos).isNotEmpty();
             assertThat(savedMedicationDtos.size()).isEqualTo(2);
 
-            assertThat(savedMedicationDtos.get(0).getId()).isEqualTo(medicationDto.getId());
-            assertThat(savedMedicationDtos.get(0).getPatientId()).isEqualTo(medicationDto.getPatientId());
-            assertThat(savedMedicationDtos.get(0).getMedicine()).isEqualTo(medicationDto.getMedicine());
-            assertThat(savedMedicationDtos.get(0).getFrequency()).isEqualTo(medicationDto.getFrequency());
-            assertThat(savedMedicationDtos.get(0).getStartDate()).isEqualTo(medicationDto.getStartDate());
-            assertThat(savedMedicationDtos.get(0).getEndDate()).isEqualTo(medicationDto.getEndDate());
-            assertThat(savedMedicationDtos.get(0).getNotes()).isEqualTo(medicationDto.getNotes());
-
-            assertThat(savedMedicationDtos.get(1).getId()).isEqualTo(medicationDto1.getId());
-            assertThat(savedMedicationDtos.get(1).getPatientId()).isEqualTo(medicationDto1.getPatientId());
-            assertThat(savedMedicationDtos.get(1).getMedicine()).isEqualTo(medicationDto1.getMedicine());
-            assertThat(savedMedicationDtos.get(1).getFrequency()).isEqualTo(medicationDto1.getFrequency());
-            assertThat(savedMedicationDtos.get(1).getStartDate()).isEqualTo(medicationDto1.getStartDate());
-            assertThat(savedMedicationDtos.get(1).getEndDate()).isEqualTo(medicationDto1.getEndDate());
-            assertThat(savedMedicationDtos.get(1).getNotes()).isEqualTo(medicationDto1.getNotes());
+            assertThat(savedMedicationDtos).containsExactly(medicationDto, medicationDto1);
         }
 
     }
@@ -212,13 +223,7 @@ public class MedicationServiceTests {
             // Assertion
             assertThat(savedMedicationDto).isNotNull();
 
-            assertThat(savedMedicationDto.getId()).isEqualTo(medicationDto.getId());
-            assertThat(savedMedicationDto.getPatientId()).isEqualTo(medicationDto.getPatientId());
-            assertThat(savedMedicationDto.getMedicine()).isEqualTo(medicationDto.getMedicine());
-            assertThat(savedMedicationDto.getFrequency()).isEqualTo(medicationDto.getFrequency());
-            assertThat(savedMedicationDto.getStartDate()).isEqualTo(medicationDto.getStartDate());
-            assertThat(savedMedicationDto.getEndDate()).isEqualTo(medicationDto.getEndDate());
-            assertThat(savedMedicationDto.getNotes()).isEqualTo(medicationDto.getNotes());
+            assertThat(savedMedicationDto).isEqualTo(medicationDto);
         }
     }
 
@@ -262,18 +267,12 @@ public class MedicationServiceTests {
                     .thenReturn(medicationDto);
 
             // Action
-            MedicationDto updatedMedicationDto = medicationService.updateMedication(medication.getId(), null, saveMedicationDto);
+            MedicationDto updatedMedicationDto = medicationService.updateMedication(medication.getId(), today, saveMedicationDto);
 
             // Assertion
             assertThat(updatedMedicationDto).isNotNull();
 
-            assertThat(updatedMedicationDto.getId()).isEqualTo(medicationDto.getId());
-            assertThat(updatedMedicationDto.getPatientId()).isEqualTo(medicationDto.getPatientId());
-            assertThat(updatedMedicationDto.getMedicine()).isEqualTo(medicationDto.getMedicine());
-            assertThat(updatedMedicationDto.getFrequency()).isEqualTo(medicationDto.getFrequency());
-            assertThat(updatedMedicationDto.getStartDate()).isEqualTo(medicationDto.getStartDate());
-            assertThat(updatedMedicationDto.getEndDate()).isEqualTo(medicationDto.getEndDate());
-            assertThat(updatedMedicationDto.getNotes()).isEqualTo(medicationDto.getNotes());
+            assertThat(updatedMedicationDto).isEqualTo(medicationDto);
         }
     }
 
@@ -346,7 +345,7 @@ public class MedicationServiceTests {
 
     @DisplayName(value = "Junit test method to delete all medications for a given patient id and medication existing for the patient afterwards")
     @Test
-    public void givenMedication_whenDeleteALlByPatiendId_thenThrowError() {
+    public void givenMedication_whenDeleteALlByPatientId_thenThrowError() {
         // Mock behaviour
         Long patientId = patient.getId();
         given(medicationRepo.deleteAllByPatientId(patientId)).willReturn(2);
@@ -358,7 +357,7 @@ public class MedicationServiceTests {
 
     @DisplayName(value = "Junit test method to delete all medications for a given patient id successfully")
     @Test
-    public void givenMedication_whenDeleteALlByPatiendId_thenRemoveMedication() {
+    public void givenMedication_whenDeleteALlByPatientId_thenRemoveMedication() {
         // Mock behaviour
         Long patientId = patient.getId();
         given(medicationRepo.deleteAllByPatientId(patientId)).willReturn(2);
@@ -371,4 +370,95 @@ public class MedicationServiceTests {
         verify(medicationRepo, times(1)).deleteAllByPatientId(patientId);
 
     }
+
+    @DisplayName("Junit test method to get all medications for a patient by username")
+    @Test
+    public void givenUsername_whenGetAllMedicationByUsername_thenReturnMedicationList() {
+        // Mock Behaviour
+        String username = "9876543210"; // patient's mobile number is the username
+        given(patientRepo.findByMobile(username)).willReturn(Optional.of(patient));
+
+        Medication medication1 = new Medication(
+                2L,
+                patient,
+                "Eritel AM",
+                "650 mg",
+                "Once a day.",
+                "Complete",
+                today,
+                today.plusDays(3),
+                today,
+                today,
+                "After dinner."
+        );
+
+        MedicationDto medicationDto1 = new MedicationDto(
+                2L,
+                patient.getId(),
+                "Eritel AM",
+                "650 mg",
+                "Once a day.",
+                "Complete",
+                today.toString(),
+                today.plusDays(3).toString(),
+                today.toString(),
+                today.toString(),
+                "After dinner."
+        );
+
+        List<Medication> medicationList = List.of(medication, medication1);
+        given(medicationRepo.findAllByPatientId(patient.getId())).willReturn(medicationList);
+
+        try (MockedStatic<MedicationMapper> medicationMapperMockedStatic = mockStatic(MedicationMapper.class)) {
+            medicationMapperMockedStatic
+                    .when(() -> MedicationMapper.mapToMedicationDto(medication)).thenReturn(medicationDto);
+            medicationMapperMockedStatic
+                    .when(() -> MedicationMapper.mapToMedicationDto(medication1)).thenReturn(medicationDto1);
+
+            // Action
+            List<MedicationDto> medicationDtos = medicationService.getAllMedicationByUsername(username);
+
+            // Assertion
+            assertThat(medicationDtos).isNotEmpty();
+            assertThat(medicationDtos.size()).isEqualTo(2);
+            assertThat(medicationDtos).containsExactly(medicationDto, medicationDto1);
+        }
+    }
+
+    @DisplayName("Junit test method to get all medications by username when patient not found")
+    @Test
+    public void givenInvalidUsername_whenGetAllMedicationByUsername_thenThrowError() {
+        // Mock Behaviour
+        String username = "9999999999"; // non-existing mobile number
+        given(patientRepo.findByMobile(username)).willReturn(Optional.empty());
+
+        // Action and assertion
+        assertThrows(NoSuchElementException.class, () -> medicationService.getAllMedicationByUsername(username));
+    }
+
+    @DisplayName("Junit test method to get patient ID by username")
+    @Test
+    public void givenUsername_whenGetPatientIdByUsername_thenReturnPatientId() {
+        // Mock Behaviour
+        String username = "9876543210"; // Since username is the patient's mobile number
+        given(patientRepo.findByMobile(username)).willReturn(Optional.of(patient));
+
+        // Action
+        String patientId = medicationService.getPatientIdByUsername(username);
+
+        // Assertion
+        assertThat(patientId).isEqualTo(patient.getId().toString());
+    }
+
+    @DisplayName("Junit test method to get patient ID by username when patient not found")
+    @Test
+    public void givenInvalidUsername_whenGetPatientIdByUsername_thenThrowError() {
+        // Mock Behaviour
+        String username = "9999999999"; // non-existing mobile number
+        given(patientRepo.findByMobile(username)).willReturn(Optional.empty());
+
+        // Action and assertion
+        assertThrows(NoSuchElementException.class, () -> medicationService.getPatientIdByUsername(username));
+    }
+
 }

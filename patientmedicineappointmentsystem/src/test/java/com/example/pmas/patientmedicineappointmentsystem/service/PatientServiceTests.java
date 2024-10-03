@@ -15,6 +15,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +35,8 @@ public class PatientServiceTests {
     private AppointmentService appointmentService;
     @Mock
     private MedicationService medicationService;
+    @Mock
+    private PasswordEncoder passwordEncoder;
     @InjectMocks
     private PatientServiceImpl patientService;
 
@@ -43,30 +46,69 @@ public class PatientServiceTests {
     @BeforeEach
     public void setup() {
 //        MockitoAnnotations.initMocks(this);
-        patient = new Patient();
-        patient.setId(1L);
-        patient.setFirstName("John");
-        patient.setLastName("Doe");
-        patient.setEmail("jdoe@gmail.com");
-        patient.setAddress("USA");
-        patient.setPassword("John@2024");
-        patient.setMobile("9876543210");
+        patient = new Patient(
+                1L,
+                "John",
+                "Doe",
+                "jdoe@gmail.com",
+                "9876543210",
+                "John@2024",
+                "USA",
+                25,
+                "Male",
+                "O+",
+                "Johanna",
+                "1234567890",
+                "Sister",
+                "None",
+                "None",
+                "None",
+                "None",
+                false,
+                true
+        );
 
-        savePatientDto = new SavePatientDto();
-        savePatientDto.setFirstName(patient.getFirstName());
-        savePatientDto.setLastName(patient.getLastName());
-        savePatientDto.setEmail(patient.getEmail());
-        savePatientDto.setAddress(patient.getAddress());
-        savePatientDto.setPassword(patient.getPassword());
-        savePatientDto.setMobile(patient.getMobile());
+        savePatientDto = new SavePatientDto(
+                "John",
+                "Doe",
+                "jdoe@gmail.com",
+                "9876543210",
+                "John@2024",
+                "USA",
+                25,
+                "Male",
+                "O+",
+                "Johanna",
+                "1234567890",
+                "Sister",
+                "None",
+                "None",
+                "None",
+                "None",
+                false,
+                true
+        );
 
-        patientDto = new PatientDto();
-        patientDto.setId(patient.getId());
-        patientDto.setFirstName(patient.getFirstName());
-        patientDto.setLastName(patient.getLastName());
-        patientDto.setEmail(patient.getEmail());
-        patientDto.setAddress(patient.getAddress());
-        patientDto.setMobile(patient.getMobile());
+        patientDto = new PatientDto(
+                1L,
+                "John",
+                "Doe",
+                "jdoe@gmail.com",
+                "9876543210",
+                "USA",
+                25,
+                "Male",
+                "O+",
+                "Johanna",
+                "1234567890",
+                "Sister",
+                "None",
+                "None",
+                "None",
+                "None",
+                false,
+                true
+        );
 
     }
 
@@ -90,12 +132,7 @@ public class PatientServiceTests {
             assertThat(patientDto1).isNotNull();
             assertThat(patientDto1.getId()).isGreaterThan(0);
 
-            assertThat(patientDto1.getId()).isEqualTo(patientDto.getId());
-            assertThat(patientDto1.getFirstName()).isEqualTo(patientDto.getFirstName());
-            assertThat(patientDto1.getLastName()).isEqualTo(patientDto.getLastName());
-            assertThat(patientDto1.getEmail()).isEqualTo(patientDto.getEmail());
-            assertThat(patientDto1.getMobile()).isEqualTo(patientDto.getMobile());
-            assertThat(patientDto1.getAddress()).isEqualTo(patientDto.getAddress());
+            assertThat(patientDto1).isEqualTo(patientDto);
         }
     }
 
@@ -114,22 +151,48 @@ public class PatientServiceTests {
     @Test
     public void givenPatientList_whenFindAll_thenReturnPatientDTOList() {
         // Mock behaviour or Arrange
-        Patient patient1 = new Patient();
-        patient1.setId(2L);
-        patient1.setFirstName("John");
-        patient1.setLastName("Smith");
-        patient1.setEmail("jsmith@gmail.com");
-        patient1.setMobile("9753186420");
-        patient1.setPassword("John@2024");
-        patient1.setAddress("UK");
+        Patient patient1 = new Patient(
+                2L,
+                "Vidharan",
+                "M",
+                "vidhu@gmail.com",
+                "9753186420",
+                "Vidharan@2024",
+                "India",
+                25,
+                "Male",
+                "O+",
+                "Sakthi",
+                "1234567890",
+                "Sister",
+                "None",
+                "None",
+                "None",
+                "None",
+                false,
+                true
+        );
 
-        PatientDto patientDto1 = new PatientDto();
-        patientDto1.setId(patient1.getId());
-        patientDto1.setFirstName(patient1.getFirstName());
-        patientDto1.setLastName(patient1.getLastName());
-        patientDto1.setEmail(patient1.getEmail());
-        patientDto1.setAddress(patient1.getAddress());
-        patientDto1.setMobile(patient1.getMobile());
+        PatientDto patientDto1 = new PatientDto(
+                2L,
+                "Vidharan",
+                "M",
+                "vidhu@gmail.com",
+                "9753186420",
+                "India",
+                25,
+                "Male",
+                "O+",
+                "Sakthi",
+                "1234567890",
+                "Sister",
+                "None",
+                "None",
+                "None",
+                "None",
+                false,
+                true
+        );
 
         List<Patient> patientList = List.of(patient, patient1);
 
@@ -150,19 +213,7 @@ public class PatientServiceTests {
             assertThat(patientDtoList).isNotEmpty();
             assertThat(patientDtoList.size()).isEqualTo(2);
 
-            assertThat(patientDtoList.get(0).getId()).isEqualTo(patientDto.getId());
-            assertThat(patientDtoList.get(0).getFirstName()).isEqualTo(patientDto.getFirstName());
-            assertThat(patientDtoList.get(0).getLastName()).isEqualTo(patientDto.getLastName());
-            assertThat(patientDtoList.get(0).getEmail()).isEqualTo(patientDto.getEmail());
-            assertThat(patientDtoList.get(0).getMobile()).isEqualTo(patientDto.getMobile());
-            assertThat(patientDtoList.get(0).getAddress()).isEqualTo(patientDto.getAddress());
-
-            assertThat(patientDtoList.get(1).getId()).isEqualTo(patient1.getId());
-            assertThat(patientDtoList.get(1).getFirstName()).isEqualTo(patient1.getFirstName());
-            assertThat(patientDtoList.get(1).getLastName()).isEqualTo(patient1.getLastName());
-            assertThat(patientDtoList.get(1).getEmail()).isEqualTo(patient1.getEmail());
-            assertThat(patientDtoList.get(1).getMobile()).isEqualTo(patient1.getMobile());
-            assertThat(patientDtoList.get(1).getAddress()).isEqualTo(patient1.getAddress());
+            assertThat(patientDtoList).containsExactlyInAnyOrder(patientDto, patientDto1);
         }
     }
 
@@ -189,12 +240,7 @@ public class PatientServiceTests {
 
             // Assert
             assertThat(fetchedPatientDto).isNotNull();
-            assertThat(fetchedPatientDto.getId()).isEqualTo(patient.getId());
-            assertThat(fetchedPatientDto.getFirstName()).isEqualTo(patient.getFirstName());
-            assertThat(fetchedPatientDto.getLastName()).isEqualTo(patient.getLastName());
-            assertThat(fetchedPatientDto.getEmail()).isEqualTo(patient.getEmail());
-            assertThat(fetchedPatientDto.getAddress()).isEqualTo(patient.getAddress());
-            assertThat(fetchedPatientDto.getMobile()).isEqualTo(patient.getMobile());
+            assertThat(fetchedPatientDto).isEqualTo(patientDto);
         }
     }
 
@@ -228,12 +274,7 @@ public class PatientServiceTests {
             assertThat(patientDto1).isNotNull();
             assertThat(patientDto1.getId()).isGreaterThan(0);
 
-            assertThat(patientDto1.getId()).isEqualTo(patientDto.getId());
-            assertThat(patientDto1.getFirstName()).isEqualTo(savePatientDto.getFirstName());
-            assertThat(patientDto1.getLastName()).isEqualTo(savePatientDto.getLastName());
-            assertThat(patientDto1.getEmail()).isEqualTo(savePatientDto.getEmail());
-            assertThat(patientDto1.getMobile()).isEqualTo(savePatientDto.getMobile());
-            assertThat(patientDto1.getAddress()).isEqualTo(savePatientDto.getAddress());
+            assertThat(patientDto1).isEqualTo(patientDto);
         }
     }
 
@@ -355,5 +396,61 @@ public class PatientServiceTests {
         verify(patientRepo, times(1)).deleteById(id);
     }
 
+    @DisplayName(value = "JUnit test for get patient by mobile number method when patient does not exist")
+    @Test
+    public void givenInvalidUsername_whenGetPatientByUsername_thenThrowError() {
+        // Arrange
+        String mobileNo = "9876543210";
+        given(patientRepo.findByMobile(mobileNo)).willReturn(Optional.empty());
+
+        // Assert
+        Assertions.assertThrows(NoSuchElementException.class, () -> patientService.getPatientByUsername(mobileNo));
+    }
+
+    @DisplayName(value = "JUnit test for get patient by mobile number method")
+    @Test
+    public void givenValidUsername_whenGetPatientByUsername_thenReturnPatientDTO() {
+        // Arrange
+        String mobileNo = "9876543210";
+        given(patientRepo.findByMobile(mobileNo)).willReturn(Optional.of(patient));
+
+        try (MockedStatic<PatientMapper> patientMapperMockedStatic = mockStatic(PatientMapper.class)) {
+            patientMapperMockedStatic.when(() -> PatientMapper.mapToPatientDto(patient))
+                    .thenReturn(patientDto);
+
+            // Act
+            PatientDto fetchedPatientDto = patientService.getPatientByUsername(mobileNo);
+
+            // Assert
+            assertThat(fetchedPatientDto).isNotNull();
+            assertThat(fetchedPatientDto).isEqualTo(patientDto);
+        }
+    }
+
+    @DisplayName(value = "JUnit test for get patient's first name by mobile number method when patient does not exist")
+    @Test
+    public void givenInvalidUsername_whenGetPatientFirstnameByUsername_thenThrowError() {
+        // Arrange
+        String mobileNo = "9876543210";
+        given(patientRepo.findByMobile(mobileNo)).willReturn(Optional.empty());
+
+        // Assert
+        Assertions.assertThrows(NoSuchElementException.class, () -> patientService.getPatientFirstnameByUsername(mobileNo));
+    }
+
+    @DisplayName(value = "JUnit test for get patient's first name by mobile number method")
+    @Test
+    public void givenValidUsername_whenGetPatientFirstnameByUsername_thenReturnFirstName() {
+        // Arrange
+        String mobileNo = "9876543210";
+        given(patientRepo.findByMobile(mobileNo)).willReturn(Optional.of(patient));
+
+        // Act
+        String firstName = patientService.getPatientFirstnameByUsername(mobileNo);
+
+        // Assert
+        assertThat(firstName).isNotNull();
+        assertThat(firstName).isEqualTo(patient.getFirstName());
+    }
 
 }

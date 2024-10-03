@@ -58,34 +58,6 @@ public class PatientServiceImpl implements PatientService {
     }
 
     /**
-     * A Service method to find a specific patient with its mobile no.
-     *
-     * @param username Mobile number of the patient
-     * @return The patient data.
-     * @throws NoSuchElementException If no element exists with given id.
-     */
-    @Override
-    public PatientDto getPatientByUsername(String username) {
-        Patient fetchedPatient = patientRepo.findByMobile(username).orElseThrow(
-                () -> new NoSuchElementException("No patient present in our database under given mobile no.: " + username + "."));
-        return PatientMapper.mapToPatientDto(fetchedPatient);
-    }
-
-    /**
-     * A Service method to find a specific patient's first name with its mobile no..
-     *
-     * @param username Mobile number of the patient
-     * @return The patient's first name.
-     * @throws NoSuchElementException If no element exists with given id.
-     */
-    @Override
-    public String getPatientFirstnameByUsername(String username) {
-        Patient fetchedPatient = patientRepo.findByMobile(username).orElseThrow(
-                () -> new NoSuchElementException("No patient present in our database under given mobile no.: " + username + "."));
-        return fetchedPatient.getFirstName();
-    }
-
-    /**
      * A Service method to add a new patient into the database.
      *
      * @param savePatientDto of type SavePatientDto
@@ -138,5 +110,33 @@ public class PatientServiceImpl implements PatientService {
         if (patientRepo.existsById(id)) {
             throw new RuntimeException("Exception while deletion of the patient with ID: " + id + ". A patient still exists in the Id.");
         }
+    }
+
+    /**
+     * A Service method to find a specific patient with its mobile no.
+     *
+     * @param username Mobile number of the patient
+     * @return The patient data.
+     * @throws NoSuchElementException If no element exists with given id.
+     */
+    @Override
+    public PatientDto getPatientByUsername(String username) {
+        Patient fetchedPatient = patientRepo.findByMobile(username).orElseThrow(
+                () -> new NoSuchElementException("No patient present in our database under given mobile no.: " + username + "."));
+        return PatientMapper.mapToPatientDto(fetchedPatient);
+    }
+
+    /**
+     * A Service method to find a specific patient's first name with its mobile no..
+     *
+     * @param username Mobile number of the patient
+     * @return The patient's first name.
+     * @throws NoSuchElementException If no element exists with given id.
+     */
+    @Override
+    public String getPatientFirstnameByUsername(String username) {
+        Patient fetchedPatient = patientRepo.findByMobile(username).orElseThrow(
+                () -> new NoSuchElementException("No patient present in our database under given mobile no.: " + username + "."));
+        return fetchedPatient.getFirstName();
     }
 }

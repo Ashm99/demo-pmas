@@ -67,10 +67,120 @@ public class DoctorServiceTests {
                 "USA"
         );
         saveDoctorDto = new SaveDoctorDto(
-//                doctor.getFirstName(),
-//                doctor.getLastName(),
-//                doctor.getSpeciality()
+                "John",
+                "Smith",
+                "Male",
+                "9988776655",
+                "jsmith@gmail.com",
+                "General",
+                5,
+                "MBBS",
+                "English",
+                "USA"
         );
+    }
+
+    @DisplayName("JUnit test method to add multiple new doctors.")
+    @Test
+    public void givenListOfSaveDoctorDto_whenAddAllDoctors_thenReturnListOfDoctorDto() {
+        // Arrange
+        SaveDoctorDto saveDoctorDto1 = new SaveDoctorDto(
+                "Alice",
+                "Smith",
+                "Female",
+                "8888888888",
+                "alice@example.com",
+                "Cardiology",
+                10,
+                "MBBS",
+                "English",
+                "USA"
+        );
+        SaveDoctorDto saveDoctorDto2 = new SaveDoctorDto(
+                "Bob",
+                "Johnson",
+                "Male",
+                "9999999999",
+                "bob@example.com",
+                "Dermatology",
+                8,
+                "MBBS",
+                "English",
+                "USA"
+        );
+
+        List<SaveDoctorDto> saveDoctorDtoList = List.of(saveDoctorDto1, saveDoctorDto2);
+
+        Doctor doctor1 = new Doctor(1L,
+                "Alice",
+                "Smith",
+                "Female",
+                "8888888888",
+                "alice@example.com",
+                "Cardiology",
+                10,
+                "MBBS",
+                "English",
+                "USA"
+        );
+        Doctor doctor2 = new Doctor(2L,
+                "Bob",
+                "Johnson",
+                "Male",
+                "9999999999",
+                "bob@example.com",
+                "Dermatology",
+                8,
+                "MBBS",
+                "English",
+                "USA"
+        );
+
+        DoctorDto doctorDto1 = new DoctorDto(1L,
+                "Alice",
+                "Smith",
+                "Female",
+                "8888888888",
+                "alice@example.com",
+                "Cardiology",
+                10,
+                "MBBS",
+                "English",
+                "USA"
+        );
+        DoctorDto doctorDto2 = new DoctorDto(2L,
+                "Bob",
+                "Johnson",
+                "Male",
+                "9999999999",
+                "bob@example.com",
+                "Dermatology",
+                8,
+                "MBBS",
+                "English",
+                "USA"
+        );
+
+        List<Doctor> savedDoctors = List.of(doctor1, doctor2);
+
+        // Mock behavior
+        try (MockedStatic<DoctorMapper> doctorMapperMockedStatic = mockStatic(DoctorMapper.class)) {
+            doctorMapperMockedStatic
+                    .when(() -> DoctorMapper.mapToDoctorFromSaveDoctorDto(any(), any(SaveDoctorDto.class)))
+                    .thenReturn(doctor1).thenReturn(doctor2);
+            given(doctorRepo.saveAll(any())).willReturn(savedDoctors);
+            doctorMapperMockedStatic
+                    .when(() -> DoctorMapper.mapToDoctorDto(any()))
+                    .thenReturn(doctorDto1, doctorDto2);
+
+            // Action
+            List<DoctorDto> savedDoctorDtoList = doctorService.addAllDoctors(saveDoctorDtoList);
+
+            // Assertion
+            assertThat(savedDoctorDtoList).isNotNull();
+            assertThat(savedDoctorDtoList.size()).isEqualTo(2);
+            assertThat(savedDoctorDtoList).containsExactlyInAnyOrder(doctorDto1, doctorDto2);
+        }
     }
 
     @DisplayName(value = "JUnit test method to save a doctor.")
@@ -91,10 +201,7 @@ public class DoctorServiceTests {
             // Assertion
             assertThat(savedDoctorDto).isNotNull();
 
-            assertThat(savedDoctorDto.getId()).isEqualTo(doctor.getId());
-            assertThat(savedDoctorDto.getFirstName()).isEqualTo(doctor.getFirstName());
-            assertThat(savedDoctorDto.getLastName()).isEqualTo(doctor.getLastName());
-            assertThat(savedDoctorDto.getSpeciality()).isEqualTo(doctor.getSpeciality());
+            assertThat(savedDoctorDto).isEqualTo(doctorDto);
         }
     }
 
@@ -103,16 +210,30 @@ public class DoctorServiceTests {
     public void givenDoctorList_whenGetAllDoctors_thenReturnDoctorDtoList() {
         // Mock behaviour
         Doctor doctor1 = new Doctor(
-//                2L,
-//                "Raja",
-//                "M",
-//                "General"
+                2L,
+                "Alice",
+                "Smith",
+                "Female",
+                "8888888888",
+                "alice@example.com",
+                "Cardiology",
+                10,
+                "MBBS",
+                "English",
+                "USA"
         );
         DoctorDto doctorDto1 = new DoctorDto(
-//                doctor1.getId(),
-//                doctor1.getFirstName(),
-//                doctor1.getLastName(),
-//                doctor1.getSpeciality()
+                2L,
+                "Alice",
+                "Smith",
+                "Female",
+                "8888888888",
+                "alice@example.com",
+                "Cardiology",
+                10,
+                "MBBS",
+                "English",
+                "USA"
         );
         List<Doctor> doctors = List.of(doctor, doctor1);
         given(doctorRepo.findAll()).willReturn(doctors);
@@ -132,15 +253,7 @@ public class DoctorServiceTests {
             assertThat(doctorDtoList.size()).isGreaterThan(0);
             assertThat(doctorDtoList.size()).isEqualTo(2);
 
-            assertThat(doctorDtoList.get(0).getId()).isEqualTo(doctor.getId());
-            assertThat(doctorDtoList.get(0).getFirstName()).isEqualTo(doctor.getFirstName());
-            assertThat(doctorDtoList.get(0).getLastName()).isEqualTo(doctor.getLastName());
-            assertThat(doctorDtoList.get(0).getSpeciality()).isEqualTo(doctor.getSpeciality());
-
-            assertThat(doctorDtoList.get(1).getId()).isEqualTo(doctor1.getId());
-            assertThat(doctorDtoList.get(1).getFirstName()).isEqualTo(doctor1.getFirstName());
-            assertThat(doctorDtoList.get(1).getLastName()).isEqualTo(doctor1.getLastName());
-            assertThat(doctorDtoList.get(1).getSpeciality()).isEqualTo(doctor1.getSpeciality());
+            assertThat(doctorDtoList).containsExactlyInAnyOrder(doctorDto, doctorDto1);
         }
     }
 
@@ -169,10 +282,7 @@ public class DoctorServiceTests {
         // Assertion
         assertThat(fetchedDoctorDto).isNotNull();
 
-        assertThat(fetchedDoctorDto.getId()).isEqualTo(doctor.getId());
-        assertThat(fetchedDoctorDto.getFirstName()).isEqualTo(doctor.getFirstName());
-        assertThat(fetchedDoctorDto.getLastName()).isEqualTo(doctor.getLastName());
-        assertThat(fetchedDoctorDto.getSpeciality()).isEqualTo(doctor.getSpeciality());
+        assertThat(fetchedDoctorDto).isEqualTo(doctorDto);
     }
 
     @DisplayName(value = "JUnit test method for get doctor by id for an unavailable doctor.")
@@ -204,10 +314,7 @@ public class DoctorServiceTests {
             // Assertion
             assertThat(updatedDoctorDto).isNotNull();
 
-            assertThat(updatedDoctorDto.getId()).isEqualTo(doctor.getId());
-            assertThat(updatedDoctorDto.getFirstName()).isEqualTo(doctor.getFirstName());
-            assertThat(updatedDoctorDto.getLastName()).isEqualTo(doctor.getLastName());
-            assertThat(updatedDoctorDto.getSpeciality()).isEqualTo(doctor.getSpeciality());
+            assertThat(updatedDoctorDto).isEqualTo(doctorDto);
         }
     }
 
