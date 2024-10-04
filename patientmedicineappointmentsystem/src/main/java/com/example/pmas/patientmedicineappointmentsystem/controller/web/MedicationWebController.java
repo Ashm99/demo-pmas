@@ -67,7 +67,7 @@ public class MedicationWebController {
     }
 
     /**
-     * Gets a new employee object and saves into the repository.
+     * Gets a new medication object and saves into the repository.
      * Loads the success or error page based on the outcome.
      *
      * @param model
@@ -118,7 +118,7 @@ public class MedicationWebController {
      * @return success or error page
      */
     @PostMapping(value = "/update/{id}")
-    public String saveUpdatedEmployee(
+    public String saveUpdatedMedication(
             @PathVariable(value = "id") Long id,
             @RequestParam(value = "prescriptionDate") LocalDate prescriptionDate,
             Authentication authentication,
@@ -140,7 +140,7 @@ public class MedicationWebController {
             System.out.println("Resuming application...");
             return "error";
         }
-        model.addAttribute("message", "Medication printed with medication ID: " + id + ".");
+        model.addAttribute("message", "Medication updated with medication ID: " + id + ".");
         return "success";
     }
 
@@ -158,13 +158,13 @@ public class MedicationWebController {
         try {
             medicationService.getMedicationById(id);
         } catch (NoSuchElementException e) {
-            String message = "Successfully deleted employee from the database.";
+            String message = "Successfully deleted medication from the database.";
             model.addAttribute("message", message);
             return "success";
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
-        model.addAttribute("message", "Error deleting the employee.");
+        model.addAttribute("message", "Error deleting the Medication.");
         return "error";
     }
 }

@@ -13,7 +13,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @Controller
 @RequestMapping(value = "/web/appointments")
@@ -87,17 +86,33 @@ public class AppointmentWebController {
      */
     @GetMapping(value = "/delete/{id}")
     public String deleteAppointment(@PathVariable(value = "id") Long id, Model model) {
-        appointmentService.deleteAppointment(id);
-        try {
-            appointmentService.deleteAppointment(id);
-        } catch (NoSuchElementException e) {
-            String message = "Successfully deleted employee from the database.";
+        String message = "";
+        try{
+            message = appointmentService.deleteAppointment(id);
+        } catch(Exception e){
+            message = e.getMessage();
+        }
+        if(message.equals("Successfully cancelled the appointment.")) {
             model.addAttribute("message", message);
             return "success";
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
+        } else {
+            model.addAttribute("message", message);
+            return "error";
         }
-        model.addAttribute("message", "Error deleting the employee.");
-        return "error";
+        //If any issue here comment out these lines and uncomment below lines.
+        // Made this change while writing the AppointmentWebControllerTest case for this method
+
+//        appointmentService.deleteAppointment(id);
+//        try {
+//            appointmentService.deleteAppointment(id);
+//        } catch (NoSuchElementException e) {
+//            String message = "Successfully deleted appointment from the database.";
+//            model.addAttribute("message", message);
+//            return "success";
+//        } catch (Exception e) {
+//            System.err.println(e.getMessage());
+//        }
+//        model.addAttribute("message", "Error deleting the appointment.");
+//        return "error";
     }
 }
