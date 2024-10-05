@@ -19,15 +19,20 @@ public class PatientAuthController {
 
     /**
      * A mvc method for the login page
+     *
+     * @return the login view.
      */
     // http://localhost:8082/web/patients/login
     @GetMapping(value = "/login")
-    public String login(Model model) {
+    public String login() {
         return "login";
     }
 
     /**
-     * A mvc method for the sign-up/register page
+     * A mvc method for the sign-up/register page.
+     *
+     * @param model  Model interface object.
+     * @return the view for registering a new patient.
      */
     // http://localhost:8082/web/patients/register
     @GetMapping(value = "/register")
@@ -38,6 +43,10 @@ public class PatientAuthController {
 
     /**
      * A mvc method to save the new patient
+     *
+     * @param savePatientDto  Patient data to be saved,
+     * @param model  Model interface object.
+     * @return Success or Error page based on the outcome.
      */
     @PostMapping(value = "/savePatient")
     public String savePatient(@Valid @ModelAttribute SavePatientDto savePatientDto, Model model) {

@@ -21,7 +21,10 @@ public class MedicationWebController {
     private MedicationService medicationService;
 
     /**
-     * A mvc method for showing the medication list
+     * A mvc method for showing the medication list.
+     * @param authentication Authentication interface object,
+     * @param model Model interface object.
+     * @return the medication list view for rendering.
      */
     // http://localhost:8082/web/medications/list
     @GetMapping(value = "/list")
@@ -41,9 +44,9 @@ public class MedicationWebController {
     /**
      * On selection of a particular medication, shows that specific medication's details.
      *
-     * @param id Medication id
-     * @param model
-     * @return view-medication html page
+     * @param id Medication id,
+     * @param model Model interface object.
+     * @return view-medication html page.
      */
     @GetMapping(value = "/view/{id}")
     public String showMedicationById(@PathVariable(value = "id") Long id, Model model) {
@@ -56,8 +59,8 @@ public class MedicationWebController {
     /**
      * Renders the HTML form page for adding a new medication
      *
-     * @param model
-     * @return add-medication html page
+     * @param model Model interface object,
+     * @return add-medication html page.
      */
     // http://localhost:8082/web/medications/add-medication
     @GetMapping(value = "/add-medication")
@@ -70,9 +73,9 @@ public class MedicationWebController {
      * Gets a new medication object and saves into the repository.
      * Loads the success or error page based on the outcome.
      *
-     * @param model
-     * @param newMedication
-     * @return success or error page
+     * @param model Model interface object,
+     * @param newMedication  Medication data to be saved,
+     * @return success or error page.
      */
     @PostMapping(value = "/add")
     public String saveMedication(Authentication authentication, Model model, @Valid @ModelAttribute SaveMedicationDto newMedication) {
@@ -98,8 +101,8 @@ public class MedicationWebController {
      * Updates the medication object upon clicking update from the webpage.
      * This method actually renders the webpage for the update process.
      *
-     * @param id
-     * @param model
+     * @param id Medication id,
+     * @param model Model interface object,
      * @return a success or an error page based on the outcome.
      */
     @GetMapping(value = "/update-medication/{id}")
@@ -113,9 +116,9 @@ public class MedicationWebController {
      * Updates the selected medication object with the values filled from the webpage.
      * Loads the success or error page based on the update process.
      *
-     * @param model
-     * @param updatedMedication
-     * @return success or error page
+     * @param model Model interface object,
+     * @param updatedMedication Medication data to be updated.
+     * @return success or error page.
      */
     @PostMapping(value = "/update/{id}")
     public String saveUpdatedMedication(
@@ -146,10 +149,10 @@ public class MedicationWebController {
 
     // http://localhost:8082/web/medications/delete/{id}
     /**
-     * Deletes the medication object upon clicking delete from the webpage
+     * Deletes the medication object upon clicking delete from the webpage.
      *
-     * @param id
-     * @param model
+     * @param id Medication id,
+     * @param model Model interface object.
      * @return a success or an error page based on the outcome.
      */
     @GetMapping(value = "/delete/{id}")

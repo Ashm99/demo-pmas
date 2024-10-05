@@ -11,12 +11,25 @@
       crossorigin="anonymous"
     />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+      body {
+        background-color: #f8f9fa;
+      }
+
+      .body-container {
+        background-color: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        width: 67%;
+      }
+    </style>
   </head>
   <body class="m-3">
-    <div class="container-fluid d-flex justify-content-center">
-      <div class="sign-in col-sm-12 col-md-6">
+    <div class="body-container container-fluid d-flex justify-content-center">
+      <div class="sign-in col-sm-12 col-md-12">
         <header>
-          <h4 class="text-info">Medicine data | View</h4>
+          <h4 class="text-primary"><strong>View Medicine</strong></h4>
           <p th:replace="~{common/patient-nav-bar::patient-navigation-bar}">Navigation links</p>
         </header>
 
@@ -67,8 +80,5 @@
         </section>
       </div>
     </div>
-    <footer class="text-center">
-      <p>End of Page.</p>
-    </footer>
   </body>
 </html>

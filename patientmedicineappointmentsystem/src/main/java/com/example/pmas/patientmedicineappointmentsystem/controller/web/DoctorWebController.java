@@ -19,6 +19,8 @@ public class DoctorWebController {
 
     /**
      * A mvc method for the sign-up/register page
+     * @param model
+     * @return the doctor-registration page
      */
     // http://localhost:8082/web/doctors/register
     @GetMapping(value = "/register")
@@ -28,7 +30,10 @@ public class DoctorWebController {
     }
 
     /**
-     * A mvc method saving the doctor
+     * A mvc method saving the doctor.
+     * @param model
+     * @param saveDoctorDto Doctor object with necessary details.
+     * @return success or error page based on the outcome.
      */
     @PostMapping(value = "/saveDoctor")
     public String register(Model model, @Valid @ModelAttribute SaveDoctorDto saveDoctorDto) {

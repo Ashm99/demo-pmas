@@ -29,8 +29,8 @@ public class SavePatientDto {
 
     @Pattern(
             regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*(),.?\":{}|<>])[A-Za-z\\d!@#$%^&*(),.?\":{}|<>]{8,}$",
-            message = "Password must contain at least 8characters. " +
-                    "At least one capital letter, at least one small, at least one number and at least one special character.")
+            message = "Password must contain at least 8characters, " +
+                    "at least one capital letter, at least one small, at least one number and at least one special character.")
     private String password;
 
     @NotBlank(message = "Address of a patient cannot be blank.")

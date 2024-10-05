@@ -10,97 +10,323 @@
       integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
       crossorigin="anonymous"
     />
+    <style>
+      body {
+        background-color: #f8f9fa;
+      }
+
+      .register-container {
+        background-color: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 600px;
+      }
+    </style>
   </head>
   <body class="m-3">
-    <div class="container-fluid d-flex justify-content-center">
-      <div class="col-sm-12 col-md-6">
+    <div class="register-container container d-flex justify-content-center">
+      <div class="col-sm-12 col-md-12">
         <header>
-          <h4><strong>Patient Medicine Appointment System | Patient Registration</strong></h4>
+          <h4 class="text-primary text-center">
+            <strong>Patient Registration</strong>
+          </h4>
         </header>
         <section>
           <div class="register">
             <div th:if="${param.success}" class="success-message">
-              <div class="alert alert-info">You are successfully registered! <br> Your phone number is your username.</div>
+              <div class="alert alert-success">
+                You are successfully registered! <br />
+                Your phone number is your username.
+              </div>
             </div>
-            <div th:if="${param.mobileAlreadyExists}" class="mobileAlreadyExists-message">
-              <div class="alert alert-danger">A patient already exists in provided mobile number.<br> Enter a valid one.</div>
+            <div
+              th:if="${param.mobileAlreadyExists}"
+              class="mobileAlreadyExists-message"
+            >
+              <div class="alert alert-danger">
+                A patient already exists in provided mobile number.<br />
+                Enter a valid one.
+              </div>
             </div>
             <div class="register-form">
-              <form action="#" onsubmit="return validatePassword()" th:action="@{/web/patients/savePatient}" th:object="${newPatient}" method="post">
-                <label for="first-name">First name</label>
-                <input id="first-name" class="form-control" type="text" placeholder="John" th:field="*{firstName}" required autofocus="autofocus"/><br />
-                
-                <label for="last-name">Last name</label>
-                <input id="last-name" class="form-control" type="text" placeholder="Doe" th:field="*{lastName}" required/><br />
-                
-                <label for="email">Email</label>
-                <input id="email" class="form-control" type="email" placeholder="jdoe@gmail.com" th:field="*{email}" required/><br />
-                
-                <label for="phone">Phone</label>
-                <input id="phone" class="form-control" type="text" placeholder="9876543210" th:field="*{mobile}" required/><br />
-                
-                <label for="address">Address</label>
-                <input id="address" class="form-control" type="text" placeholder="Georgetown, USA" th:field="*{address}" required/><br />
-                
-                <label for="password">Password</label>
-                <input id="password" class="form-control" type="password" required/><br />
-                
-                <label for="password2">Confirm password</label>
-                <input id="password2" class="form-control" type="password" th:field="*{password}" required/><br />
-                <span id="error-message" class="form-control" style="color: red; display: none;">Passwords do not match!</span>
-        
-                <label for="age">Age</label>
-                <input id="age" class="form-control" type="number" placeholder="25" th:field="*{age}" required min="1"/><br />
-        
-                <span>Gender</span>
+              <form
+                action="#"
+                onsubmit="return validatePassword()"
+                th:action="@{/web/patients/savePatient}"
+                th:object="${newPatient}"
+                method="post"
+              >
+                <label for="first-name"><strong>First name</strong></label>
+                <input
+                  id="first-name"
+                  class="form-control"
+                  type="text"
+                  placeholder="John"
+                  th:field="*{firstName}"
+                  required
+                  autofocus="autofocus"
+                /><br />
+
+                <label for="last-name"><strong>Last name</strong></label>
+                <input
+                  id="last-name"
+                  class="form-control"
+                  type="text"
+                  placeholder="Doe"
+                  th:field="*{lastName}"
+                  required
+                /><br />
+
+                <label for="email"><strong>Email</strong></label>
+                <input
+                  id="email"
+                  class="form-control"
+                  type="email"
+                  placeholder="jdoe@gmail.com"
+                  th:field="*{email}"
+                  required
+                /><br />
+
+                <label for="phone"><strong>Phone</strong></label>
+                <input
+                  id="phone"
+                  class="form-control"
+                  type="text"
+                  placeholder="9876543210"
+                  th:field="*{mobile}"
+                  required
+                /><br />
+
+                <label for="address"><strong>Address</strong></label>
+                <input
+                  id="address"
+                  class="form-control"
+                  type="text"
+                  placeholder="Georgetown, USA"
+                  th:field="*{address}"
+                  required
+                /><br />
+
+                <label for="age"><strong>Age</strong></label>
+                <input
+                  id="age"
+                  class="form-control"
+                  type="number"
+                  placeholder="25"
+                  th:field="*{age}"
+                  required
+                  min="1"
+                /><br />
+
+                <span><strong>Gender</strong></span>
                 <div class="form-control">
-                  <label><input id="genderMale" type="radio" name="gender" placeholder="1" th:field="*{gender}" value="Male" required/>Male</label>
-                  <label><input id="genderFemale" type="radio" name="gender" placeholder="2" th:field="*{gender}" value="Female" required/>Female</label>
-                </div><br />
-        
-                <label for="bloodgroup">Bloodgroup</label>
-                <input id="bloodgroup" class="form-control" type="text" placeholder="A1+" th:field="*{bloodGroup}" required /><br />
-                <span><strong>Emergency contact details:</strong></span><br />
-        
-                <label for="emergencyContactName">Name</label>
-                <input id="emergencyContactName" class="form-control" type="text" placeholder="Johanna" th:field="*{emergencyContactName}" required /><br />
-        
-                <label for="emergencyContactMobile">Mobile</label>
-                <input id="emergencyContactMobile" class="form-control" type="text" placeholder="9876543211" th:field="*{emergencyContactMobile}" required /><br />
-        
-                <label for="emergencyContactRelation">Relation</label>
-                <input id="emergencyContactRelation" class="form-control" type="text" placeholder="Sister" th:field="*{emergencyContactRelation}" required /><br />
-                <span><strong>Medical History:</strong></span><br />
-        
-                <label for="previousDiagnoses" class="form-label">Previous Diagnoses</label>
-                <textarea id="previousDiagnoses" class="form-control" type="text" placeholder="Diagnosed with Asthma since past 6 years." th:field="*{previousDiagnoses}" required></textarea> <br />
-        
-                <label for="surgeries">Surgeries</label>
-                <textarea id="surgeries" class="form-control" type="text" placeholder="Operated for a broken little finger bone." th:field="*{surgeries}" required></textarea> <br />
-        
-                <label for="allergies">Allergies</label>
-                <textarea id="allergies" class="form-control" type="text" placeholder="Allergic to milk." th:field="*{allergies}" required></textarea> <br />
-        
-                <label for="vaccinationHistory">Vaccination History</label>
-                <textarea id="vaccinationHistory" class="form-control" type="text" placeholder="Covishield First dosage on June 2021 and second dosage on 2024." th:field="*{vaccinationHistory}" required></textarea> <br />
-        
-                <span>Do you smoke?</span>
+                  <label
+                    ><input
+                      id="genderMale"
+                      type="radio"
+                      name="gender"
+                      placeholder="1"
+                      th:field="*{gender}"
+                      value="Male"
+                      required
+                    />Male</label
+                  >
+                  <label
+                    ><input
+                      id="genderFemale"
+                      type="radio"
+                      name="gender"
+                      placeholder="2"
+                      th:field="*{gender}"
+                      value="Female"
+                      required
+                    />Female</label
+                  >
+                </div>
+                <br />
+
+                <label for="bloodgroup"><strong>Bloodgroup</strong></label>
+                <input
+                  id="bloodgroup"
+                  class="form-control"
+                  type="text"
+                  placeholder="A1+"
+                  th:field="*{bloodGroup}"
+                  required
+                /><br />
+                <span class="text-primary"
+                  ><strong>Emergency contact details:</strong></span
+                ><br />
+
+                <label for="emergencyContactName"><strong>Name</strong></label>
+                <input
+                  id="emergencyContactName"
+                  class="form-control"
+                  type="text"
+                  placeholder="Johanna"
+                  th:field="*{emergencyContactName}"
+                  required
+                /><br />
+
+                <label for="emergencyContactMobile"
+                  ><strong>Mobile</strong></label
+                >
+                <input
+                  id="emergencyContactMobile"
+                  class="form-control"
+                  type="text"
+                  placeholder="9876543211"
+                  th:field="*{emergencyContactMobile}"
+                  required
+                /><br />
+
+                <label for="emergencyContactRelation"
+                  ><strong>Relation</strong></label
+                >
+                <input
+                  id="emergencyContactRelation"
+                  class="form-control"
+                  type="text"
+                  placeholder="Sister"
+                  th:field="*{emergencyContactRelation}"
+                  required
+                /><br />
+                <span class="text-primary"
+                  ><strong>Medical History:</strong></span
+                ><br />
+
+                <label for="previousDiagnoses" class="form-label"
+                  ><strong>Previous Diagnoses</strong></label
+                >
+                <textarea
+                  id="previousDiagnoses"
+                  class="form-control"
+                  type="text"
+                  placeholder="Diagnosed with Asthma since past 6 years."
+                  th:field="*{previousDiagnoses}"
+                  required
+                ></textarea>
+                <br />
+
+                <label for="surgeries"><strong>Surgeries</strong></label>
+                <textarea
+                  id="surgeries"
+                  class="form-control"
+                  type="text"
+                  placeholder="Operated for a broken little finger bone."
+                  th:field="*{surgeries}"
+                  required
+                ></textarea>
+                <br />
+
+                <label for="allergies"><strong>Allergies</strong></label>
+                <textarea
+                  id="allergies"
+                  class="form-control"
+                  type="text"
+                  placeholder="Allergic to milk."
+                  th:field="*{allergies}"
+                  required
+                ></textarea>
+                <br />
+
+                <label for="vaccinationHistory"
+                  ><strong>Vaccination History</strong></label
+                >
+                <textarea
+                  id="vaccinationHistory"
+                  class="form-control"
+                  type="text"
+                  placeholder="Covishield First dosage on June 2021 and second dosage on 2024."
+                  th:field="*{vaccinationHistory}"
+                  required
+                ></textarea>
+                <br />
+
+                <span><strong>Do you smoke?</strong></span>
                 <div class="form-control">
-                  <label><input id="isSmokerYes" type="radio" name="isSmoker" placeholder="1" th:field="*{isSmoker}" value="true" required/>Yes</label>
-                  <label><input id="isSmokerNo" type="radio" name="isSmoker" placeholder="2" th:field="*{isSmoker}" value="false" required/>No</label>
-                </div><br />
-        
-                <span>Do you consume alcohol?</span>
+                  <label
+                    ><input
+                      id="isSmokerYes"
+                      type="radio"
+                      name="isSmoker"
+                      placeholder="1"
+                      th:field="*{isSmoker}"
+                      value="true"
+                      required
+                    />Yes</label
+                  >
+                  <label
+                    ><input
+                      id="isSmokerNo"
+                      type="radio"
+                      name="isSmoker"
+                      placeholder="2"
+                      th:field="*{isSmoker}"
+                      value="false"
+                      required
+                    />No</label
+                  >
+                </div>
+                <br />
+
+                <span><strong>Do you consume alcohol?</strong></span>
                 <div class="form-control">
-                  <label><input id="consumesAlcoholYes" type="radio" name="consumesAlcohol" th:field="*{consumesAlcohol}" value="true" required/>Yes</label>
-                  <label><input id="consumesAlcoholNo" type="radio" name="consumesAlcohol" th:field="*{consumesAlcohol}" value="false" required/>No</label>
-                </div><br>
-        
-                <button type="submit" class="btn btn-primary mb-1">Sign up</button>
+                  <label
+                    ><input
+                      id="consumesAlcoholYes"
+                      type="radio"
+                      name="consumesAlcohol"
+                      th:field="*{consumesAlcohol}"
+                      value="true"
+                      required
+                    />Yes</label
+                  >
+                  <label
+                    ><input
+                      id="consumesAlcoholNo"
+                      type="radio"
+                      name="consumesAlcohol"
+                      th:field="*{consumesAlcohol}"
+                      value="false"
+                      required
+                    />No</label
+                  >
+                </div>
+                <br />
+
+                <label for="password"><strong>Password</strong></label>
+                <input
+                  id="password"
+                  class="form-control"
+                  type="password"
+                  required
+                /><br />
+
+                <label for="password2"><strong>Confirm password</strong></label>
+                <input
+                  id="password2"
+                  class="form-control"
+                  type="password"
+                  th:field="*{password}"
+                  required
+                /><br />
+                <span
+                  id="error-message"
+                  class="text-center"
+                  style="color: red; display: none"
+                  >Error!</span
+                >
+
+                <button type="submit" class="btn btn-primary mb-1 form-control">
+                  Sign up
+                </button>
               </form>
             </div>
           </div>
-          <div class="login">
+          <div class="login text-center">
             Already registered?
             <a th:href="@{/web/patients/login}">Login here!</a>
           </div>
@@ -109,14 +335,31 @@
       </div>
     </div>
     <script>
-      function validatePassword(){
-        console.log('Hello, Boy!')
+      function validatePassword() {
+        console.log("Validating password..");
         const password = document.getElementById("password").value;
         const confirmPassword = document.getElementById("password2").value;
         const errorMessage = document.getElementById("error-message");
 
-        if(password != confirmPassword){
-          console.log("Password and Confirm password do not match.")
+        const passwordPattern =
+          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>])[A-Za-z\d!@#$%^&*(),.?":{}|<>]{8,}$/;
+
+        if (!passwordPattern.test(password)) {
+          console.log("Pattern does not match with password:");
+
+          const text =
+            "Password should have at least 8 characters, at least one capital letter, at least one small, at least one number and at least one special character.";
+          console.log(text);
+          errorMessage.textContent = text;
+          errorMessage.style.display = "block";
+          return false;
+        }
+        console.log("Pattern matches with password:");
+
+        if (password != confirmPassword) {
+          const text = "Password and Confirm password do not match.";
+          console.log(text);
+          errorMessage.textContent = text;
           // Show error message when unequal
           errorMessage.style.display = "block";
           return false;

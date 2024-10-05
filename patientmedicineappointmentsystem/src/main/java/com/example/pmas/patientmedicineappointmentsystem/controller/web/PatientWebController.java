@@ -18,7 +18,11 @@ public class PatientWebController {
     private PatientService patientService;
 
     /**
-     * A mvc method for showing the home page
+     * A mvc method for rendering the home page
+     *
+     * @param model Model interface object,
+     * @param authentication Authentication interface object.
+     * @return Patient home page or error page based on the outcome.
      */
     // http://localhost:8082/web/patients/home
     @GetMapping(value = "/home")
@@ -39,6 +43,10 @@ public class PatientWebController {
 
     /**
      * A mvc method for showing the profile page
+     *
+     * @param model Model interface object,
+     * @param authentication Authentication interface object.
+     * @return Patient's profile page.
      */
     // http://localhost:8082/web/patients/profile
     @GetMapping(value = "/profile")
@@ -50,6 +58,8 @@ public class PatientWebController {
 
     /**
      * A mvc method for the logout confirmation page
+     *
+     * @return Logout confirmation view.
      */
     // http://localhost:8082/web/patients/confirm-logout
     @GetMapping(value = "/confirm-logout")

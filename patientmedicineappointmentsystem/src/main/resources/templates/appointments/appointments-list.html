@@ -1,188 +1,85 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Appointments</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <style>
+      body {
+        background-color: #f8f9fa;
+      }
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Appointments</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-</head>
+      .body-container {
+        background-color: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        width: 100%;
+      }
+    </style>
+  </head>
 
-<body class="m-3">
-  <div class="container-fluid d-flex justify-content-center">
-    <div class="col-sm-12 col-md-11">
-      <header>
-        <h4 class="mt-3 mb-3"><strong>Appointment | View</strong></h4>
-        <p th:replace="~{common/patient-nav-bar::patient-navigation-bar}">
-          Navigation links
-        </p>
-      </header>
-      <section>
-        <div class="book-appointment-button">
-          <button class="btn btn-success mb-3"
-            th:onclick="|window.location.href='@{/web/appointments/add-appointment}'|">
-            Book an appointment
-          </button>
-        </div>
-
-        <div th:if="${noUpcomingAppointments}">
-          <p>No upcoming appointments exist. Add one to display.</p>
-        </div>
-
-        <div th:unless="${noUpcomingAppointments}">
-          <div class="row">
-            <div class="col-md-11">
-              <h5 class="mt-3 mb-3">Upcoming appointments</h5>
-              <p>These are your upcoming appointments:</p>
-              <table class="table table-responsive table-bordered table-striped">
-                <thead>
-                  <tr>
-                    <th>S.No</th>
-                    <th>Appointment Id</th>
-                    <th>Doctor name</th>
-                    <th>Doctor speciality</th>
-                    <th>Doctor details</th>
-                    <th>Appointment Date and Time</th>
-                    <th>Appointment created at</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr th:each="appointment, iterStat : ${upcomingAppointments}">
-                    <td th:text="${iterStat.count}">1</td>
-                    <td th:text="${appointment.id}">1</td>
-                    <td th:text="${appointment.doctorDto.firstName}">
-                      Doctor name
-                    </td>
-                    <td th:text="${appointment.doctorDto.speciality}">
-                      Doctor speciality
-                    </td>
-                    <td>
-                      <button class="btn btn-sm btn-info" type="button" th:data-bs-toggle="modal"
-                        th:data-bs-target="'#doctorModal' + ${appointment.doctorDto.id}">
-                        <!--Type button to mention that the button doesn't submit any form-->
-                        <!--data-bs-toggle attribute: Bootstrap data attribute to toggle a modal when clicked.-->
-                        <!--data-bs-target attribute: Dynamically set the target modal's ID based on the doctor's ID from the appointment object.-->
-                        view
-                      </button>
-                      <!--Creating the Modal-->
-                      <div class="modal fade" th:id="'doctorModal' + ${appointment.doctorDto.id}" tabindex="-1"
-                        aria-labelledby="'modalTitle' + ${appointment.doctorDto.id}" aria-hidden="true">
-                        <!--th:id: Set a unique ID for the modal based on the doctor's ID, which is necessary for the button to target it.-->
-                        <!--tabindex="-1": Ensures the modal cannot be focused via keyboard navigation.-->
-                        <!--aria-labelledby="'modalTitle' + ${appointment.doctorDto.id}": Links the modal to its title for accessibility purposes.-->
-                        <!--aria-hidden="true": Indicates that the modal is initially hidden-->
-                        <div class="modal-dialog">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <h5 class="modal-title" th:id="'modalTitle' + ${appointment.doctorDto.id}"
-                                th:text="'Details of Dr.' + ${appointment.doctorDto.firstName}">
-                                <!--th:id="'modalTitle' + ${appointment.doctorDto.id}": Sets a unique ID for the title based on the doctor's ID.-->
-                                Doctor details
-                              </h5>
-                              <button type="button" class="btn btn-close" data-bs-dismiss="modal"
-                                aria-label="Close"></button>
-                            </div>
-                            <!--End of modal-header-->
-                            <div class="modal-body">
-                              <p>
-                                <strong>Doctor id:</strong>
-                                <span th:text="${appointment.doctorDto.id}">Doctor id</span>
-                              </p>
-                              <p>
-                                <strong>Name:</strong>
-                                <span
-                                  th:text="${appointment.doctorDto.firstName} + ' ' + ${appointment.doctorDto.lastName}">Doctor
-                                  Name</span>
-                              </p>
-                              <p>
-                                <strong>Specialty:</strong>
-                                <span th:text="${appointment.doctorDto.speciality}">Specialty</span>
-                              </p>
-                              <p>
-                                <strong>Qualifications:</strong>
-                                <span th:text="${appointment.doctorDto.qualifications}">Qualifications</span>
-                              </p>
-                              <p>
-                                <strong>Experience:</strong>
-                                <span th:text="${appointment.doctorDto.experienceInYears}">Experience</span>
-                                years
-                              </p>
-                              <p>
-                                <strong>Email:</strong>
-                                <span th:text="${appointment.doctorDto.email}">Email</span>
-                              </p>
-                              <p>
-                                <strong>Mobile:</strong>
-                                <span th:text="${appointment.doctorDto.mobile}">Mobile</span>
-                              </p>
-                              <p>
-                                <strong>Office Address:</strong>
-                                <span th:text="${appointment.doctorDto.officeAddress}">Address</span>
-                              </p>
-                              <p>
-                                <strong>Languages Spoken:</strong>
-                                <span th:text="${appointment.doctorDto.languagesSpoken}">Languages</span>
-                              </p>
-                            </div>
-                            <!--End of modal-body-->
-                          </div>
-                          <!--End of modal-content-->
-                        </div>
-                        <!--End of modal-dialog-->
-                      </div>
-                      <!--End of modal div-->
-                    </td>
-                    <td th:text="${appointment.appointmentDateTime}">
-                      Appointment Date and Time
-                    </td>
-                    <td th:text="${appointment.createdAt}">
-                      Appointment created at
-                    </td>
-                    <td>
-                      <button
-                        class="btn btn-danger btn-sm"
-                        th:onclick="|window.location.href='@{/web/appointments/delete/{id}(id=${appointment.id})}'|"
-                      >
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+  <body class="m-3">
+    <div class="body-container container-fluid d-flex justify-content-center">
+      <div class="col-sm-12 col-md-12">
+        <header>
+          <h4 class="mt-3 mb-3 text-primary">
+            <strong>Appointments</strong>
+          </h4>
+          <p th:replace="~{common/patient-nav-bar::patient-navigation-bar}">
+            Navigation links
+          </p>
+        </header>
+        <section>
+          <div class="book-appointment-button">
+            <button
+              class="btn btn-success mb-3"
+              th:onclick="|window.location.href='@{/web/appointments/add-appointment}'|"
+            >
+              Book an appointment
+            </button>
           </div>
-        </div>
-        <br>
-        <div th:if="${noCompletedAppointments}">
-          <p>No completed appointments yet.</p>
-        </div>
 
-        <div th:unless="${noCompletedAppointments}">
-          <div class="row">
-            <div class="col-md-11">
-              <h5 class="mt-3 mb-3" data-bs-toggle="collapse" data-bs-target="#completedAppointments"
-                aria-expanded="false" aria-controls="completedAppointments">
-                Completed appointments
-              </h5>
-              <p>Your old appointments are shown here. Click on "Completed appointments" to expand/collapse.</p>
-              <div class="collapse" id="completedAppointments">
-                <table class="table table-responsive table-bordered table-striped">
+          <div th:if="${noUpcomingAppointments}">
+            <p>No upcoming appointments exist. Add one to display.</p>
+          </div>
+
+          <div th:unless="${noUpcomingAppointments}">
+            <div class="row">
+              <div class="col-md-11">
+                <h5 class="mt-3 mb-3">Upcoming appointments</h5>
+                <p>These are your upcoming appointments:</p>
+                <table
+                  class="table table-responsive table-bordered table-striped"
+                >
                   <thead>
                     <tr>
                       <th>S.No</th>
+                      <th>Appointment Id</th>
                       <th>Doctor name</th>
                       <th>Doctor speciality</th>
                       <th>Doctor details</th>
                       <th>Appointment Date and Time</th>
                       <th>Appointment created at</th>
+                      <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr th:each="appointment, iterStat : ${completedAppointments}">
+                    <tr
+                      th:each="appointment, iterStat : ${upcomingAppointments}"
+                    >
                       <td th:text="${iterStat.count}">1</td>
+                      <td th:text="${appointment.id}">1</td>
                       <td th:text="${appointment.doctorDto.firstName}">
                         Doctor name
                       </td>
@@ -190,16 +87,25 @@
                         Doctor speciality
                       </td>
                       <td>
-                        <button class="btn btn-sm btn-info" type="button" th:data-bs-toggle="modal"
-                          th:data-bs-target="'#doctorModal' + ${appointment.doctorDto.id}">
+                        <button
+                          class="btn btn-sm btn-info"
+                          type="button"
+                          th:data-bs-toggle="modal"
+                          th:data-bs-target="'#doctorModal' + ${appointment.doctorDto.id}"
+                        >
                           <!--Type button to mention that the button doesn't submit any form-->
                           <!--data-bs-toggle attribute: Bootstrap data attribute to toggle a modal when clicked.-->
                           <!--data-bs-target attribute: Dynamically set the target modal's ID based on the doctor's ID from the appointment object.-->
                           view
                         </button>
                         <!--Creating the Modal-->
-                        <div class="modal fade" th:id="'doctorModal' + ${appointment.doctorDto.id}" tabindex="-1"
-                          aria-labelledby="'modalTitle' + ${appointment.doctorDto.id}" aria-hidden="true">
+                        <div
+                          class="modal fade"
+                          th:id="'doctorModal' + ${appointment.doctorDto.id}"
+                          tabindex="-1"
+                          aria-labelledby="'modalTitle' + ${appointment.doctorDto.id}"
+                          aria-hidden="true"
+                        >
                           <!--th:id: Set a unique ID for the modal based on the doctor's ID, which is necessary for the button to target it.-->
                           <!--tabindex="-1": Ensures the modal cannot be focused via keyboard navigation.-->
                           <!--aria-labelledby="'modalTitle' + ${appointment.doctorDto.id}": Links the modal to its title for accessibility purposes.-->
@@ -207,54 +113,84 @@
                           <div class="modal-dialog">
                             <div class="modal-content">
                               <div class="modal-header">
-                                <h5 class="modal-title" th:id="'modalTitle' + ${appointment.doctorDto.id}"
-                                  th:text="'Details of Dr.' + ${appointment.doctorDto.firstName}">
+                                <h5
+                                  class="modal-title"
+                                  th:id="'modalTitle' + ${appointment.doctorDto.id}"
+                                  th:text="'Details of Dr.' + ${appointment.doctorDto.firstName}"
+                                >
                                   <!--th:id="'modalTitle' + ${appointment.doctorDto.id}": Sets a unique ID for the title based on the doctor's ID.-->
                                   Doctor details
                                 </h5>
-                                <button type="button" class="btn btn-close" data-bs-dismiss="modal"
-                                  aria-label="Close"></button>
+                                <button
+                                  type="button"
+                                  class="btn btn-close"
+                                  data-bs-dismiss="modal"
+                                  aria-label="Close"
+                                ></button>
                               </div>
                               <!--End of modal-header-->
                               <div class="modal-body">
                                 <p>
                                   <strong>Doctor id:</strong>
-                                  <span th:text="${appointment.doctorDto.id}">Doctor id</span>
+                                  <span th:text="${appointment.doctorDto.id}"
+                                    >Doctor id</span
+                                  >
                                 </p>
                                 <p>
                                   <strong>Name:</strong>
                                   <span
-                                    th:text="${appointment.doctorDto.firstName} + ' ' + ${appointment.doctorDto.lastName}">Doctor
-                                    Name</span>
+                                    th:text="${appointment.doctorDto.firstName} + ' ' + ${appointment.doctorDto.lastName}"
+                                    >Doctor Name</span
+                                  >
                                 </p>
                                 <p>
                                   <strong>Specialty:</strong>
-                                  <span th:text="${appointment.doctorDto.speciality}">Specialty</span>
+                                  <span
+                                    th:text="${appointment.doctorDto.speciality}"
+                                    >Specialty</span
+                                  >
                                 </p>
                                 <p>
                                   <strong>Qualifications:</strong>
-                                  <span th:text="${appointment.doctorDto.qualifications}">Qualifications</span>
+                                  <span
+                                    th:text="${appointment.doctorDto.qualifications}"
+                                    >Qualifications</span
+                                  >
                                 </p>
                                 <p>
                                   <strong>Experience:</strong>
-                                  <span th:text="${appointment.doctorDto.experienceInYears}">Experience</span>
+                                  <span
+                                    th:text="${appointment.doctorDto.experienceInYears}"
+                                    >Experience</span
+                                  >
                                   years
                                 </p>
                                 <p>
                                   <strong>Email:</strong>
-                                  <span th:text="${appointment.doctorDto.email}">Email</span>
+                                  <span th:text="${appointment.doctorDto.email}"
+                                    >Email</span
+                                  >
                                 </p>
                                 <p>
                                   <strong>Mobile:</strong>
-                                  <span th:text="${appointment.doctorDto.mobile}">Mobile</span>
+                                  <span
+                                    th:text="${appointment.doctorDto.mobile}"
+                                    >Mobile</span
+                                  >
                                 </p>
                                 <p>
                                   <strong>Office Address:</strong>
-                                  <span th:text="${appointment.doctorDto.officeAddress}">Address</span>
+                                  <span
+                                    th:text="${appointment.doctorDto.officeAddress}"
+                                    >Address</span
+                                  >
                                 </p>
                                 <p>
                                   <strong>Languages Spoken:</strong>
-                                  <span th:text="${appointment.doctorDto.languagesSpoken}">Languages</span>
+                                  <span
+                                    th:text="${appointment.doctorDto.languagesSpoken}"
+                                    >Languages</span
+                                  >
                                 </p>
                               </div>
                               <!--End of modal-body-->
@@ -271,22 +207,205 @@
                       <td th:text="${appointment.createdAt}">
                         Appointment created at
                       </td>
+                      <td>
+                        <button
+                          class="btn btn-danger btn-sm"
+                          th:onclick="|window.location.href='@{/web/appointments/delete/{id}(id=${appointment.id})}'|"
+                        >
+                          Delete
+                        </button>
+                      </td>
                     </tr>
                   </tbody>
                 </table>
               </div>
             </div>
           </div>
-        </div>
-      </section>
-    </div>
-  </div>
-  <footer class="text-center">
-    <p>End of Page.</p>
-  </footer>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-    crossorigin="anonymous"></script>
-</body>
+          <br />
+          <div th:if="${noCompletedAppointments}">
+            <p>No completed appointments yet.</p>
+          </div>
 
+          <div th:unless="${noCompletedAppointments}">
+            <div class="row">
+              <div class="col-md-11">
+                <h5
+                  class="mt-3 mb-3"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#completedAppointments"
+                  aria-expanded="false"
+                  aria-controls="completedAppointments"
+                >
+                  Completed appointments
+                </h5>
+                <p>
+                  Your old appointments are shown here. Click on "Completed
+                  appointments" to expand/collapse.
+                </p>
+                <div class="collapse" id="completedAppointments">
+                  <table
+                    class="table table-responsive table-bordered table-striped"
+                  >
+                    <thead>
+                      <tr>
+                        <th>S.No</th>
+                        <th>Doctor name</th>
+                        <th>Doctor speciality</th>
+                        <th>Doctor details</th>
+                        <th>Appointment Date and Time</th>
+                        <th>Appointment created at</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr
+                        th:each="appointment, iterStat : ${completedAppointments}"
+                      >
+                        <td th:text="${iterStat.count}">1</td>
+                        <td th:text="${appointment.doctorDto.firstName}">
+                          Doctor name
+                        </td>
+                        <td th:text="${appointment.doctorDto.speciality}">
+                          Doctor speciality
+                        </td>
+                        <td>
+                          <button
+                            class="btn btn-sm btn-info"
+                            type="button"
+                            th:data-bs-toggle="modal"
+                            th:data-bs-target="'#doctorModal' + ${appointment.doctorDto.id}"
+                          >
+                            <!--Type button to mention that the button doesn't submit any form-->
+                            <!--data-bs-toggle attribute: Bootstrap data attribute to toggle a modal when clicked.-->
+                            <!--data-bs-target attribute: Dynamically set the target modal's ID based on the doctor's ID from the appointment object.-->
+                            view
+                          </button>
+                          <!--Creating the Modal-->
+                          <div
+                            class="modal fade"
+                            th:id="'doctorModal' + ${appointment.doctorDto.id}"
+                            tabindex="-1"
+                            aria-labelledby="'modalTitle' + ${appointment.doctorDto.id}"
+                            aria-hidden="true"
+                          >
+                            <!--th:id: Set a unique ID for the modal based on the doctor's ID, which is necessary for the button to target it.-->
+                            <!--tabindex="-1": Ensures the modal cannot be focused via keyboard navigation.-->
+                            <!--aria-labelledby="'modalTitle' + ${appointment.doctorDto.id}": Links the modal to its title for accessibility purposes.-->
+                            <!--aria-hidden="true": Indicates that the modal is initially hidden-->
+                            <div class="modal-dialog">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5
+                                    class="modal-title"
+                                    th:id="'modalTitle' + ${appointment.doctorDto.id}"
+                                    th:text="'Details of Dr.' + ${appointment.doctorDto.firstName}"
+                                  >
+                                    <!--th:id="'modalTitle' + ${appointment.doctorDto.id}": Sets a unique ID for the title based on the doctor's ID.-->
+                                    Doctor details
+                                  </h5>
+                                  <button
+                                    type="button"
+                                    class="btn btn-close"
+                                    data-bs-dismiss="modal"
+                                    aria-label="Close"
+                                  ></button>
+                                </div>
+                                <!--End of modal-header-->
+                                <div class="modal-body">
+                                  <p>
+                                    <strong>Doctor id:</strong>
+                                    <span th:text="${appointment.doctorDto.id}"
+                                      >Doctor id</span
+                                    >
+                                  </p>
+                                  <p>
+                                    <strong>Name:</strong>
+                                    <span
+                                      th:text="${appointment.doctorDto.firstName} + ' ' + ${appointment.doctorDto.lastName}"
+                                      >Doctor Name</span
+                                    >
+                                  </p>
+                                  <p>
+                                    <strong>Specialty:</strong>
+                                    <span
+                                      th:text="${appointment.doctorDto.speciality}"
+                                      >Specialty</span
+                                    >
+                                  </p>
+                                  <p>
+                                    <strong>Qualifications:</strong>
+                                    <span
+                                      th:text="${appointment.doctorDto.qualifications}"
+                                      >Qualifications</span
+                                    >
+                                  </p>
+                                  <p>
+                                    <strong>Experience:</strong>
+                                    <span
+                                      th:text="${appointment.doctorDto.experienceInYears}"
+                                      >Experience</span
+                                    >
+                                    years
+                                  </p>
+                                  <p>
+                                    <strong>Email:</strong>
+                                    <span
+                                      th:text="${appointment.doctorDto.email}"
+                                      >Email</span
+                                    >
+                                  </p>
+                                  <p>
+                                    <strong>Mobile:</strong>
+                                    <span
+                                      th:text="${appointment.doctorDto.mobile}"
+                                      >Mobile</span
+                                    >
+                                  </p>
+                                  <p>
+                                    <strong>Office Address:</strong>
+                                    <span
+                                      th:text="${appointment.doctorDto.officeAddress}"
+                                      >Address</span
+                                    >
+                                  </p>
+                                  <p>
+                                    <strong>Languages Spoken:</strong>
+                                    <span
+                                      th:text="${appointment.doctorDto.languagesSpoken}"
+                                      >Languages</span
+                                    >
+                                  </p>
+                                </div>
+                                <!--End of modal-body-->
+                              </div>
+                              <!--End of modal-content-->
+                            </div>
+                            <!--End of modal-dialog-->
+                          </div>
+                          <!--End of modal div-->
+                        </td>
+                        <td th:text="${appointment.appointmentDateTime}">
+                          Appointment Date and Time
+                        </td>
+                        <td th:text="${appointment.createdAt}">
+                          Appointment created at
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+    <footer class="text-center">
+      <p>End of Page.</p>
+    </footer>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+  </body>
 </html>

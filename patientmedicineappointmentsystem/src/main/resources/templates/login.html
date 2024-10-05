@@ -1,47 +1,146 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Patient Medicine Appointment System | Sign in</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <style>
+      body {
+        background-color: #f8f9fa;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PMA System | Sign in</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
-</head>
+      .login-container {
+        max-width: 400px;
+        padding: 30px;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
 
-<body class="m-3">
-  <div class="container-fluid d-flex justify-content-center">
-    <div class="sign-in col-sm-12 col-md-6">
-      <header>
-        <h4><strong>Patient Medicine Appointment System | Patient Login</strong></h4>
+      .login-header {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      .login-header h4 {
+        font-weight: bold;
+        color: #343a40;
+      }
+
+      .form-control {
+        padding: 10px;
+        border-radius: 5px;
+      }
+
+      .btn-custom {
+        width: 100%;
+        padding: 10px;
+        background-color: #198754;
+        color: white;
+        font-weight: bold;
+        border: none;
+        border-radius: 5px;
+      }
+
+      .btn-custom:hover {
+        background-color: #157347;
+      }
+
+      .form-text {
+        color: #6c757d;
+      }
+
+      .login-footer {
+        text-align: center;
+        margin-top: 15px;
+      }
+
+      .login-footer a {
+        color: #198754;
+      }
+
+      .login-footer a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="login-container">
+      <header class="login-header">
+        <h4>Patient Login</h4>
       </header>
-      <section>
-        <div th:if="${param.error}" class="error-message">
-          <div class="alert alert-danger">Bad credentials</div>
-        </div>
-        <div th:if="${param.logout}" class="logout-message">
-          <div class="alert alert-info"> You have been signed out</div>
-        </div>
-        <div class="sign-in">
-          <form action="#" th:action="@{/web/patients/login}" method="post">
-            <input id="phone" name="username" class="form-control" type="text" placeholder="Phone"
-              autofocus="autofocus" /><br />
-            <input name="password" type="password" class="form-control" placeholder="Password" /><br />
-            <!-- <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" /> -->
-            <button class="btn btn-primary mb-1">Sign in</button>
-          </form>
-        </div>
-        <div class="patient-register">
-          New Patient?
-          <a th:href="@{/web/patients/register}">Register here!</a>
-        </div><br>
-        <div class="doctor-register">
-          New Doctor?
-          <a th:href="@{/web/doctors/register}">Register here!</a>
-        </div>
-      </section>
-    </div>
-  </div>
-</body>
 
+      <div th:if="${param.logout}" class="logout-message">
+        <div class="alert alert-info">Signed out successfully!</div>
+      </div>
+
+      <form action="#" method="post" th:action="@{/web/patients/login}">
+        <div class="mb-3">
+          <label for="phone" class="form-label">Username</label>
+          <input
+            id="phone"
+            name="username"
+            class="form-control"
+            type="text"
+            placeholder="Enter your phone no."
+            autofocus="autofocus"
+            required
+          />
+        </div>
+
+        <div class="mb-3">
+          <label for="password" class="form-label">Password</label>
+          <input
+            name="password"
+            type="password"
+            class="form-control"
+            placeholder="Enter password"
+          />
+        </div>
+
+        <!-- Displaying login error -->
+        <div class="mb-3 text-danger" th:if="${param.error}">
+          <p>Invalid username or password.</p>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="d-grid">
+          <button type="submit" class="btn btn-custom">Login</button>
+        </div>
+      </form>
+
+      <!-- Optional Registration Link -->
+      <div class="login-footer mt-3">
+        <p>
+          Are you a new patient?
+          <a th:href="@{/web/patients/register}">Register here</a>
+        </p>
+        <p>
+          Are you a new doctor?
+          <a th:href="@{/web/doctors/register}">Register here</a>
+        </p>
+      </div>
+    </div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+  </body>
 </html>

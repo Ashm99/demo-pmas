@@ -28,13 +28,13 @@
   <div class="container d-flex justify-content-center">
     <div class="col-sm-12 col-md-8">
       <header>
-        <h1 class="text-center text-primary">Patient Profile</h1>
+        <h4 class="text-center text-primary"><strong>Patient Profile</strong></h4>
         <p th:replace="~{common/patient-nav-bar::patient-navigation-bar}">Navigation links</p>
       </header>
       <br>
       <section>
         <div class="profile-section">
-          <h2>Personal Information</h2>
+          <h4>Personal Information</h4>
           <div class="profile-info"><span class="fw-bold">ID:</span> <span th:text="${patient.id}"></span></div>
           <div class="profile-info"><span class="fw-bold">First Name:</span> <span
               th:text="${patient.firstName}"></span>
@@ -52,7 +52,7 @@
           </div>
         </div>
         <div class="profile-section">
-          <h2>Emergency Contact</h2>
+          <h4>Emergency Contact</h4>
           <div class="profile-info"><span class="fw-bold">Name:</span> <span
               th:text="${patient.emergencyContactName}"></span>
           </div>
@@ -62,7 +62,7 @@
               th:text="${patient.emergencyContactRelation}"></span></div>
         </div>
         <div class="profile-section">
-          <h2>Medical History</h2>
+          <h4>Medical History</h4>
           <div class="profile-info"><span class="fw-bold">Previous Diagnoses:</span> <span
               th:text="${patient.previousDiagnoses}"></span></div>
           <div class="profile-info"><span class="fw-bold">Surgeries:</span> <span th:text="${patient.surgeries}"></span>
@@ -73,7 +73,7 @@
               th:text="${patient.vaccinationHistory}"></span></div>
         </div>
         <div class="profile-section">
-          <h2>Lifestyle Conditions</h2>
+          <h4>Lifestyle Conditions</h4>
           <div class="profile-info"><span class="fw-bold">Smoker:</span> <span
               th:text="${patient.isSmoker} ? 'Yes' : 'No'"></span></div>
           <div class="profile-info"><span class="fw-bold">Consumes Alcohol:</span> <span

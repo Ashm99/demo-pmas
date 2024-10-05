@@ -10,61 +10,75 @@
       integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
       crossorigin="anonymous"
     />
+    <style>
+      body {
+        background-color: #f8f9fa;
+      }
+
+      .register-container {
+        background-color: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 600px;
+      }
+    </style>
   </head>
   <body class="m-3">
-    <div class="container-fluid d-flex justify-content-center">
-      <div class="col-sm-12 col-md-6">
+    <div class="register-container container d-flex justify-content-center">
+      <div class="col-sm-12 col-md-12">
         <header>
-          <h4><strong>Patient Medicine Appointment System | Doctor Registration</strong></h4>
+          <h4 class="text-primary text-center"><strong>Doctor Registration</strong></h4>
         </header>
         <section>
           <div class="register">
             <div th:if="${param.success}" class="success-message">
-              <div class="alert alert-info">Doctor successfully registered!</div>
+              <div class="alert alert-success">Doctor successfully registered!</div>
             </div>
             <div th:if="${param.mobileAlreadyExists}" class="mobileAlreadyExists-message">
               <div class="alert alert-danger">A doctor already exists in provided mobile number.<br> Enter a valid one.</div>
             </div>
             <div class="register-form">
               <form action="#" th:action="@{/web/doctors/saveDoctor}" th:object="${newDoctor}" method="post">
-                <label for="first-name">First name</label>
+                <label for="first-name"><strong>First name</strong></label>
                 <input id="first-name" class="form-control" type="text" placeholder="John" th:field="*{firstName}" required  autofocus="autofocus"/><br />
                 
-                <label for="last-name">Last name</label>
+                <label for="last-name"><strong>Last name</strong></label>
                 <input id="last-name" class="form-control" type="text" placeholder="Doe" th:field="*{lastName}" required/><br />
         
-                <span>Gender</span>
+                <span><strong>Gender</strong></span>
                 <div class="form-control">
                   <label><input id="genderMale" type="radio" name="gender" th:field="*{gender}" value="Male" required/>Male</label>
                   <label><input id="genderFemale" type="radio" name="gender" th:field="*{gender}" value="Female" required/>Female</label>
                 </div><br />
                 
-                <label for="phone">Phone</label>
+                <label for="phone"><strong>Phone</strong></label>
                 <input id="phone" class="form-control" type="text" placeholder="9876543210" th:field="*{mobile}" required/><br />
                 
-                <label for="email">Email</label>
+                <label for="email"><strong>Email</strong></label>
                 <input id="email" class="form-control" type="email" placeholder="jdoe@gmail.com" th:field="*{email}" required/><br />
                 
-                <label for="speciality" class="form-label">Speciality</label>
+                <label for="speciality" class="form-label"><strong>Speciality</strong></label>
                 <input id="speciality" class="form-control" type="text" placeholder="ENT or Cardiology" th:field="*{speciality}" required></input> <br />
 
-                <label for="experienceInYears">Experience, in years</label>
+                <label for="experienceInYears"><strong>Experience, in years</strong></label>
                 <input id="experienceInYears" class="form-control" type="number" placeholder="5" th:field="*{experienceInYears}" required /><br />
         
-                <label for="qualifications">Qualifications</label>
+                <label for="qualifications"><strong>Qualifications</strong></label>
                 <input id="qualifications" class="form-control" type="text" placeholder="MBBS, MS" th:field="*{qualifications}" required /><br />
         
-                <label for="languagesSpoken">Languages spoken</label>
+                <label for="languagesSpoken"><strong>Languages spoken</strong></label>
                 <input id="languagesSpoken" class="form-control" type="text" placeholder="English, Tamil, Hindi, Telugu, Kannada" th:field="*{languagesSpoken}" required /><br />
                 
-                <label for="officeAddress">Office address</label>
+                <label for="officeAddress"><strong>Office address</strong></label>
                 <input id="officeAddress" class="form-control" type="text" placeholder="Georgetown, USA" th:field="*{officeAddress}" required/><br />
         
-                <button type="submit" class="btn btn-primary mb-1">Sign up</button>
+                <button type="submit" class="btn btn-primary mb-1 form-control">Sign up</button>
               </form>
             </div>
           </div>
-          <div class="login">
+          <div class="login text-center">
             Want to go to the patient login screen?
             <a th:href="@{/web/patients/login}">Click here!</a>
           </div>

@@ -11,44 +11,57 @@
       crossorigin="anonymous"
     />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+      body {
+        background-color: #f8f9fa;
+      }
+
+      .body-container {
+        background-color: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        width: 67%;
+      }
+    </style>
 </head>
 <body class="m-3">
-    <div class="container-fluid d-flex justify-content-center">
-        <div class="update-medication col-sm-12 col-md-6">
+    <div class="body-container container-fluid d-flex justify-content-center">
+        <div class="update-medication col-sm-12 col-md-12">
             <header>
-              <h4><strong>Update a new Medicine</strong></h4>
+              <h4 class="text-primary"><strong>Update Medicine</strong></h4>
               <p th:replace="~{common/patient-nav-bar::patient-navigation-bar}">Navigation links</p>
             </header>
             <br>
             <section>
                 <div>
                     <form action="#" th:action="@{/web/medications/update/{id}(id=${medicineDto.id})}" th:object="${medicineDto}" method="post">
-                        <label for="medicine-name">Medicine Name:</label>
+                        <label for="medicine-name"><strong>Medicine Name:</strong></label>
                         <input type="text" id="medicine-name" class="form-control" th:field="*{medicine}" required autofocus="autofocus">
                         <br>
-                        <label for="dosage">Dosage:</label>
+                        <label for="dosage"><strong>Dosage:</strong></label>
                         <input type="text" id="dosage" class="form-control" th:field="*{dosage}" required>
                         <br>
-                        <label for="frequency">Frequency:</label>
+                        <label for="frequency"><strong>Frequency:</strong></label>
                         <input type="text" id="frequency" class="form-control" th:field="*{frequency}" required>
                         <br>
-                        <span>Status</span>
+                        <span><strong>Status</strong></span>
                         <div class="form-control">
                             <label><input id="statusActive" type="radio" name="status" th:field="*{status}" value="Active"/>Active</label>
                             <label><input id="statusCompleted" type="radio" name="status" th:field="*{status}" value="Completed"/>Completed</label>
                             <label><input id="statusHold" type="radio" name="status" th:field="*{status}" value="Hold"/>Hold</label>
                         </div>
                         <br>
-                        <label for="start-date">Start date:</label>
+                        <label for="start-date"><strong>Start date:</strong></label>
                         <input type="date" id="start-date" class="form-control" th:field="*{startDate}" required>
                         <br>
-                        <label for="end-date">End date:</label>
+                        <label for="end-date"><strong>End date:</strong></label>
                         <input type="date" id="end-date" class="form-control" th:field="*{endDate}" required>
                         <br>
                         <!--Hidden input for prescription date-->
                         <input type="hidden" name="prescriptionDate" th:value="*{prescriptionDate}" required>
                         <br>
-                        <label for="notes">Notes:</label>
+                        <label for="notes"><strong>Notes:</strong></label>
                         <textarea type="text" id="notes" class="form-control" th:field="*{notes}" required></textarea>
                         <br>
                         <input class="btn btn-success form-control" type="submit" value="Update Medicine">
@@ -57,8 +70,5 @@
             </section>
         </div>
     </div>
-    <footer class="text-center">
-      <p>End of Page.</p>
-    </footer>
 </body>
 </html>
