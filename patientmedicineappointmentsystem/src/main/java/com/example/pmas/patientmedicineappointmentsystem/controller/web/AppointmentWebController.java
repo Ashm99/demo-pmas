@@ -21,6 +21,13 @@ public class AppointmentWebController {
     private AppointmentService appointmentService;
 
     // http://localhost:8082/web/appointments/list
+    /**
+     * A method to get all the appointments of the patient.
+     *
+     * @param authentication Authentication Interface object to get current user data.
+     * @param model Model interface object to add attributes to the HTML page.
+     * @return An HTML view rendering the upcoming and completed appointment tables.
+     */
     @GetMapping(value = "/list")
     public String getAppointments(Authentication authentication, Model model){
         List<List<AppointmentDto>> appointmentDtosList = appointmentService.getAllAppointmentByUsername(authentication.getName());
@@ -41,6 +48,12 @@ public class AppointmentWebController {
         return "appointments/appointments-list";
     }
 
+    /**
+     * A method to get all the doctors of a particular speciality.
+     *
+     * @param speciality A string to filter out doctors based on their speciality.
+     * @return A JSON response with a doctors list of the required speciality.
+     */
     @PostMapping("/doctors")
     @ResponseBody
     public List<DoctorDto> getDoctorsBySpeciality(@RequestParam String speciality) {
@@ -48,6 +61,13 @@ public class AppointmentWebController {
     }
 
     // http://localhost:8082/web/appointments/add-appointment
+    /**
+     * A method to get new appointment details through a form.
+     *
+     * @param model Model interface object to add attributes to the HTML page.
+     * @param authentication Authentication Interface object to get current user data.
+     * @return An HTML view asking for details for a new appointment.
+     */
     @GetMapping(value = "/add-appointment")
     public String bookAppointment(Model model, Authentication authentication) {
         SaveAppointmentDto saveAppointmentDto = new SaveAppointmentDto();
@@ -57,6 +77,13 @@ public class AppointmentWebController {
         return "appointments/add-appointment";
     }
 
+    /**
+     * A method to get all the slots of the given doctor on the give date.
+     *
+     * @param doctorId Doctor id
+     * @param date The date on which the appointments are to be fetched.
+     * @return A JSON response having the slot data.
+     */
     @PostMapping("/checkSlots")
     @ResponseBody
     public List<SlotDto> checkAvailableSlots(@RequestParam Long doctorId, @RequestParam String date) {
@@ -64,6 +91,13 @@ public class AppointmentWebController {
         return slotDtos;
     }
 
+    /**
+     * A method to book appointment once all the appointment details are submitted through the form
+     *
+     * @param saveAppointmentDto Appointment object with details
+     * @param model Model interface object to add attributes to the HTML page.
+     * @return A success or an error page based on the outcome.
+     */
     @PostMapping("/book")
     public String bookAppointment(@Valid @ModelAttribute SaveAppointmentDto saveAppointmentDto, Model model) {
         System.out.println("saveAppointmentDto.toString(): " + saveAppointmentDto.toString());
@@ -76,13 +110,13 @@ public class AppointmentWebController {
         return "success";
     }
 
-    // http://localhost:8082/web/appointments//delete/{id}
+    // http://localhost:8082/web/appointments/delete/{id}
     /**
      * Deletes the appointment object upon clicking delete from the webpage
      *
-     * @param id
-     * @param model
-     * @return a success or an error page based on the outcome.
+     * @param id Appointment id,
+     * @param model Model interface object to add attributes to the HTML page.
+     * @return A success or an error page based on the outcome.
      */
     @GetMapping(value = "/delete/{id}")
     public String deleteAppointment(@PathVariable(value = "id") Long id, Model model) {

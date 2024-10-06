@@ -36,7 +36,7 @@ public class DoctorController {
      */
     // http://localhost:8082/doctors/get/{id}
     @GetMapping(value="/get/{id}")
-    public ResponseEntity<?> getDoctorsById(@PathVariable(name="id") Long id){
+    public ResponseEntity<?> getDoctorById(@PathVariable(name="id") Long id){
         DoctorDto doctorDto = doctorService.getDoctorById(id);
         return new ResponseEntity<>(doctorDto, HttpStatus.OK);
     }

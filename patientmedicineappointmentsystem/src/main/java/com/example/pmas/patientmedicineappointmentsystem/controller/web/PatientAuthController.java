@@ -46,7 +46,7 @@ public class PatientAuthController {
      *
      * @param savePatientDto  Patient data to be saved,
      * @param model  Model interface object.
-     * @return Success or Error page based on the outcome.
+     * @return Success or Error message on the same page based on the outcome.
      */
     @PostMapping(value = "/savePatient")
     public String savePatient(@Valid @ModelAttribute SavePatientDto savePatientDto, Model model) {
