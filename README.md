@@ -7,5 +7,7 @@ A Patient Medicine and Appointment System for my second Mini-project at GUVI
 * Had to give the link here since the video was a bit too large to upload.🤷‍♂️ Try with a different browser or after clearing cache if video is not playing.
 
 ## Key features
-* A spring boot project based on mvc architecture
+* A spring boot project based on mvc architecture.
+* Utilizes spring security for secure login.
+* And Thymeleaf for front-end.
 * Mainly utilizes java, html and bootstrap css.
